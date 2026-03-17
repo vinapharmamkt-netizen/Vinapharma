@@ -213,7 +213,7 @@ async function doForgot() {
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err.textContent='Email không hợp lệ';
   btn.disabled=true; btn.textContent='Đang gửi...';
   try {
-    var r=await fetch('https://vinapharma-pwv2.onrender.com/api/auth/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+    var r=await fetch('http://localhost:5000/api/auth/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
     var d=await r.json();
     if(d.success){ ok.style.display='block'; btn.innerHTML='<i class="fa-solid fa-circle-check" style="color:#16a34a"></i> Đã gửi'; }
     else { err.textContent=d.message; btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-envelope" style="color:#cc1f1f"></i> Gửi link đặt lại mật khẩu'; }

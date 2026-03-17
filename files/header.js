@@ -3,7 +3,7 @@
  * Dùng AuthClient để quản lý session
  */
 (function() {
-  const API = 'https://vinapharma-pwv2.onrender.com';
+  const API = 'http://localhost:5000';
 
   // Inject CSS một lần
   if (!document.getElementById('vp-acc-style')) {

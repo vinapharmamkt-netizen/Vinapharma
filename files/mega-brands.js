@@ -3,7 +3,7 @@
  * Tự động render vào mega menu
  */
 (function() {
-  const API = 'https://vinapharma-pwv2.onrender.com';
+  const API = 'http://localhost:5000';
 
   async function loadBrands() {
     try {

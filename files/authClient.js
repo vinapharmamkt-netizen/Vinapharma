@@ -6,7 +6,7 @@
  */
 
 const AuthClient = (() => {
-  const API = 'https://vinapharma-pwv2.onrender.com';
+  const API = 'http://localhost:5000';
   let _accessToken = null;
   let _user        = null;
   let _refreshing  = null; // Promise đang refresh (tránh gọi nhiều lần)

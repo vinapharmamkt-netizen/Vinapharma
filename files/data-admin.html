@@ -875,7 +875,7 @@ i.fa-solid,i.fa-regular{line-height:1}
 <script src="authClient.js"></script>
 <script src="rank-icons.js"></script>
 <script>
-const API = 'https://vinapharma-pwv2.onrender.com';
+const API = 'http://localhost:5000';
 let token = null;
 
 // ── AUTHENTICATED FETCH dùng AuthClient ──
@@ -1628,7 +1628,7 @@ function editBanner(id) {
   document.getElementById('bOrder').value    = b.order ?? 0;
   selectedFiles['banner'] = null;
   const prev = document.getElementById('bImgPreview');
-  prev.src = 'https://vinapharma-pwv2.onrender.com' + b.image;
+  prev.src = 'http://localhost:5000' + b.image;
   prev.style.display = 'block';
   document.getElementById('bImgText').textContent = 'Ảnh hiện tại (chọn ảnh mới để thay)';
   document.querySelector('#bannerOverlay .modal-title').textContent = 'Sửa Banner';
