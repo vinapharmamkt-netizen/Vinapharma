@@ -13,8 +13,8 @@ const AuthClient = (() => {
 
   // ── Khởi tạo: thử lấy user từ refresh token khi load trang ──
   async function init() {
-    // Thử restore từ sessionStorage (tab reload)
-    const saved = sessionStorage.getItem('vp_access');
+    // Thử restore từ localStorage (tab reload)
+    const saved = localStorage.getItem('vp_access');
     if (saved) {
       try {
         const p = JSON.parse(saved);
@@ -40,12 +40,12 @@ const AuthClient = (() => {
       if (data.success) {
         _accessToken = data.accessToken;
         _user        = data.user;
-        sessionStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
+        localStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
         return _user;
       }
       _accessToken = null;
       _user        = null;
-      sessionStorage.removeItem('vp_access');
+      localStorage.removeItem('vp_access');
       return null;
     })
     .catch(() => { _refreshing = null; return null; });
@@ -70,8 +70,11 @@ const AuthClient = (() => {
           options.headers['Authorization'] = 'Bearer ' + _accessToken;
           res = await fetch(url, options);
         } else {
-          // Refresh hết hạn → logout
-          _logout();
+          // Refresh hết hạn → clear local state nhưng KHÔNG redirect
+          // (để tránh văng ra khỏi trang admin)
+          _accessToken = null;
+          _user = null;
+          localStorage.removeItem('vp_access');
           return res;
         }
       }
@@ -91,7 +94,7 @@ const AuthClient = (() => {
     if (data.success) {
       _accessToken = data.accessToken;
       _user        = data.user;
-      sessionStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
+      localStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
     }
     return data;
   }
@@ -108,7 +111,7 @@ const AuthClient = (() => {
     if (data.success) {
       _accessToken = data.accessToken;
       _user        = data.user;
-      sessionStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
+      localStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
     }
     return data;
   }
@@ -125,7 +128,7 @@ const AuthClient = (() => {
     if (data.success) {
       _accessToken = data.accessToken;
       _user        = data.user;
-      sessionStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
+      localStorage.setItem('vp_access', JSON.stringify({ token: _accessToken, user: _user }));
     }
     return data;
   }
@@ -134,7 +137,7 @@ const AuthClient = (() => {
   async function _logout() {
     _accessToken = null;
     _user        = null;
-    sessionStorage.removeItem('vp_access');
+    localStorage.removeItem('vp_access');
     await fetch(API + '/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
     window.location.href = 'tai-khoan.html';
   }

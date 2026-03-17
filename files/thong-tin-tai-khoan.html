@@ -13,7 +13,12 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 .logo{font-weight:900;font-size:1.1rem;color:#111;text-decoration:none}
 .logo span{color:var(--red)}
 .back-btn{display:flex;align-items:center;gap:.5rem;color:#666;text-decoration:none;font-size:.83rem;font-weight:600}
-.page{max-width:640px;margin:2rem auto;padding:0 1rem}
+.page{max-width:920px;margin:2rem auto;padding:0 1rem}
+/* 2-col layout */
+.page-cols{display:flex;gap:1.2rem;align-items:flex-start}
+.page-left{flex:1;min-width:0}
+.page-right{width:270px;flex-shrink:0;position:sticky;top:1rem}
+@media(max-width:700px){.page-cols{flex-direction:column}.page-right{width:100%;position:static}}
 .card{background:#fff;border-radius:.8rem;border:1px solid #e8e8e8;overflow:hidden;margin-bottom:1rem}
 .card-header{padding:1.1rem 1.4rem;border-bottom:1px solid #f0f0f0;font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
 .card-body{padding:1.4rem}
@@ -38,88 +43,274 @@ input:disabled{background:#f9f9f9;color:#888}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.success{background:#16a34a}
 .toast.error{background:#dc2626}
+/* Rank card */
+.rank-card{border-radius:.8rem;padding:1.4rem;color:#fff;margin-bottom:1rem}
+.rank-thanh-vien{background:linear-gradient(135deg,#6b7280,#9ca3af)}
+.rank-dong{background:linear-gradient(135deg,#b45309,#d97706)}
+.rank-bac{background:linear-gradient(135deg,#475569,#94a3b8)}
+.rank-vang{background:linear-gradient(135deg,#b45309,#eab308)}
+.rank-kim{background:linear-gradient(135deg,#1e40af,#0ea5e9)}
+.rank-icon{display:flex;align-items:center;justify-content:center}
+.rank-label{font-size:1.4rem;font-weight:900;letter-spacing:.03em}
+.rank-sub{font-size:.78rem;opacity:.85;margin-top:.15rem}
+.rank-spent{font-size:.88rem;margin-top:.6rem;opacity:.9}
+.rank-progress-wrap{margin-top:.9rem}
+.rank-progress-label{display:flex;justify-content:space-between;font-size:.72rem;opacity:.85;margin-bottom:.35rem}
+.rank-progress-bar{background:rgba(255,255,255,.25);border-radius:999px;height:8px;overflow:hidden}
+.rank-progress-fill{background:#fff;border-radius:999px;height:100%;transition:.6s}
+.rank-table-card{background:#fff;border-radius:.8rem;border:1px solid #e8e8e8;overflow:hidden}
+.rank-table-card .rt-header{padding:.9rem 1.1rem;border-bottom:1px solid #f0f0f0;font-weight:800;font-size:.88rem}
+.rank-table{width:100%;border-collapse:collapse}
+.rank-table th{padding:.5rem .75rem;font-size:.62rem;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.04em;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left;white-space:nowrap}
+.rank-table td{padding:.52rem .75rem;font-size:.76rem;border-bottom:1px solid #f5f5f5;vertical-align:middle;white-space:nowrap}
+.rank-table tr:last-child td{border-bottom:none}
+.rank-table tr.current-rank td{background:#fff8f0;font-weight:700}
+.rank-table tr.current-rank td:first-child{border-left:3px solid var(--red)}
+.rt-note{padding:.55rem .9rem;font-size:.68rem;color:#888;border-top:1px solid #f0f0f0;line-height:1.5}
 </style>
+<link rel="stylesheet" href="mobile.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
 <div class="header">
-  <a href="index.html" class="logo">❤️ <span>vina</span>pharma®</a>
+  <a href="index.html" class="logo"><i class="fa-solid fa-heart" style="color:#cc1f1f"></i> <span>vina</span>pharma®</a>
   <a href="index.html" class="back-btn">← Quay lại trang chủ</a>
 </div>
 
 <div class="page">
-  <div class="card">
-    <div class="card-header">👤 Thông tin cá nhân</div>
-    <div class="card-body">
-      <div class="avatar-section">
-        <div class="avatar" id="avatarEl">?</div>
-        <div class="avatar-info">
-          <h3 id="displayName">Đang tải...</h3>
-          <p id="displayEmail"></p>
-          <p id="displayRole" style="margin-top:.3rem"></p>
-        </div>
-      </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Họ và tên *</label>
-          <input type="text" id="uName"/>
-        </div>
-        <div class="form-group">
-          <label>Số điện thoại</label>
-          <input type="tel" id="uPhone" placeholder="090 000 00 00"/>
-        </div>
-        <div class="form-group" style="grid-column:1/-1">
-          <label>Email (không thể thay đổi)</label>
-          <input type="email" id="uEmail" disabled/>
-        </div>
-        <div class="form-group" style="grid-column:1/-1">
-          <label>Địa chỉ</label>
-          <input type="text" id="uAddress" placeholder="Số nhà, đường, quận, tỉnh/thành phố"/>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn btn-red" onclick="saveProfile()">💾 Lưu thông tin</button>
-      </div>
-    </div>
-  </div>
+  <div class="page-cols">
 
-  <div class="card">
-    <div class="card-header">🔒 Đổi mật khẩu</div>
-    <div class="card-body">
-      <div class="form-group">
-        <label>Mật khẩu hiện tại</label>
-        <div class="pw-wrap"><input type="password" id="oldPass" placeholder="••••••••"/><button class="pw-eye" type="button" onclick="togglePw('oldPass',this)">👁️</button></div>
-      </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Mật khẩu mới</label>
-          <div class="pw-wrap"><input type="password" id="newPass" placeholder="Tối thiểu 6 ký tự"/><button class="pw-eye" type="button" onclick="togglePw('newPass',this)">👁️</button></div>
-        </div>
-        <div class="form-group">
-          <label>Xác nhận mật khẩu mới</label>
-          <div class="pw-wrap"><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu"/><button class="pw-eye" type="button" onclick="togglePw('confirmPass',this)">👁️</button></div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn btn-outline" onclick="changePassword()">🔒 Đổi mật khẩu</button>
-      </div>
-    </div>
-  </div>
+    <!-- ── Cột trái: nội dung chính ── -->
+    <div class="page-left">
+      <div id="rankCard" style="display:none"></div>
 
-  <div style="text-align:center;margin-top:1rem">
-    <button class="btn btn-outline" onclick="logout()" style="color:#dc2626;border-color:#fca5a5">🚪 Đăng xuất</button>
-  </div>
+      <div class="card">
+        <div class="card-header"><i class="fa-solid fa-user" style="color:#6b7280"></i> Thông tin cá nhân</div>
+        <div class="card-body">
+          <div class="avatar-section">
+            <div class="avatar" id="avatarEl">?</div>
+            <div class="avatar-info">
+              <h3 id="displayName">Đang tải...</h3>
+              <p id="displayEmail"></p>
+              <p id="displayRole" style="margin-top:.3rem"></p>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Họ và tên *</label>
+              <input type="text" id="uName"/>
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" id="uPhone" placeholder="090 000 00 00"/>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Email (không thể thay đổi)</label>
+              <input type="email" id="uEmail" disabled/>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Địa chỉ</label>
+              <input type="text" id="uAddress" placeholder="Số nhà, đường, quận, tỉnh/thành phố"/>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-red" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> Lưu thông tin</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><i class="fa-solid fa-lock"></i> Đổi mật khẩu</div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Mật khẩu hiện tại</label>
+            <div class="pw-wrap"><input type="password" id="oldPass" placeholder="••••••••"/><button class="pw-eye" type="button" onclick="togglePw('oldPass',this)"><i class="fa-solid fa-eye"></i></button></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Mật khẩu mới</label>
+              <div class="pw-wrap"><input type="password" id="newPass" placeholder="Tối thiểu 6 ký tự"/><button class="pw-eye" type="button" onclick="togglePw('newPass',this)"><i class="fa-solid fa-eye"></i></button></div>
+            </div>
+            <div class="form-group">
+              <label>Xác nhận mật khẩu mới</label>
+              <div class="pw-wrap"><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu"/><button class="pw-eye" type="button" onclick="togglePw('confirmPass',this)"><i class="fa-solid fa-eye"></i></button></div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="changePassword()"><i class="fa-solid fa-lock"></i> Đổi mật khẩu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Công nợ BtoB – chỉ hiện với BtoB users -->
+      <div id="debtCard" style="display:none">
+        <div class="card">
+          <div class="card-header"><i class="fa-solid fa-clipboard-list" style="color:#6b7280"></i> Công nợ của bạn</div>
+          <div class="card-body" style="padding:0">
+            <div id="debtStats" style="display:flex;gap:0;border-bottom:1px solid #f0f0f0">
+              <div style="flex:1;padding:1rem 1.4rem;border-right:1px solid #f0f0f0">
+                <div style="font-size:.72rem;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Đã thanh toán</div>
+                <div id="debtPaidTotal" style="font-size:1.3rem;font-weight:900;color:#16a34a">0 ₫</div>
+                <div style="font-size:.72rem;color:#888;margin-top:.15rem">Cộng vào điểm thưởng</div>
+              </div>
+              <div style="flex:1;padding:1rem 1.4rem">
+                <div style="font-size:.72rem;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Chưa thanh toán</div>
+                <div id="debtUnpaidTotal" style="font-size:1.3rem;font-weight:900;color:#dc2626">0 ₫</div>
+                <div style="font-size:.72rem;color:#888;margin-top:.15rem">Chưa được tính điểm</div>
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse">
+                <thead><tr>
+                  <th style="padding:.65rem 1rem;font-size:.68rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left">Số HĐ</th>
+                  <th style="padding:.65rem 1rem;font-size:.68rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left">Nội dung</th>
+                  <th style="padding:.65rem 1rem;font-size:.68rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:right">Số tiền</th>
+                  <th style="padding:.65rem 1rem;font-size:.68rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left">Trạng thái</th>
+                  <th style="padding:.65rem 1rem;font-size:.68rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left">Đến hạn</th>
+                </tr></thead>
+                <tbody id="debtList"><tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#aaa;font-size:.85rem">Đang tải...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:1rem">
+        <button class="btn btn-outline" onclick="logout()" style="color:#dc2626;border-color:#fca5a5"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+      </div>
+    </div><!-- /.page-left -->
+
+    <!-- ── Cột phải: bảng hạng (sidebar) ── -->
+    <div class="page-right">
+      <div id="rankTable" class="rank-table-card" style="display:none"></div>
+    </div>
+
+  </div><!-- /.page-cols -->
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script src="authClient.js"></script>
+<script src="rank-icons.js"></script>
 <script>
 const API = 'http://localhost:5000';
+
+
+const RANKS_NORMAL = [
+  { key:'thanh-vien', label:'Thành Viên', cls:'rank-thanh-vien', min:0,          next:5000000   },
+  { key:'dong',       label:'Đồng',       cls:'rank-dong',       min:5000000,    next:10000000  },
+  { key:'bac',        label:'Bạc',        cls:'rank-bac',        min:10000000,   next:20000000  },
+  { key:'vang',       label:'Vàng',       cls:'rank-vang',       min:20000000,   next:35000000  },
+  { key:'kim-cuong',  label:'Kim Cương',  cls:'rank-kim',        min:35000000,   next:null      }
+];
+const RANKS_BTOB = [
+  { key:'thanh-vien', label:'Thành Viên', cls:'rank-thanh-vien', min:0,             next:500000000    },
+  { key:'dong',       label:'Đồng',       cls:'rank-dong',       min:500000000,     next:1000000000   },
+  { key:'bac',        label:'Bạc',        cls:'rank-bac',        min:1000000000,    next:2000000000   },
+  { key:'vang',       label:'Vàng',       cls:'rank-vang',       min:2000000000,    next:2500000000   },
+  { key:'kim-cuong',  label:'Kim Cương',  cls:'rank-kim',        min:2500000000,    next:null         }
+];
+function getRankInfo(rankKey) {
+  return RANKS_NORMAL.find(r => r.key === rankKey) || { key: rankKey, label: rankKey, cls: 'rank-thanh-vien' };
+}
+function getNextRankInfo(rankKey, userType) {
+  const arr = userType === 'btob' ? RANKS_BTOB : RANKS_NORMAL;
+  const idx = arr.findIndex(r => r.key === rankKey);
+  return idx >= 0 && idx < arr.length - 1 ? arr[idx + 1] : null;
+}
+function getPointsRate(rank) {
+  if (rank === 'kim-cuong') return 9000;
+  if (rank === 'vang')      return 9500;
+  return 10000;
+}
+function renderRankCard(totalSpent, userType, rank, bonusPoints, redeemedPoints) {
+  const n    = Number(totalSpent) || 0;
+  const arr  = userType === 'btob' ? RANKS_BTOB : RANKS_NORMAL;
+  const r    = arr.find(x => x.key === rank) || arr[0];
+  const next = getNextRankInfo(rank, userType);
+  const rate = getPointsRate(rank);
+  const pts  = Math.max(0, Math.floor(n / rate) + (bonusPoints || 0) - (redeemedPoints || 0));
+  const card = document.getElementById('rankCard');
+  let progressHTML = '';
+  if (next) {
+    const cur   = arr.find(x => x.key === rank);
+    const pct   = cur ? Math.min(100, Math.round(((n - cur.min) / (next.min - cur.min)) * 100)) : 0;
+    progressHTML = `
+      <div class="rank-progress-wrap">
+        <div class="rank-progress-label">
+          <span style="display:flex;align-items:center;gap:.3rem">${rankIconSVG(next.key,14,true)} ${next.label}</span>
+          <span>${pct}%</span>
+        </div>
+        <div class="rank-progress-bar"><div class="rank-progress-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:.7rem;opacity:.8;margin-top:.35rem">
+          Còn ${(next.min - n).toLocaleString('vi-VN')} ₫ nữa để lên hạng
+        </div>
+      </div>`;
+  } else {
+    progressHTML = `<div style="margin-top:.7rem;font-size:.82rem;opacity:.9;font-weight:700">Bạn đã đạt hạng cao nhất!</div>`;
+  }
+  card.style.display = 'block';
+  card.innerHTML = `
+    <div class="rank-card ${r.cls}">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div class="rank-icon">${rankIconSVG(rank, 44, true)}</div>
+        <div>
+          <div class="rank-label">${r.label}</div>
+          <div class="rank-sub">Hạng thành viên của bạn</div>
+        </div>
+      </div>
+      <div class="rank-spent">Tổng chi tiêu: <strong>${n.toLocaleString('vi-VN')} ₫</strong></div>
+      ${progressHTML}
+      <div style="margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:.72rem;opacity:.8">Điểm thưởng khả dụng</div>
+          <div id="rankCardPoints" style="font-size:1.4rem;font-weight:900">– điểm</div>
+        </div>
+        <a href="doi-diem.html" style="background:rgba(255,255,255,.2);color:#fff;text-decoration:none;padding:.5rem 1rem;border-radius:.4rem;font-size:.8rem;font-weight:700;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi điểm</a>
+      </div>
+    </div>`;
+}
+
+function shortMoney(n) {
+  if (n === 0) return '0 ₫';
+  if (n >= 1_000_000_000) {
+    const v = n / 1_000_000_000;
+    return (Number.isInteger(v) ? v : v.toLocaleString('vi-VN')) + ' tỷ';
+  }
+  if (n >= 1_000_000) return (n / 1_000_000).toLocaleString('vi-VN') + ' tr';
+  return n.toLocaleString('vi-VN') + ' ₫';
+}
+function renderRankTable(userType, currentRank) {
+  const arr   = userType === 'btob' ? RANKS_BTOB : RANKS_NORMAL;
+  const bonus = userType === 'btob' ? 100 : 10;
+  const rows  = arr.map((r, i) => {
+    const rate     = r.key === 'kim-cuong' ? '9.000' : r.key === 'vang' ? '9.500' : '10.000';
+    const bonusTxt = i === 0 ? '–' : `+${bonus} đ`;
+    const isCur    = r.key === currentRank;
+    return `<tr class="${isCur ? 'current-rank' : ''}">
+      <td style="display:flex;align-items:center;gap:.4rem">${rankIconSVG(r.key,16,false)} ${r.label}${isCur ? ' ◀' : ''}</td>
+      <td>${shortMoney(r.min)}</td>
+      <td>${rate}₫</td>
+      <td>${bonusTxt}</td>
+    </tr>`;
+  }).join('');
+  const note = userType === 'btob'
+    ? '<div class="rt-note"><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> Không có công nợ trong 2 tháng → hạ 1 bậc.</div>'
+    : '<div class="rt-note"><i class="fa-solid fa-lightbulb" style="color:#d97706"></i> Lên hạng sẽ được tặng điểm bonus.</div>';
+  const tbl = document.getElementById('rankTable');
+  tbl.style.display = 'block';
+  tbl.innerHTML = `
+    <div class="rt-header"><i class="fa-solid fa-chart-bar" style="color:#cc1f1f"></i> Bảng hạng thành viên</div>
+    <table class="rank-table">
+      <thead><tr><th>Hạng</th><th>Chi tiêu</th><th>Tỷ lệ</th><th>Bonus</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>${note}`;
+}
 
 function togglePw(id, btn) {
   var input = document.getElementById(id);
   input.type = input.type === 'password' ? 'text' : 'password';
-  btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+  btn.innerHTML = input.type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
 }
 
 async function loadProfile() {
@@ -133,14 +324,57 @@ async function loadProfile() {
       document.getElementById('avatarEl').textContent = u.name?.[0]?.toUpperCase() || '?';
       document.getElementById('displayName').textContent = u.name;
       document.getElementById('displayEmail').textContent = u.email;
-      document.getElementById('displayRole').innerHTML = u.role === 'admin'
-        ? '<span style="background:#fee2e2;color:#dc2626;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800">⭐ Admin</span>'
-        : '<span style="background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800">👤 Thành viên</span>';
-      document.getElementById('uName').value = u.name || '';
-      document.getElementById('uEmail').value = u.email || '';
-      document.getElementById('uPhone').value = u.phone || '';
+      const uType  = u.userType || 'normal';
+      const rank   = u.rank || 'thanh-vien';
+      const rate   = getPointsRate(rank);
+      const pts    = Math.max(0, Math.floor((u.totalSpent || 0) / rate) + (u.bonusPoints || 0) - (u.redeemedPoints || 0));
+      const arr    = uType === 'btob' ? RANKS_BTOB : RANKS_NORMAL;
+      const rk     = arr.find(r => r.key === rank) || arr[0];
+      const btobTag = uType === 'btob' ? ' <span style="margin-left:.3rem;background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Quý đối tác</span>' : '';
+      const roleTag = u.role === 'admin'
+        ? '<span style="background:#fee2e2;color:#dc2626;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-star" style="color:#d97706"></i> Admin</span>'
+        : '<span style="background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-user" style="color:#6b7280"></i> Thành viên</span>';
+      document.getElementById('displayRole').innerHTML = roleTag + btobTag +
+        ` <span style="margin-left:.4rem;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800;background:rgba(0,0,0,.07);display:inline-flex;align-items:center;gap:.25rem">${rankIconSVG(rank,13,false)} ${rk.label}</span>`;
+      renderRankCard(u.totalSpent || 0, uType, rank, u.bonusPoints || 0, u.redeemedPoints || 0);
+      document.getElementById('rankCardPoints').textContent = pts.toLocaleString('vi-VN') + ' điểm';
+      renderRankTable(uType, rank);
+      document.getElementById('uName').value    = u.name    || '';
+      document.getElementById('uEmail').value   = u.email   || '';
+      document.getElementById('uPhone').value   = u.phone   || '';
       document.getElementById('uAddress').value = u.address || '';
+      // Hiện card công nợ nếu là BtoB
+      if (uType === 'btob') loadMyDebts();
     }
+  } catch(e) {}
+}
+
+async function loadMyDebts() {
+  document.getElementById('debtCard').style.display = 'block';
+  try {
+    const res  = await AuthClient.authFetch(`${API}/api/debts/mine`);
+    const data = await res.json();
+    if (!data.success) return;
+    document.getElementById('debtPaidTotal').textContent   = (data.totalPaid   || 0).toLocaleString('vi-VN') + ' ₫';
+    document.getElementById('debtUnpaidTotal').textContent = (data.totalUnpaid || 0).toLocaleString('vi-VN') + ' ₫';
+    const tbody = document.getElementById('debtList');
+    if (!data.data.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#aaa;font-size:.85rem">Chưa có công nợ nào</td></tr>'; return;
+    }
+    tbody.innerHTML = data.data.map(d => {
+      const dueStr  = d.dueDate  ? new Date(d.dueDate).toLocaleDateString('vi-VN')  : '–';
+      const isOverdue = d.status === 'unpaid' && d.dueDate && new Date(d.dueDate) < new Date();
+      const statusHTML = d.status === 'paid'
+        ? '<span style="background:#dcfce7;color:#166534;padding:.15rem .55rem;border-radius:999px;font-size:.7rem;font-weight:800"><i class="fa-solid fa-circle" style="color:#16a34a;font-size:.5rem;vertical-align:middle"></i> Đã TT</span>'
+        : '<span style="background:#fee2e2;color:#dc2626;padding:.15rem .55rem;border-radius:999px;font-size:.7rem;font-weight:800"><i class="fa-solid fa-circle" style="color:#dc2626;font-size:.5rem;vertical-align:middle"></i> Chưa TT</span>';
+      return `<tr style="border-bottom:1px solid #f5f5f5">
+        <td style="padding:.65rem 1rem;font-size:.8rem">${d.invoiceNo || '–'}</td>
+        <td style="padding:.65rem 1rem;font-size:.8rem">${d.description || '–'}</td>
+        <td style="padding:.65rem 1rem;font-size:.82rem;font-weight:700;text-align:right;white-space:nowrap">${(d.amount||0).toLocaleString('vi-VN')} ₫</td>
+        <td style="padding:.65rem 1rem">${statusHTML}</td>
+        <td style="padding:.65rem 1rem;font-size:.8rem;${isOverdue?'color:#dc2626;font-weight:700':''}">${dueStr}${isOverdue?' <i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i>':''}</td>
+      </tr>`;
+    }).join('');
   } catch(e) {}
 }
 
@@ -157,7 +391,7 @@ async function saveProfile() {
     });
     const data = await res.json();
     if (data.success) {
-      showToast('✅ Đã lưu thông tin', 'success');
+      showToast('<i class="fa-solid fa-circle-check" style="color:#16a34a"></i> Đã lưu thông tin', 'success');
       loadProfile();
     } else showToast(data.message, 'error');
   } catch(e) { showToast('Lỗi kết nối', 'error'); }
@@ -177,7 +411,7 @@ async function changePassword() {
     });
     const data = await res.json();
     if (data.success) {
-      showToast('✅ Đã đổi mật khẩu', 'success');
+      showToast('<i class="fa-solid fa-circle-check" style="color:#16a34a"></i> Đã đổi mật khẩu', 'success');
       document.getElementById('oldPass').value = '';
       document.getElementById('newPass').value = '';
       document.getElementById('confirmPass').value = '';
@@ -189,7 +423,7 @@ function logout() { AuthClient.logout(); }
 
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show ' + type;
+  t.innerHTML = msg; t.className = 'toast show ' + type;
   setTimeout(() => t.className = 'toast', 3000);
 }
 
@@ -199,5 +433,31 @@ window.__vpAuthReady.then(function(user) {
   loadProfile();
 });
 </script>
+<script>
+(function(){
+  var btn = document.getElementById('mobMenuBtn');
+  var nav = document.querySelector('.header-nav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      nav.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e){
+      if (!nav.contains(e.target) && e.target !== btn) nav.classList.remove('open');
+    });
+  }
+  // Mega accordion on mobile
+  document.querySelectorAll('.nav-list > li.has-mega > a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        var li = this.closest('li');
+        li.classList.toggle('mob-open');
+      }
+    });
+  });
+})();
+</script>
+<script src="chat-widget.js"></script>
 </body>
 </html>

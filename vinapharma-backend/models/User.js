@@ -15,6 +15,13 @@ const userSchema = new mongoose.Schema({
   provider:   { type: String, default: 'local' }, // local | google | facebook
   // Profile
   address: { type: String },
+  // Loyalty rank
+  userType:       { type: String, enum: ['normal', 'btob'], default: 'normal' },
+  totalSpent:     { type: Number, default: 0 },
+  rank:           { type: String, enum: ['thanh-vien', 'dong', 'bac', 'vang', 'kim-cuong'], default: 'thanh-vien' },
+  bonusPoints:    { type: Number, default: 0 },
+  redeemedPoints: { type: Number, default: 0 },
+  lastDemotionAt: { type: Date },
   // Reset password
   resetPasswordToken:   { type: String },
   resetPasswordExpires: { type: Date }

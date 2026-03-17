@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kết quả tìm kiếm – Vinapharma</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#cc1f1f;--red-hover:#e02828;--red-dark:#8a1010;--red-pale:#fff5f5;--dark:#111;--gray:#666;--light:#f5f5f5;--border:#e8e8e8;--white:#fff}
+html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);overflow-x:hidden}
+.promo-bar{background:var(--red);color:#fff;text-align:center;padding:.42rem 1rem;font-size:.78rem;font-weight:500;letter-spacing:.03em}
+.promo-bar strong{font-weight:800}
+.header{position:sticky;top:0;z-index:200;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.header-top{display:flex;align-items:center;gap:1.2rem;padding:.7rem 4%;border-bottom:1px solid var(--border)}
+.logo img{height:34px;display:block}
+.search-bar{flex:1;max-width:540px;margin:0 auto;display:flex;align-items:center;border:1.5px solid var(--border);border-radius:2rem;padding:.42rem 1.1rem;gap:.5rem;transition:border-color .2s}
+.search-bar:focus-within{border-color:var(--red)}
+.search-bar input{border:none;outline:none;background:transparent;font-family:inherit;font-size:.87rem;flex:1}
+.search-bar button{background:var(--red);border:none;color:#fff;width:27px;height:27px;border-radius:50%;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.search-bar button:hover{background:var(--red-hover)}
+.header-actions{display:flex;align-items:center;gap:.55rem;margin-left:auto}
+.icon-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.12rem;font-size:.63rem;color:var(--gray);padding:.22rem .42rem;border-radius:.4rem;transition:color .2s,background .2s;position:relative}
+.icon-btn:hover{color:var(--red);background:var(--red-pale)}
+.icon-btn .ico{font-size:1.15rem}
+.nav-bar{display:flex;align-items:center;gap:0;padding:0 4%}
+.nav-link{text-decoration:none;color:var(--dark);font-size:.85rem;font-weight:600;padding:.75rem 1rem;border-bottom:2.5px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--red);border-bottom-color:var(--red)}
+
+/* RESULTS */
+.results-section{max-width:1100px;margin:0 auto;padding:2.5rem 4%}
+.results-heading{font-size:1.05rem;font-weight:700;margin-bottom:1.5rem;color:var(--dark)}
+.results-heading span{color:var(--red)}
+.section-title{font-size:.78rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1rem;display:flex;align-items:center;gap:.5rem}
+.section-title i{color:var(--red)}
+
+/* Products grid */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.product-card{border:1.5px solid var(--border);border-radius:.9rem;overflow:hidden;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column}
+.product-card:hover{box-shadow:0 6px 20px rgba(204,31,31,.12);transform:translateY(-2px)}
+.product-img{height:140px;background:#f9f9f9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-img img{width:100%;height:100%;object-fit:cover}
+.product-body{padding:.75rem;flex:1;display:flex;flex-direction:column;gap:.25rem}
+.product-name{font-size:.83rem;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-price{font-size:.82rem;font-weight:800;color:var(--red);margin-top:auto}
+
+/* Posts grid */
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem}
+.post-card{border:1.5px solid var(--border);border-radius:.9rem;overflow:hidden;text-decoration:none;color:inherit;transition:box-shadow .2s;display:flex;flex-direction:column}
+.post-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.post-thumb{height:160px;background:#f9f9f9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.post-thumb img{width:100%;height:100%;object-fit:cover}
+.post-body{padding:.85rem;flex:1;display:flex;flex-direction:column;gap:.3rem}
+.post-title{font-size:.87rem;font-weight:700;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post-meta{font-size:.72rem;color:#9ca3af;margin-top:auto}
+.empty-state{text-align:center;padding:2.5rem 1rem;color:#9ca3af;font-size:.85rem}
+.empty-state i{font-size:2rem;margin-bottom:.8rem;display:block}
+
+/* Footer minimal */
+footer{background:#1a1a1a;color:#aaa;font-size:.78rem;text-align:center;padding:1.2rem;margin-top:3rem}
+footer a{color:#cc1f1f;text-decoration:none}
+
+@media(max-width:600px){.products-grid{grid-template-columns:1fr 1fr}.posts-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="promo-bar">Mua 3 tặng 1 – Áp dụng toàn bộ sản phẩm. <strong>Xem ngay!</strong></div>
+<header class="header">
+  <div class="header-top">
+    <a class="logo" href="index.html"><img src="logo.png" alt="Vinapharma"/></a>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm, bài viết..."/>
+      <button id="searchBtn"><i class="fa-solid fa-magnifying-glass" style="color:#fff"></i></button>
+    </div>
+    <div class="header-actions" id="headerActions"></div>
+  </div>
+  <nav class="nav-bar" id="navBar"></nav>
+</header>
+
+<div class="results-section">
+  <div class="results-heading" id="resultsHeading">Đang tìm kiếm...</div>
+
+  <div id="productsWrap" style="display:none">
+    <div class="section-title"><i class="fa-solid fa-box"></i> Sản phẩm</div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <div id="postsWrap" style="display:none">
+    <div class="section-title"><i class="fa-regular fa-newspaper"></i> Bài viết</div>
+    <div class="posts-grid" id="postsGrid"></div>
+  </div>
+
+  <div class="empty-state" id="emptyState" style="display:none">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    Không tìm thấy kết quả
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 <a href="index.html">Vinapharma</a> – Sức khỏe toàn diện từ thiên nhiên
+</footer>
+
+<script src="header.js"></script>
+<script>
+const API = 'http://localhost:5000';
+const params = new URLSearchParams(location.search);
+const q = params.get('q') || params.get('search') || '';
+
+const searchInput = document.getElementById('searchInput');
+const searchBtn   = document.getElementById('searchBtn');
+searchInput.value = q;
+
+searchBtn.addEventListener('click', goSearch);
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') goSearch(); });
+
+function goSearch() {
+  const v = searchInput.value.trim();
+  if (v) location.href = 'tim-kiem.html?q=' + encodeURIComponent(v);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function doSearch(query) {
+  const heading = document.getElementById('resultsHeading');
+  if (!query) {
+    heading.innerHTML = 'Nhập từ khóa để tìm kiếm';
+    return;
+  }
+  heading.innerHTML = `Kết quả tìm kiếm cho "<span>${escHtml(query)}</span>"`;
+
+  try {
+    const [pRes, aRes] = await Promise.all([
+      fetch(`${API}/api/products?search=${encodeURIComponent(query)}&limit=20`),
+      fetch(`${API}/api/posts?search=${encodeURIComponent(query)}&limit=12`),
+    ]);
+    const [pData, aData] = await Promise.all([pRes.json(), aRes.json()]);
+
+    const products = pData.success ? (pData.data || []) : [];
+    const posts    = aData.success ? (aData.data || []) : [];
+
+    // Products
+    if (products.length) {
+      document.getElementById('productsWrap').style.display = '';
+      document.getElementById('productsGrid').innerHTML = products.map(p => {
+        const img = p.image
+          ? `<img src="${API + p.image}" alt="${escHtml(p.name)}"/>`
+          : `<i class="fa-solid fa-box" style="color:#d1d5db;font-size:2.5rem"></i>`;
+        const price = p.price ? p.price.toLocaleString('vi-VN') + ' ₫' : '';
+        return `<a class="product-card" href="san-pham-chi-tiet.html?id=${p._id}">
+          <div class="product-img">${img}</div>
+          <div class="product-body">
+            <div class="product-name">${escHtml(p.name)}</div>
+            ${price ? `<div class="product-price">${price}</div>` : ''}
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    // Posts
+    if (posts.length) {
+      document.getElementById('postsWrap').style.display = '';
+      document.getElementById('postsGrid').innerHTML = posts.map(a => {
+        const img = a.image
+          ? `<img src="${API + a.image}" alt="${escHtml(a.title)}"/>`
+          : `<i class="fa-regular fa-newspaper" style="color:#d1d5db;font-size:2.5rem"></i>`;
+        const date = a.createdAt ? new Date(a.createdAt).toLocaleDateString('vi-VN') : '';
+        return `<a class="post-card" href="tin-tuc-chi-tiet.html?id=${a._id}">
+          <div class="post-thumb">${img}</div>
+          <div class="post-body">
+            <div class="post-title">${escHtml(a.title)}</div>
+            ${date ? `<div class="post-meta"><i class="fa-regular fa-calendar" style="margin-right:.3rem"></i>${date}</div>` : ''}
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    if (!products.length && !posts.length) {
+      document.getElementById('emptyState').style.display = '';
+      heading.innerHTML = `Không tìm thấy kết quả cho "<span>${escHtml(query)}</span>"`;
+    }
+  } catch(e) {
+    document.getElementById('emptyState').style.display = '';
+    document.getElementById('emptyState').innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i><br>Lỗi kết nối server';
+    heading.textContent = 'Lỗi tìm kiếm';
+  }
+}
+
+doSearch(q);
+</script>
+<script src="chat-widget.js"></script>
+<script src="search-widget.js"></script>
+</body>
+</html>

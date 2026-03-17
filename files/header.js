@@ -21,6 +21,9 @@
       .acc-sep{height:1px;background:#f0f0f0;margin:4px 0}
       .acc-avatar{width:28px;height:28px;border-radius:50%;background:#cc1f1f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;overflow:hidden}
       .acc-avatar img{width:100%;height:100%;object-fit:cover}
+      .acc-points{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#fff8f0;border-bottom:1px solid #f0f0f0;font-size:.75rem}
+      .acc-points-label{color:#888}
+      .acc-points-val{font-weight:800;color:#cc1f1f}
     `;
     document.head.appendChild(s);
   }
@@ -43,9 +46,14 @@
           <div class="acc-top-name">${user.name}</div>
           <div class="acc-top-email">${user.email || user.phone || ''}</div>
         </div>
-        <a class="acc-item" href="thong-tin-tai-khoan.html">👤 Thông tin tài khoản</a>
-        ${user.role === 'admin' ? '<a class="acc-item" href="data-admin.html">⚙️ Quản trị Admin</a><div class="acc-sep"></div>' : ''}
-        <button class="acc-item danger" onclick="AuthClient.logout()">🚪 Đăng xuất</button>
+        <div class="acc-points">
+          <span class="acc-points-label"><i class="fa-solid fa-gift" style="color:#cc1f1f;margin-right:.25rem"></i> Điểm thưởng</span>
+          <span class="acc-points-val" id="accPointsVal">${(user.points || 0).toLocaleString('vi-VN')} điểm</span>
+        </div>
+        <a class="acc-item" href="thong-tin-tai-khoan.html"><i class="fa-solid fa-user" style="color:#6b7280;margin-right:.25rem"></i> Thông tin tài khoản</a>
+        <a class="acc-item" href="doi-diem.html"><i class="fa-solid fa-gift" style="color:#cc1f1f;margin-right:.25rem"></i> Đổi điểm thưởng</a>
+        ${user.role === 'admin' ? '<a class="acc-item" href="data-admin.html"><i class="fa-solid fa-gear" style="color:#6b7280;margin-right:.25rem"></i> Quản trị Admin</a><div class="acc-sep"></div>' : '<div class="acc-sep"></div>'}
+        <button class="acc-item danger" onclick="AuthClient.logout()"><i class="fa-solid fa-right-from-bracket" style="color:#dc2626;margin-right:.25rem"></i> Đăng xuất</button>
       </div>`;
 
     // Toggle dropdown
@@ -67,8 +75,8 @@
       <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span style="font-size:.72rem;font-weight:700;letter-spacing:.03em">TÀI KHOẢN</span>
       <div class="acc-drop" id="accDrop">
-        <a class="acc-item" href="tai-khoan.html">🔑 Đăng nhập</a>
-        <a class="acc-item" href="tai-khoan.html" onclick="localStorage.setItem('vp_tab','register')">📝 Đăng ký</a>
+        <a class="acc-item" href="tai-khoan.html"><i class="fa-solid fa-key" style="color:#6b7280;margin-right:.25rem"></i> Đăng nhập</a>
+        <a class="acc-item" href="tai-khoan.html" onclick="localStorage.setItem('vp_tab','register')"><i class="fa-solid fa-pen-to-square" style="color:#6b7280;margin-right:.25rem"></i> Đăng ký</a>
       </div>`;
     btn.addEventListener('click', function(e) {
       e.stopPropagation();

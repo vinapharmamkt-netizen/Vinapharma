@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Đổi điểm thưởng – Vinapharma</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-height:100vh}
+:root{--red:#cc1f1f;--red-pale:#fff5f5}
+.header{background:#fff;padding:.9rem 4%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e8e8e8}
+.logo{font-weight:900;font-size:1.1rem;color:#111;text-decoration:none}
+.logo span{color:var(--red)}
+.back-btn{display:flex;align-items:center;gap:.5rem;color:#666;text-decoration:none;font-size:.83rem;font-weight:600}
+.page{max-width:900px;margin:2rem auto;padding:0 1rem}
+
+/* Points hero */
+.points-hero{background:linear-gradient(135deg,#cc1f1f,#e84646);border-radius:1rem;padding:1.6rem 2rem;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem}
+.points-hero-left h2{font-size:1rem;font-weight:700;opacity:.85;margin-bottom:.3rem}
+.points-hero-left .pts-big{font-size:2.4rem;font-weight:900;line-height:1}
+.points-hero-left .pts-sub{font-size:.75rem;opacity:.75;margin-top:.3rem}
+.points-hero-right{text-align:right}
+.rank-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.2);border-radius:999px;padding:.5rem 1rem;font-size:.9rem;font-weight:800}
+.how-to{font-size:.72rem;opacity:.75;margin-top:.4rem}
+
+/* Section title */
+.sec-title{font-size:1rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.sec-title span{background:#fff;border:1px solid #e8e8e8;border-radius:999px;padding:.15rem .65rem;font-size:.72rem;font-weight:700;color:#666}
+
+/* Reward grid */
+.reward-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2rem}
+.reward-card{background:#fff;border-radius:.8rem;border:1px solid #e8e8e8;overflow:hidden;transition:.2s;position:relative}
+.reward-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-2px)}
+.reward-card.btob-only{border-color:#3b82f6}
+.btob-badge{position:absolute;top:.6rem;right:.6rem;background:#3b82f6;color:#fff;font-size:.6rem;font-weight:800;padding:.2rem .5rem;border-radius:999px}
+.reward-img{width:100%;height:140px;object-fit:cover;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.reward-img img{width:100%;height:100%;object-fit:cover}
+.reward-body{padding:1rem}
+.reward-name{font-size:.88rem;font-weight:800;margin-bottom:.3rem}
+.reward-desc{font-size:.75rem;color:#888;margin-bottom:.8rem;line-height:1.4}
+.reward-pts{font-size:.78rem;color:var(--red);font-weight:700;margin-bottom:.8rem}
+.reward-pts strong{font-size:1rem}
+.btn-redeem{width:100%;padding:.55rem;border:none;border-radius:.4rem;background:var(--red);color:#fff;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:.15s}
+.btn-redeem:hover{background:#a01818}
+.btn-redeem:disabled{background:#ccc;cursor:not-allowed}
+.reward-stock{font-size:.7rem;color:#aaa;margin-top:.4rem;text-align:center}
+
+/* History */
+.history-table{width:100%;border-collapse:collapse;background:#fff;border-radius:.8rem;overflow:hidden;border:1px solid #e8e8e8;margin-bottom:2rem}
+.history-table th{padding:.65rem 1rem;font-size:.7rem;font-weight:800;color:#888;text-transform:uppercase;background:#fafafa;border-bottom:1px solid #f0f0f0;text-align:left}
+.history-table td{padding:.65rem 1rem;font-size:.82rem;border-bottom:1px solid #f5f5f5}
+.history-table tr:last-child td{border-bottom:none}
+.status-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700}
+.status-pending{background:#fef3c7;color:#92400e}
+.status-fulfilled{background:#dcfce7;color:#166534}
+.status-cancelled{background:#fee2e2;color:#dc2626}
+.empty{text-align:center;padding:2.5rem;color:#aaa;font-size:.85rem}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#111;color:#fff;padding:.75rem 1.2rem;border-radius:.5rem;font-size:.82rem;font-weight:600;transform:translateY(80px);opacity:0;transition:.25s;z-index:9999}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#16a34a}
+.toast.error{background:#dc2626}
+</style>
+</head>
+<body>
+<div class="header">
+  <a href="index.html" class="logo"><i class="fa-solid fa-heart" style="color:#cc1f1f"></i> <span>vina</span>pharma®</a>
+  <a href="thong-tin-tai-khoan.html" class="back-btn">← Tài khoản của tôi</a>
+</div>
+
+<div class="page">
+  <!-- Points hero -->
+  <div class="points-hero">
+    <div class="points-hero-left">
+      <h2>Điểm thưởng của bạn</h2>
+      <div class="pts-big" id="heroPoints">–</div>
+      <div class="pts-sub">điểm khả dụng &nbsp;|&nbsp; <span id="heroPtsNote">1 điểm = 10.000 ₫</span></div>
+    </div>
+    <div class="points-hero-right">
+      <div class="rank-pill" id="heroRank">–</div>
+      <div class="how-to" id="heroTotalSpent"></div>
+    </div>
+  </div>
+
+  <!-- Quà thông thường -->
+  <div class="sec-title"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Quà thông thường <span id="allCount"></span></div>
+  <div class="reward-grid" id="allRewards">
+    <div class="empty">Đang tải...</div>
+  </div>
+
+  <!-- Quà BtoB đặc biệt (chỉ hiện với BtoB) -->
+  <div id="btobSection" style="display:none">
+    <div class="sec-title"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Quà đặc biệt Quý đối tác <span id="btobCount"></span></div>
+    <div class="reward-grid" id="btobRewards"></div>
+  </div>
+
+  <!-- Lịch sử đổi thưởng -->
+  <div class="sec-title" style="margin-top:.5rem"><i class="fa-solid fa-clock" style="color:#6b7280"></i> Lịch sử đổi thưởng</div>
+  <table class="history-table">
+    <thead><tr><th>Phần thưởng</th><th>Điểm dùng</th><th>Trạng thái</th><th>Ngày đổi</th></tr></thead>
+    <tbody id="historyBody"><tr><td colspan="4" class="empty">Đang tải...</td></tr></tbody>
+  </table>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="authClient.js"></script>
+<script src="rank-icons.js"></script>
+<script>
+const API = 'http://localhost:5000';
+let currentUser = null;
+let availablePoints = 0;
+
+const RANK_INFO = {
+  'thanh-vien': { label:'Thành Viên' },
+  'dong':       { label:'Đồng'       },
+  'bac':        { label:'Bạc'        },
+  'vang':       { label:'Vàng'       },
+  'kim-cuong':  { label:'Kim Cương'  }
+};
+function getPointsRate(rank) {
+  if (rank === 'kim-cuong') return 9000;
+  if (rank === 'vang')      return 9500;
+  return 10000;
+}
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function rewardCardHTML(r, canRedeem) {
+  const imgHTML = r.image
+    ? `<div class="reward-img"><img src="${API + r.image}" alt="${r.name}"/></div>`
+    : `<div class="reward-img"><i class="fa-solid fa-medal" style="color:#d97706;font-size:3rem"></i></div>`;
+  const disabled = !canRedeem || availablePoints < r.pointsRequired;
+  const disabledReason = !canRedeem ? 'Đã dùng hết điểm' : availablePoints < r.pointsRequired ? `Cần thêm ${(r.pointsRequired - availablePoints).toLocaleString('vi-VN')} điểm` : '';
+  const stockText = r.stock === -1 ? '' : r.stock === 0 ? '<div class="reward-stock"><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> Hết hàng</div>' : `<div class="reward-stock">Còn ${r.stock} phần thưởng</div>`;
+  const outOfStock = r.stock === 0;
+  return `
+    <div class="reward-card${r.type === 'btob' ? ' btob-only' : ''}">
+      ${r.type === 'btob' ? '<div class="btob-badge"><i class="fa-solid fa-building" style="color:#fff"></i> Quý đối tác</div>' : ''}
+      ${imgHTML}
+      <div class="reward-body">
+        <div class="reward-name">${r.name}</div>
+        <div class="reward-desc">${r.description || ''}</div>
+        <div class="reward-pts">Cần <strong>${r.pointsRequired.toLocaleString('vi-VN')}</strong> điểm</div>
+        <button class="btn-redeem" ${(disabled || outOfStock) ? 'disabled' : ''} onclick="redeem('${r._id}','${r.name}',${r.pointsRequired})" title="${disabledReason}">
+          ${outOfStock ? '<i class="fa-solid fa-circle-xmark" style="color:#dc2626"></i> Hết hàng' : disabled ? '<i class="fa-solid fa-circle-xmark" style="color:#dc2626"></i> Không đủ điểm' : '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi ngay'}
+        </button>
+        ${stockText}
+      </div>
+    </div>`;
+}
+
+async function loadRewards() {
+  try {
+    const res  = await fetch(`${API}/api/rewards`);
+    const data = await res.json();
+    if (!data.success) return;
+    const rewards = data.data;
+    const isBtoB  = currentUser?.userType === 'btob';
+
+    const allList  = rewards.filter(r => r.type === 'all');
+    const btobList = rewards.filter(r => r.type === 'btob');
+
+    const allDiv  = document.getElementById('allRewards');
+    const btobDiv = document.getElementById('btobRewards');
+
+    document.getElementById('allCount').textContent = allList.length + ' quà';
+
+    if (allList.length) {
+      allDiv.innerHTML = allList.map(r => rewardCardHTML(r, true)).join('');
+    } else {
+      allDiv.innerHTML = '<div class="empty">Chưa có phần thưởng nào</div>';
+    }
+
+    if (isBtoB && btobList.length) {
+      document.getElementById('btobSection').style.display = 'block';
+      document.getElementById('btobCount').textContent = btobList.length + ' quà';
+      btobDiv.innerHTML = btobList.map(r => rewardCardHTML(r, true)).join('');
+    }
+  } catch(e) { console.error(e); }
+}
+
+async function loadHistory() {
+  try {
+    const res  = await AuthClient.authFetch(`${API}/api/redemptions/mine`);
+    const data = await res.json();
+    const tbody = document.getElementById('historyBody');
+    if (!data.success || !data.data.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="empty">Chưa có lịch sử đổi thưởng</td></tr>'; return;
+    }
+    tbody.innerHTML = data.data.map(rd => {
+      const statusMap = { pending:'status-pending', fulfilled:'status-fulfilled', cancelled:'status-cancelled' };
+      const statusLabel = { pending:'⏳ Chờ xử lý', fulfilled:'<i class="fa-solid fa-circle-check" style="color:#16a34a"></i> Hoàn thành', cancelled:'<i class="fa-solid fa-circle-xmark" style="color:#dc2626"></i> Đã hủy' };
+      const d = new Date(rd.createdAt);
+      const dateStr = d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+      return `<tr>
+        <td><b>${rd.rewardName || rd.reward?.name || '–'}</b></td>
+        <td>${(rd.pointsUsed||0).toLocaleString('vi-VN')} điểm</td>
+        <td><span class="status-pill ${statusMap[rd.status]||''}">${statusLabel[rd.status]||rd.status}</span></td>
+        <td>${dateStr}</td>
+      </tr>`;
+    }).join('');
+  } catch(e) {}
+}
+
+async function redeem(rewardId, rewardName, pointsRequired) {
+  if (!confirm(`Đổi "${rewardName}" với ${pointsRequired.toLocaleString('vi-VN')} điểm?`)) return;
+  try {
+    const res  = await AuthClient.authFetch(`${API}/api/redemptions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rewardId })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('<i class="fa-solid fa-party-horn" style="color:#cc1f1f"></i> ' + data.message, 'success');
+      availablePoints = data.newPoints;
+      document.getElementById('heroPoints').textContent = availablePoints.toLocaleString('vi-VN');
+      loadRewards();
+      loadHistory();
+    } else {
+      showToast(data.message, 'error');
+    }
+  } catch(e) { showToast('Lỗi kết nối', 'error'); }
+}
+
+window.__vpAuthReady.then(async function(user) {
+  if (!user) { window.location.href = 'tai-khoan.html'; return; }
+
+  // Lấy thông tin mới nhất từ /api/auth/me
+  try {
+    const res  = await AuthClient.authFetch(`${API}/api/auth/me`);
+    const data = await res.json();
+    if (data.success) {
+      currentUser      = data.user;
+      const rank       = data.user.rank || 'thanh-vien';
+      const rate       = getPointsRate(rank);
+      availablePoints  = Math.max(0, Math.floor((data.user.totalSpent || 0) / rate) + (data.user.bonusPoints || 0) - (data.user.redeemedPoints || 0));
+      const rk = RANK_INFO[rank];
+
+      document.getElementById('heroPoints').textContent     = availablePoints.toLocaleString('vi-VN');
+      document.getElementById('heroRank').innerHTML         = rankIconSVG(rank, 18, true) + ' ' + (rk?.label || 'Thành Viên');
+      document.getElementById('heroTotalSpent').textContent = 'Tổng chi tiêu: ' + (data.user.totalSpent || 0).toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('heroPtsNote').textContent = '1 điểm = ' + rate.toLocaleString('vi-VN') + ' ₫';
+
+      await loadRewards();
+      await loadHistory();
+    }
+  } catch(e) {}
+});
+</script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Environment variables (chứa mật khẩu - KHÔNG đẩy lên GitHub)
+vinapharma-backend/.env
+
+# Python scripts tạm
+*.py
+
+# Editor
+.vscode/
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

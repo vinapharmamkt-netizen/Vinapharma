@@ -16,24 +16,36 @@ const postSchema = new mongoose.Schema({
     required: true,
     enum: ['Dinh dưỡng', 'Sức khỏe', 'Lối sống', 'Thể hình', 'Làm đẹp', 'Tim mạch', 'Khác']
   },
+  tags: {
+    type: [String],
+    default: []
+  },
+  featured: {
+    type: Boolean,
+    default: false
+  },
+  order: {
+    type: Number,
+    default: 999
+  },
   excerpt: {
-    type: String, // Tóm tắt ngắn
+    type: String,
     required: [true, 'Vui lòng nhập tóm tắt']
   },
   content: {
-    type: String, // Nội dung đầy đủ (HTML)
-    required: [true, 'Vui lòng nhập nội dung']
+    type: String,
+    default: ''
   },
   thumbnail: {
-    type: String, // URL ảnh bìa
+    type: String,
     default: ''
   },
   icon: {
-    type: String, // emoji fallback
+    type: String,
     default: '📰'
   },
   readTime: {
-    type: Number, // phút đọc
+    type: Number,
     default: 5
   },
   author: {
@@ -56,7 +68,6 @@ const postSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Tự tạo slug từ tiêu đề
 postSchema.pre('save', function() {
   if (this.isModified('title')) {
     this.slug = this.title
@@ -67,10 +78,8 @@ postSchema.pre('save', function() {
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
-      .trim();
+      .trim() + '-' + Date.now();
   }
-
-  // Tự set publishedAt khi publish
   if (this.isModified('published') && this.published && !this.publishedAt) {
     this.publishedAt = new Date();
   }

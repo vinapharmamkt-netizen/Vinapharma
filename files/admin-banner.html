@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Quản lý Banner – Vinapharma</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
@@ -102,7 +103,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
 <!-- Login Overlay -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
-    <div class="login-logo">❤️ <span>vina</span>pharma® Admin</div>
+    <div class="login-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="#cc1f1f" style="vertical-align:middle"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> <span>vina</span>pharma® Admin</div>
     <div class="form-group" style="margin-bottom:1rem">
       <label>Email</label>
       <input type="email" id="loginEmail" placeholder="admin@vinapharma.vn"/>
@@ -119,24 +120,24 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
 <div class="layout">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-logo">❤️ <span>vina</span>pharma®<br><small style="font-weight:400;font-size:.7rem;color:#888">Admin Panel</small></div>
-    <a class="nav-item" href="index.html" target="_blank">🏠 Trang chủ</a>
-    <a class="nav-item active" href="admin-banner.html">🖼️ Quản lý Banner</a>
-    <a class="nav-item" href="#" style="margin-top:auto;color:#666" onclick="logout()">🚪 Đăng xuất</a>
+    <div class="sidebar-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="#cc1f1f" style="vertical-align:middle"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> <span>vina</span>pharma®<br><small style="font-weight:400;font-size:.7rem;color:#888">Admin Panel</small></div>
+    <a class="nav-item" href="index.html" target="_blank"><i class="fa-solid fa-house" style="color:#6b7280"></i> Trang chủ</a>
+    <a class="nav-item active" href="admin-banner.html"><i class="fa-solid fa-image" style="color:#6b7280"></i> Quản lý Banner</a>
+    <a class="nav-item" href="#" style="margin-top:auto;color:#666" onclick="logout()"><i class="fa-solid fa-right-from-bracket" style="color:#dc2626"></i> Đăng xuất</a>
   </aside>
 
   <!-- Main -->
   <main class="main">
     <div class="page-header">
       <div>
-        <div class="page-title">🖼️ Quản lý Banner</div>
+        <div class="page-title"><i class="fa-solid fa-image" style="color:#cc1f1f"></i> Quản lý Banner</div>
         <div class="page-sub">Upload và quản lý banner hero slider & quảng cáo</div>
       </div>
     </div>
 
     <!-- Upload Form -->
     <div class="upload-card">
-      <h3>➕ Thêm Banner Mới</h3>
+      <h3><i class="fa-solid fa-plus" style="color:#cc1f1f"></i> Thêm Banner Mới</h3>
       <div class="form-grid">
         <div class="form-group">
           <label>Tiêu đề banner *</label>
@@ -157,8 +158,8 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
         <div class="form-group">
           <label>Vị trí hiển thị *</label>
           <select id="bannerPos">
-            <option value="hero">🏠 Hero Slider (trang chủ)</option>
-            <option value="promo">📢 Banner Quảng cáo (giữa trang)</option>
+            <option value="hero"><i class="fa-solid fa-house" style="color:#6b7280"></i> Hero Slider (trang chủ)</option>
+            <option value="promo"><i class="fa-solid fa-bullhorn" style="color:#6b7280"></i> Banner Quảng cáo (giữa trang)</option>
           </select>
         </div>
         <div class="form-group">
@@ -168,9 +169,9 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
         <div class="form-group full">
           <label>Ảnh banner *</label>
           <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
-            <div class="dz-icon">🖼️</div>
+            <div class="dz-icon"><i class="fa-solid fa-image" style="color:#9ca3af;font-size:2.5rem"></i></div>
             <div class="dz-text">Bấm để chọn ảnh hoặc kéo thả vào đây</div>
-            <div class="dz-sub">JPG, PNG, WEBP – Tối đa 5MB – Khuyến nghị: 1920×600px cho hero</div>
+            <div class="dz-sub" id="dzSub">JPG, PNG, WEBP – Tối đa 5MB – Khuyến nghị: 1920×600px cho hero</div>
             <input type="file" id="fileInput" accept="image/*" onchange="previewFile(this)"/>
           </div>
           <img id="previewImg" class="preview-img"/>
@@ -178,15 +179,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111}
       </div>
       <div class="actions">
         <button class="btn btn-outline" onclick="resetForm()">Xóa form</button>
-        <button class="btn btn-red" onclick="uploadBanner()">⬆️ Upload Banner</button>
+        <button class="btn btn-red" id="submitBannerBtn" onclick="uploadBanner()"><i class="fa-solid fa-upload"></i> Upload Banner</button>
       </div>
     </div>
 
     <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" onclick="filterBanners('all',this)">Tất cả</button>
-      <button class="tab" onclick="filterBanners('hero',this)">🏠 Hero Slider</button>
-      <button class="tab" onclick="filterBanners('promo',this)">📢 Quảng cáo</button>
+      <button class="tab" onclick="filterBanners('hero',this)"><i class="fa-solid fa-house"></i> Hero Slider</button>
+      <button class="tab" onclick="filterBanners('promo',this)"><i class="fa-solid fa-bullhorn"></i> Quảng cáo</button>
     </div>
 
     <!-- Banner List -->
@@ -203,6 +204,7 @@ const API = 'http://localhost:5000';
 let token = localStorage.getItem('vp_token');
 let allBanners = [];
 let selectedFile = null;
+let editingId = null;
 
 // ── AUTH ──
 async function login() {
@@ -270,19 +272,45 @@ function resetForm() {
     else el.value = '';
   });
   selectedFile = null;
+  editingId = null;
   document.getElementById('previewImg').style.display = 'none';
   document.querySelector('.dz-text').textContent = 'Bấm để chọn ảnh hoặc kéo thả vào đây';
   document.getElementById('bannerPos').value = 'hero';
+  document.querySelector('.upload-card h3').innerHTML = '<i class="fa-solid fa-plus" style="color:#cc1f1f"></i> Thêm Banner Mới';
+  document.getElementById('submitBannerBtn').innerHTML = '<i class="fa-solid fa-upload"></i> Upload Banner';
+  document.getElementById('dzSub').textContent = 'JPG, PNG, WEBP – Tối đa 5MB – Khuyến nghị: 1920×600px cho hero';
 }
 
-// ── UPLOAD ──
+// ── EDIT (pre-fill form) ──
+function editBanner(id) {
+  const b = allBanners.find(x => x._id === id);
+  if (!b) return;
+  editingId = id;
+  document.getElementById('bannerTitle').value    = b.title || '';
+  document.getElementById('bannerSubtitle').value = b.subtitle || '';
+  document.getElementById('bannerBtn').value      = b.buttonText || 'Khám phá ngay';
+  document.getElementById('bannerLink').value     = b.buttonLink || 'san-pham.html';
+  document.getElementById('bannerPos').value      = b.position || 'hero';
+  document.getElementById('bannerOrder').value    = b.order ?? 0;
+  selectedFile = null;
+  const preview = document.getElementById('previewImg');
+  preview.src = API + b.image;
+  preview.style.display = 'block';
+  document.querySelector('.dz-text').textContent = 'Ảnh hiện tại đang dùng (chọn ảnh mới để thay)';
+  document.getElementById('dzSub').textContent = 'Để trống nếu không muốn đổi ảnh';
+  document.querySelector('.upload-card h3').innerHTML = '<i class="fa-solid fa-pen" style="color:#d97706"></i> Sửa Banner';
+  document.getElementById('submitBannerBtn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi';
+  document.querySelector('.upload-card').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── UPLOAD / UPDATE ──
 async function uploadBanner() {
   const title = document.getElementById('bannerTitle').value.trim();
   if (!title) return showToast('Vui lòng nhập tiêu đề banner', 'error');
-  if (!selectedFile) return showToast('Vui lòng chọn ảnh banner', 'error');
+  if (!editingId && !selectedFile) return showToast('Vui lòng chọn ảnh banner', 'error');
 
   const formData = new FormData();
-  formData.append('image', selectedFile);
+  if (selectedFile) formData.append('image', selectedFile);
   formData.append('title', title);
   formData.append('subtitle', document.getElementById('bannerSubtitle').value);
   formData.append('buttonText', document.getElementById('bannerBtn').value || 'Khám phá ngay');
@@ -290,19 +318,22 @@ async function uploadBanner() {
   formData.append('position', document.getElementById('bannerPos').value);
   formData.append('order', document.getElementById('bannerOrder').value || 0);
 
+  const isEdit = !!editingId;
   try {
-    const res = await fetch(API + '/api/banners', {
-      method: 'POST',
+    const res = await fetch(API + '/api/banners' + (isEdit ? '/' + editingId : ''), {
+      method: isEdit ? 'PUT' : 'POST',
       headers: { 'Authorization': 'Bearer ' + token },
       body: formData
     });
     const data = await res.json();
     if (data.success) {
-      showToast('✅ Upload banner thành công!', 'success');
+      showToast(isEdit
+        ? '<i class="fa-solid fa-floppy-disk" style="color:#16a34a"></i> Cập nhật banner thành công!'
+        : '<i class="fa-solid fa-check" style="color:#16a34a"></i> Upload banner thành công!', 'success');
       resetForm();
       loadBanners();
     } else {
-      showToast(data.message || 'Upload thất bại', 'error');
+      showToast(data.message || (isEdit ? 'Cập nhật thất bại' : 'Upload thất bại'), 'error');
     }
   } catch(e) {
     showToast('Lỗi kết nối server', 'error');
@@ -319,7 +350,7 @@ async function loadBanners() {
       renderBanners(allBanners);
     }
   } catch(e) {
-    document.getElementById('bannerGrid').innerHTML = '<div class="empty">❌ Không kết nối được server</div>';
+    document.getElementById('bannerGrid').innerHTML = '<div class="empty"><i class="fa-solid fa-xmark" style="color:#dc2626"></i> Không kết nối được server</div>';
   }
 }
 
@@ -333,24 +364,25 @@ function filterBanners(pos, btn) {
 function renderBanners(banners) {
   const grid = document.getElementById('bannerGrid');
   if (!banners.length) {
-    grid.innerHTML = '<div class="empty">Chưa có banner nào. Upload banner đầu tiên của bạn! 🖼️</div>';
+    grid.innerHTML = '<div class="empty">Chưa có banner nào. Upload banner đầu tiên của bạn!</div>';
     return;
   }
   grid.innerHTML = banners.map(b => `
     <div class="banner-card">
       <div class="banner-thumb">
-        <img src="${API + b.image}" alt="${b.title}" onerror="this.parentElement.innerHTML='🖼️'"/>
+        <img src="${API + b.image}" alt="${b.title}" onerror="this.parentElement.innerHTML='<i class=\"fa-solid fa-image\" style=\"color:#9ca3af;font-size:2rem\"></i>'"/>
       </div>
       <div class="banner-info">
         <div class="banner-title">${b.title}</div>
         <div class="banner-meta">
-          <span class="banner-pos ${b.position === 'hero' ? 'pos-hero' : 'pos-promo'}">${b.position === 'hero' ? '🏠 Hero' : '📢 Promo'}</span>
+          <span class="banner-pos ${b.position === 'hero' ? 'pos-hero' : 'pos-promo'}">${b.position === 'hero' ? '<i class=\"fa-solid fa-house\"></i> Hero' : '<i class=\"fa-solid fa-bullhorn\"></i> Promo'}</span>
           <span><span class="status-dot ${b.active ? 'status-active' : 'status-inactive'}"></span>${b.active ? 'Đang hiển thị' : 'Ẩn'}</span>
           <span>Thứ tự: ${b.order}</span>
         </div>
         <div class="banner-actions">
-          <button class="btn btn-sm btn-outline" onclick="toggleBanner('${b._id}', ${!b.active})">${b.active ? '🙈 Ẩn' : '👁️ Hiện'}</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteBanner('${b._id}', '${b.title}')">🗑️ Xóa</button>
+          <button class="btn btn-sm btn-outline" onclick="toggleBanner('${b._id}', ${!b.active})">${b.active ? '<i class=\"fa-solid fa-eye-slash\"></i> Ẩn' : '<i class=\"fa-solid fa-eye\"></i> Hiện'}</button>
+          <button class="btn btn-sm btn-outline" onclick="editBanner('${b._id}')" style="color:#d97706;border-color:#d97706"><i class="fa-solid fa-pen"></i> Sửa</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteBanner('${b._id}', '${b.title}')"><i class="fa-solid fa-trash" style="color:#dc2626"></i> Xóa</button>
         </div>
       </div>
     </div>`).join('');
@@ -363,7 +395,7 @@ async function toggleBanner(id, active) {
       body: JSON.stringify({ active })
     });
     const data = await res.json();
-    if (data.success) { showToast(active ? '✅ Đã hiển thị banner' : '🙈 Đã ẩn banner', 'success'); loadBanners(); }
+    if (data.success) { showToast(active ? '<i class=\"fa-solid fa-check\"></i> Đã hiển thị banner' : '<i class=\"fa-solid fa-eye-slash\"></i> Đã ẩn banner', 'success'); loadBanners(); }
   } catch(e) { showToast('Lỗi kết nối', 'error'); }
 }
 
@@ -374,13 +406,13 @@ async function deleteBanner(id, title) {
       method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
-    if (data.success) { showToast('🗑️ Đã xóa banner', 'success'); loadBanners(); }
+    if (data.success) { showToast('<i class=\"fa-solid fa-trash\"></i> Đã xóa banner', 'success'); loadBanners(); }
   } catch(e) { showToast('Lỗi kết nối', 'error'); }
 }
 
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show ' + type;
+  t.innerHTML = msg; t.className = 'toast show ' + type;
   setTimeout(() => t.className = 'toast', 3000);
 }
 

@@ -5,6 +5,8 @@ const crypto     = require('crypto');
 const nodemailer = require('nodemailer');
 const User       = require('../models/User');
 const { protect } = require('../middleware/auth');
+const { computeAvailablePoints, RANK_ORDER } = require('../utils/rankUtils');
+const Debt = require('../models/Debt');
 
 // ── Token helpers ────────────────────────────────────────────
 const signAccess   = (id) => jwt.sign({ id }, process.env.JWT_SECRET,         { expiresIn: '15m' });
@@ -27,13 +29,18 @@ function sendTokens(res, user) {
     success: true,
     accessToken,
     user: {
-      _id:      user._id,
-      name:     user.name,
-      email:    user.email,
-      phone:    user.phone,
-      role:     user.role,
-      avatar:   user.avatar,
-      provider: user.provider
+      _id:        user._id,
+      name:       user.name,
+      email:      user.email,
+      phone:      user.phone,
+      role:       user.role,
+      avatar:     user.avatar,
+      provider:   user.provider,
+      userType:    user.userType   || 'normal',
+      totalSpent:  user.totalSpent || 0,
+      rank:        user.rank       || 'thanh-vien',
+      bonusPoints: user.bonusPoints || 0,
+      points:      computeAvailablePoints(user.totalSpent, user.rank, user.bonusPoints, user.redeemedPoints)
     }
   });
 }
@@ -146,8 +153,27 @@ router.post('/logout', (req, res) => {
 
 // ── GET /api/auth/me ─────────────────────────────────────────
 router.get('/me', protect, async (req, res) => {
-  const user = await User.findById(req.user._id);
-  res.json({ success: true, user });
+  try {
+    // Kiểm tra hạ rank BtoB nếu không có công nợ trong 2 tháng
+    if (req.user.userType === 'btob') {
+      try {
+        const u = await User.findById(req.user._id);
+        if (u && u.rank !== 'thanh-vien') {
+          const twoMonthsAgo = new Date();
+          twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+          const recentDebt = await Debt.findOne({ user: u._id, createdAt: { $gte: twoMonthsAgo } });
+          if (!recentDebt && !(u.lastDemotionAt && u.lastDemotionAt > twoMonthsAgo)) {
+            const idx = RANK_ORDER.indexOf(u.rank);
+            if (idx > 0) {
+              await User.findByIdAndUpdate(u._id, { rank: RANK_ORDER[idx - 1], lastDemotionAt: new Date() });
+            }
+          }
+        }
+      } catch (_) {}
+    }
+    const user = await User.findById(req.user._id);
+    res.json({ success: true, user });
+  } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
 // ── POST /api/auth/forgot-password ──────────────────────────
