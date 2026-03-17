@@ -1,25 +1,11 @@
 const express = require('express');
 const router  = express.Router();
-const multer  = require('multer');
-const path    = require('path');
-const fs      = require('fs');
 const Post    = require('../models/Post');
 const { protect, adminOnly } = require('../middleware/auth');
+const { createUpload } = require('../utils/cloudinaryUpload');
 
-// ── Upload ──
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../uploads');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'post-' + Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage, limits: { fileSize: 8 * 1024 * 1024 } });
+const upload = createUpload('posts', 8);
 
-// ── helpers ──
 function parseTags(val) {
   if (!val) return [];
   if (Array.isArray(val)) return val.map(t => t.trim()).filter(Boolean);
@@ -29,7 +15,7 @@ function parseTags(val) {
 // POST /api/posts/upload-image — admin, upload ảnh vào nội dung bài viết
 router.post('/upload-image', protect, adminOnly, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'Không có file' });
-  res.json({ success: true, url: '/uploads/' + req.file.filename });
+  res.json({ success: true, url: req.file.path });
 });
 
 // GET public list
@@ -74,7 +60,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', protect, adminOnly, upload.single('thumbnail'), async (req, res) => {
   try {
     const body = { ...req.body, author: req.user._id };
-    if (req.file) body.thumbnail = '/uploads/' + req.file.filename;
+    if (req.file) body.thumbnail = req.file.path;
     body.tags = parseTags(body.tags);
     body.featured = body.featured === 'true' || body.featured === true;
     body.published = body.published === 'true' || body.published === true;
@@ -88,7 +74,7 @@ router.post('/', protect, adminOnly, upload.single('thumbnail'), async (req, res
 router.put('/:id', protect, adminOnly, upload.single('thumbnail'), async (req, res) => {
   try {
     const body = { ...req.body };
-    if (req.file) body.thumbnail = '/uploads/' + req.file.filename;
+    if (req.file) body.thumbnail = req.file.path;
     body.tags = parseTags(body.tags);
     body.featured = body.featured === 'true' || body.featured === true;
     body.published = body.published === 'true' || body.published === true;
@@ -103,11 +89,7 @@ router.put('/:id', protect, adminOnly, upload.single('thumbnail'), async (req, r
 // DELETE
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
-    const post = await Post.findByIdAndDelete(req.params.id);
-    if (post?.thumbnail && post.thumbnail.startsWith('/uploads/')) {
-      const filePath = path.join(__dirname, '..', post.thumbnail);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-    }
+    await Post.findByIdAndDelete(req.params.id);
     res.json({ success: true, message: 'Đã xóa bài viết' });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });

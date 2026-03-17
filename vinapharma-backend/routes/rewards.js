@@ -1,31 +1,18 @@
 const express = require('express');
 const router  = express.Router();
-const multer  = require('multer');
-const path    = require('path');
-const fs      = require('fs');
 const Reward  = require('../models/Reward');
 const { protect, adminOnly } = require('../middleware/auth');
+const { createUpload } = require('../utils/cloudinaryUpload');
 
-// ── Upload ảnh quà ──
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../uploads');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'reward-' + Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+const upload = createUpload('rewards', 5);
 
 // POST upload ảnh (admin)
 router.post('/upload-image', protect, adminOnly, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'Không có file' });
-  res.json({ success: true, url: '/uploads/' + req.file.filename });
+  res.json({ success: true, url: req.file.path });
 });
 
-// GET all rewards (public – filtered by type on frontend)
+// GET all rewards (public)
 router.get('/', async (req, res) => {
   try {
     const rewards = await Reward.find({ active: true }).sort({ order: 1, createdAt: -1 });
@@ -33,7 +20,7 @@ router.get('/', async (req, res) => {
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-// GET all rewards (admin – kể cả inactive)
+// GET all rewards (admin)
 router.get('/admin', protect, adminOnly, async (req, res) => {
   try {
     const rewards = await Reward.find().sort({ order: 1, createdAt: -1 });
@@ -45,7 +32,7 @@ router.get('/admin', protect, adminOnly, async (req, res) => {
 router.post('/', protect, adminOnly, upload.single('image'), async (req, res) => {
   try {
     const { name, description, pointsRequired, type, stock, active, order } = req.body;
-    const image = req.file ? '/uploads/' + req.file.filename : (req.body.image || '');
+    const image = req.file ? req.file.path : (req.body.image || '');
     const reward = await Reward.create({
       name, description,
       pointsRequired: Number(pointsRequired),
@@ -71,7 +58,7 @@ router.put('/:id', protect, adminOnly, upload.single('image'), async (req, res) 
       active: active !== 'false',
       order:  Number(order) || 0
     };
-    if (req.file) updates.image = '/uploads/' + req.file.filename;
+    if (req.file) updates.image = req.file.path;
     else if (req.body.image !== undefined) updates.image = req.body.image;
     const reward = await Reward.findByIdAndUpdate(req.params.id, updates, { new: true });
     if (!reward) return res.status(404).json({ success: false, message: 'Không tìm thấy' });
