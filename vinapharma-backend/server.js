@@ -20,7 +20,10 @@ app.use(cors({
     'http://localhost:5500',
     'http://localhost:3000',
     'http://localhost:8000',
-    // Thêm domain production ở đây khi deploy
+    'https://vinapharma.netlify.app',
+    /\.netlify\.app$/,
+    'https://vinapharmajsc.vn',
+    'https://www.vinapharmajsc.vn',
   ],
   credentials: true  // Cho phép gửi cookie
 }));

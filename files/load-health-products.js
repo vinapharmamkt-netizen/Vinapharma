@@ -3,7 +3,7 @@
  * Load products từ API và hiển thị vào các section
  */
 (function() {
-  const API = 'http://localhost:5000';
+  const API = 'https://vinapharma.onrender.com';
   let currentBrand = 'all';
   let allProducts = [];
 
