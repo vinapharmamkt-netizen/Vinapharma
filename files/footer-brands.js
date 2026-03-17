@@ -3,7 +3,7 @@
  * Yêu cầu: footer phải có <ul id="footerBrandLinks">
  */
 (function () {
-  const API = 'https://vinapharma.onrender.com';
+  const API = 'https://vinapharma-pwv2.onrender.com';
 
   async function loadFooterBrands() {
     const ul = document.getElementById('footerBrandLinks');

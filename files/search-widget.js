@@ -4,7 +4,7 @@
  * Nhúng vào bất kỳ trang nào có .search-bar > input
  */
 (function () {
-  const API = 'https://vinapharma.onrender.com';
+  const API = 'https://vinapharma-pwv2.onrender.com';
 
   function init() {
     const bar = document.querySelector('.search-bar');

@@ -3,7 +3,7 @@
  * Hỗ trợ lọc theo brand, category, tìm kiếm
  */
 (function() {
-  const API = 'https://vinapharma.onrender.com';
+  const API = 'https://vinapharma-pwv2.onrender.com';
   let allBrands = [];
   let allProducts = [];
   let currentBrand = 'all';
