@@ -58,7 +58,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 .status-cancelled{background:#fee2e2;color:#dc2626}
 .empty{text-align:center;padding:2.5rem;color:#aaa;font-size:.85rem}
 
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#111;color:#fff;padding:.75rem 1.2rem;border-radius:.5rem;font-size:.82rem;font-weight:600;transform:translateY(80px);opacity:0;transition:.25s;z-index:9999}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#111;color:#fff;padding:.75rem 1.2rem;border-radius:.5rem;font-size:.82rem;font-weight:600;transform:translateY(80px);opacity:0;transition:.25s;z-index:1000009}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.success{background:#16a34a}
 .toast.error{background:#dc2626}
@@ -253,6 +253,10 @@ window.__vpAuthReady.then(async function(user) {
     }
   } catch(e) {}
 });
+</script>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Về đầu trang" style="position:fixed;bottom:100px;right:24px;width:44px;height:44px;border-radius:50%;background:#cc1f1f;color:#fff;border:none;cursor:pointer;font-size:1.1rem;box-shadow:0 4px 12px rgba(204,31,31,.35);display:none;align-items:center;justify-content:center;z-index:100000;transition:opacity .2s"><i class="fa-solid fa-chevron-up"></i></button>
+<script>
+(function(){var b=document.getElementById('backToTop');window.addEventListener('scroll',function(){b.style.display=window.scrollY>300?'flex':'none';});})();
 </script>
 <script src="chat-widget.js"></script>
 </body>
