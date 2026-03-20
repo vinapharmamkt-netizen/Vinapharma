@@ -1,26 +1,32 @@
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-const path   = require('path');
-const fs     = require('fs');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 function createUpload(folder, sizeMB = 20) {
-  const uploadDir = path.join(__dirname, '..', 'uploads', folder);
-  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, uploadDir),
-    filename: (req, file, cb) => {
-      const ext  = path.extname(file.originalname);
-      const name = Date.now() + '-' + Math.round(Math.random() * 1e6) + ext;
-      cb(null, name);
+  const storage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: `vinapharma/${folder}`,
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+      transformation: [{ quality: 'auto', fetch_format: 'auto' }],
     },
   });
 
-  return multer({ storage, limits: { fileSize: sizeMB * 1024 * 1024 } });
+  return multer({
+    storage,
+    limits: { fileSize: sizeMB * 1024 * 1024 },
+  });
 }
 
-// Helper dùng trong routes để lấy URL
-function fileUrl(req, file, folder) {
-  return `${req.protocol}://${req.get('host')}/uploads/${folder}/${file.filename}`;
+// Trả về URL Cloudinary (đã là https tuyệt đối)
+function fileUrl(req, file) {
+  return file.path;
 }
 
 module.exports = { createUpload, fileUrl };

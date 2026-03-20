@@ -15,7 +15,7 @@ function parseTags(val) {
 // POST /api/posts/upload-image — admin, upload ảnh vào nội dung bài viết
 router.post('/upload-image', protect, adminOnly, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'Không có file' });
-  res.json({ success: true, url: fileUrl(req, req.file, 'posts') });
+  res.json({ success: true, url: fileUrl(req, req.file) });
 });
 
 // GET public list

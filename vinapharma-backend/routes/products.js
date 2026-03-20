@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 const { protect, adminOnly } = require('../middleware/auth');
 const { createUpload, fileUrl } = require('../utils/cloudinaryUpload');
 
-const upload = createUpload('products', 8);
+const upload = createUpload('products', 20);
 
 // GET /api/products
 router.get('/', async (req, res) => {
@@ -36,7 +36,7 @@ router.post('/', protect, adminOnly, upload.array('images', 10), async (req, res
   try {
     const body = { ...req.body };
     if (req.files && req.files.length > 0) {
-      body.images = req.files.map(f => `/uploads/products/${f.filename}`);
+      body.images = req.files.map(f => f.path);
       body.image  = body.images[0];
     }
     const product = new Product(body);
@@ -52,7 +52,7 @@ router.put('/:id', protect, adminOnly, upload.array('images', 10), async (req, r
     if (!product) return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
     const body = { ...req.body };
     if (req.files && req.files.length > 0) {
-      body.images = req.files.map(f => `/uploads/products/${f.filename}`);
+      body.images = req.files.map(f => f.path);
       body.image  = body.images[0];
     }
     // Nếu giữ ảnh cũ (không upload mới)
