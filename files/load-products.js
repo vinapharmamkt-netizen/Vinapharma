@@ -187,7 +187,7 @@
           ${badgeHtml}
           <div class="product-img">${
             (product.image || (product.images && product.images[0]))
-              ? `<img src="${((s=>(s.startsWith('http')?s:API+s))(product.image||product.images[0]))}" alt="${product.name}" style="width:100%;height:100%;object-fit:contain;padding:.5rem">`
+              ? `<img src="${((s=>(s.startsWith('http')?s:API+s))(product.image||product.images[0]))}" alt="" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:contain;padding:.5rem">`
               : (product.icon || '<i class="fa-solid fa-box" style="color:#9ca3af;font-size:2rem"></i>')
           }</div>
           <div class="product-body">

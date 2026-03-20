@@ -683,8 +683,8 @@ function renderCards(products, gridId, sectionId) {
     a.href = 'san-pham-chi-tiet.html?id=' + p._id;
     var imgSrc = p.image || (p.images && p.images[0]);
     var imgHtml = imgSrc
-      ? '<img src="' + (imgSrc.startsWith('http') ? imgSrc : API + imgSrc) + '" alt="' + p.name + '">'
-      : (p.icon || '<i class=\"fa-solid fa-box\" style=\"color:#9ca3af;font-size:2.5rem\"></i>');
+      ? '<img src="' + (imgSrc.startsWith('http') ? imgSrc : API + imgSrc) + '" alt="" onerror="this.style.display=\'none\'">'
+      : (p.icon || '<i class="fa-solid fa-box" style="color:#9ca3af;font-size:2.5rem"></i>');
     a.innerHTML = '<div class="pd-related-img">' + imgHtml + '</div>'
       + '<div class="pd-related-body">'
       + '<div class="pd-related-brand">' + (p.brandName||p.brand) + '</div>'
