@@ -591,7 +591,14 @@ function renderProduct(p) {
   if (imgs.length === 0) {
     imgBox.innerHTML = '<div class="pd-img-placeholder">' + (p.icon || '<i class=\"fa-solid fa-box\" style=\"color:#9ca3af;font-size:2.5rem\"></i>') + '</div>';
   } else if (imgs.length === 1) {
-    imgBox.innerHTML = '<img src="' + API + imgs[0] + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:contain;padding:1.2rem">';
+    var s0 = imgs[0].startsWith('http') ? imgs[0] : API + imgs[0];
+    var img0 = new Image();
+    img0.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:1.2rem';
+    img0.alt = p.name;
+    img0.onerror = function() { imgBox.innerHTML = '<div class="pd-img-placeholder">' + (p.icon || '<i class="fa-solid fa-box" style="color:#9ca3af;font-size:2.5rem"></i>') + '</div>'; };
+    img0.src = s0;
+    imgBox.innerHTML = '';
+    imgBox.appendChild(img0);
   } else {
     var curSlide = 0;
     // tạo div thumbs bên ngoài imgBox để không bị overflow:hidden cắt
@@ -600,14 +607,15 @@ function renderProduct(p) {
     thumbsContainer.className = 'pd-carousel-thumbs';
     imgBox.parentNode.insertBefore(thumbsContainer, imgBox.nextSibling);
 
+    function imgUrl(u) { return u.startsWith('http') ? u : API + u; }
     function buildCarousel() {
       imgBox.innerHTML = '<div class="pd-carousel-main">'
         + '<button class="pd-carousel-btn prev" onclick="goSlide(' + ((curSlide-1+imgs.length)%imgs.length) + ')"><i class="fa-solid fa-chevron-left"></i></button>'
-        + '<img src="' + API + imgs[curSlide] + '" alt="' + p.name + '"/>'
+        + '<img src="' + imgUrl(imgs[curSlide]) + '" alt="' + p.name + '"/>'
         + '<button class="pd-carousel-btn next" onclick="goSlide(' + ((curSlide+1)%imgs.length) + ')"><i class="fa-solid fa-chevron-right"></i></button>'
         + '</div>';
       thumbsContainer.innerHTML = imgs.map(function(u,i){
-        return '<div class="pd-carousel-thumb' + (i===curSlide?' active':'') + '" onclick="goSlide(' + i + ')"><img src="' + API + u + '"/></div>';
+        return '<div class="pd-carousel-thumb' + (i===curSlide?' active':'') + '" onclick="goSlide(' + i + ')"><img src="' + imgUrl(u) + '"/></div>';
       }).join('');
     }
     window.goSlide = function(i) { curSlide = i; buildCarousel(); };

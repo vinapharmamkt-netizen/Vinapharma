@@ -70,25 +70,60 @@
   .nav-list > li > a:hover,
   .nav-list > li > a.active { border-bottom-color: #f0f0f0; background: #fff5f5; }
 
+  /* Sidebar: không cho tràn ngang */
+  .header-nav { overflow-x: hidden !important; }
+
   /* Mega menu: accordion trên mobile */
   .mega-wrap {
     position: static !important;
     box-shadow: none !important;
     border: none !important;
+    border-top: none !important;
+    animation: none !important;
     display: none;
     padding: 0 !important;
     border-radius: 0 !important;
+    max-width: 280px !important;
+    overflow: hidden !important;
   }
   .nav-list > li.has-mega.mob-open .mega-wrap { display: block; background: #fafafa; }
+
+  /* Layout brands: 1 cột */
+  .mega-brands-layout {
+    display: block !important;
+    padding: 0 !important;
+  }
+  /* Ẩn sidebar buttons trên desktop, hiển thị tên danh mục dạng accordion */
+  .mega-sidebar { padding: 0 !important; border: none !important; }
+  .mega-sidebar-btn {
+    width: 100%;
+    padding: .65rem 1.2rem !important;
+    font-size: .84rem !important;
+    border-bottom: 1px solid #eee !important;
+    border-left: none !important;
+  }
+  /* Panel: 1 cột, full width */
+  .mega-panel, .mega-panel.active {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    padding: .5rem 1.2rem !important;
+  }
+  .mega-panel-col { margin-bottom: .6rem; }
+  .mega-panel-links { flex-direction: column !important; gap: 0 !important; }
+  .mega-panel-links a { padding: .3rem 0 !important; font-size: .82rem !important; }
+  .mega-featured { display: none !important; }
+
+  /* Brand list */
+  .mega-brand-list { flex-wrap: wrap; gap: .4rem; padding: .5rem 1.2rem; }
+  .mega-brand-card { font-size: .75rem !important; padding: .25rem .6rem !important; }
+
+  /* Grid sản phẩm */
   .mega-grid {
     grid-template-columns: 1fr 1fr !important;
     max-width: 100% !important;
     padding: .7rem 1.2rem !important;
     gap: .5rem !important;
   }
-  .mega-brands-layout { flex-direction: column !important; padding: .7rem 1.2rem !important; gap: .7rem !important; }
-  .mega-brand-list { flex-wrap: wrap; gap: .4rem; }
-  .mega-featured { display: none !important; }
 
   /* ── PROMO BAR ── */
   .promo-bar { font-size: .7rem; padding: .3rem .8rem; }
