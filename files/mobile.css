@@ -73,7 +73,7 @@
   /* Sidebar: không cho tràn ngang */
   .header-nav { overflow-x: hidden !important; }
 
-  /* Mega menu: accordion trên mobile */
+  /* Mega menu: accordion trong sidebar */
   .mega-wrap {
     position: static !important;
     box-shadow: none !important;
@@ -82,39 +82,46 @@
     animation: none !important;
     display: none;
     padding: 0 !important;
-    border-radius: 0 !important;
-    max-width: 280px !important;
+    max-height: none !important;
+    width: 280px !important;
     overflow: hidden !important;
   }
   .nav-list > li.has-mega.mob-open .mega-wrap { display: block; background: #fafafa; }
 
-  /* Layout brands: 1 cột */
-  .mega-brands-layout {
-    display: block !important;
-    padding: 0 !important;
+  /* Layout: flex column thay vì grid 2 cột */
+  .mega-all-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    gap: 0 !important;
   }
-  /* Ẩn sidebar buttons trên desktop, hiển thị tên danh mục dạng accordion */
-  .mega-sidebar { padding: 0 !important; border: none !important; }
+
+  /* Sidebar buttons */
+  .mega-sidebar { border: none !important; padding: 0 !important; }
+  .mega-sidebar-label { padding: .5rem 1rem .3rem !important; }
   .mega-sidebar-btn {
-    width: 100%;
-    padding: .65rem 1.2rem !important;
-    font-size: .84rem !important;
+    padding: .6rem 1rem !important;
+    font-size: .82rem !important;
     border-bottom: 1px solid #eee !important;
-    border-left: none !important;
+    border-left: 2px solid transparent !important;
   }
-  /* Panel: 1 cột, full width */
-  .mega-panel, .mega-panel.active {
-    display: block !important;
-    grid-template-columns: 1fr !important;
-    padding: .5rem 1.2rem !important;
-  }
-  .mega-panel-col { margin-bottom: .6rem; }
-  .mega-panel-links { flex-direction: column !important; gap: 0 !important; }
-  .mega-panel-links a { padding: .3rem 0 !important; font-size: .82rem !important; }
+  .mega-sidebar-btn.active { border-left-color: var(--red) !important; }
+
+  /* Content area */
+  .mega-content-area { padding: 0 !important; overflow: hidden !important; }
+
+  /* Panels */
+  .mega-panel { display: none !important; }
+  .mega-panel.active { display: block !important; padding: .5rem .8rem !important; }
+  /* Ẩn cột Sản phẩm nổi bật */
+  .mega-panel.active > div:last-child { display: none !important; }
+
   .mega-featured { display: none !important; }
 
-  /* Brand list */
-  .mega-brand-list { flex-wrap: wrap; gap: .4rem; padding: .5rem 1.2rem; }
+  /* Brand/category cards */
+  .mega-brand-cards { display: flex !important; flex-wrap: wrap !important; gap: .3rem !important; }
+  .mega-brand-card { font-size: .72rem !important; padding: .22rem .55rem !important; }
+  .mega-brand-list { flex-wrap: wrap; gap: .4rem; }
   .mega-brand-card { font-size: .75rem !important; padding: .25rem .6rem !important; }
 
   /* Grid sản phẩm */
