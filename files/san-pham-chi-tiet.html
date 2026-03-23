@@ -611,9 +611,7 @@ function renderProduct(p) {
   // price
   // short bullets: first 2 sentences from description
   var descFull = (p.description||'');
-  var descSentences = descFull.replace(/([.!?])\s+/g,'$1
-').split('
-').map(function(l){return l.trim();}).filter(function(l){return l.length>0;});
+  var descSentences = descFull.split(/[.!?]+\s+/).map(function(l){return l.trim();}).filter(function(l){return l.length>0;});
   var descLines = descSentences.slice(0,2).map(function(s){return s.length>130?s.slice(0,130)+'...':s;});
   var bulletsEl = document.getElementById('pdBullets');
   bulletsEl.innerHTML = descLines.map(function(l){return '<li>'+l+'</li>';}).join('');
