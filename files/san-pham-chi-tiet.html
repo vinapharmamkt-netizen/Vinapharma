@@ -450,23 +450,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
       </div>
       <div class="pd-info">
         <h1 class="pd-name" id="pdName"></h1>
-        <div id="pdPriceWrap"></div>
-        <p class="pd-price-note">*Đối với bất kỳ đợt giảm giá chung nào được công bố, trừ khi có quy định khác, giá niêm yết là giá thấp nhất trong 30 ngày qua.</p>
         <ul class="pd-bullets" id="pdBullets"></ul>
-        <div class="pd-variant-label">BAO BÌ</div>
+        <div class="pd-variant-label">QUY CÁCH</div>
         <div class="pd-variant-btns" id="pdVariantBtns"></div>
-        <div class="pd-points">
-          <i class="fa-solid fa-trophy"></i>
-          <span>Nhận ngay <strong id="pdPointsVal"></strong> điểm thưởng khi mua hàng này. <a href="doi-diem.html">Tìm hiểu thêm</a></span>
-        </div>
-        <div class="pd-qty-row">
-          <div class="pd-qty">
-            <button type="button" onclick="changeQty(-1)">−</button>
-            <input type="number" id="pdQtyInput" value="1" min="1" max="99">
-            <button type="button" onclick="changeQty(1)">+</button>
-          </div>
-          <button class="pd-btn-buy" id="pdBtnBuy"><i class="fa-solid fa-cart-shopping"></i> THÊM VÀO GIỎ HÀNG</button>
-        </div>
+        <a href="lien-he.html" class="pd-btn-buy" style="display:flex;width:100%;text-decoration:none;margin-top:.6rem"><i class="fa-solid fa-comments"></i> LIÊN HỆ NGAY</a>
       </div>
     </div>
   </div>
@@ -622,29 +609,19 @@ function renderProduct(p) {
   }
   
   // price
-  var priceHtml = '<div style="display:flex;align-items:center;gap:.8rem;padding:.9rem 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin-bottom:.5rem">';
-  priceHtml += '<span style="font-size:2rem;font-weight:900;color:var(--red)">' + p.price.toLocaleString('vi-VN') + ' ₫</span>';
-  if (p.originalPrice && p.originalPrice > p.price) {
-    var disc = Math.round((1 - p.price/p.originalPrice)*100);
-    priceHtml += '<span style="font-size:.95rem;color:#ccc;text-decoration:line-through">' + p.originalPrice.toLocaleString('vi-VN') + ' ₫</span>';
-    priceHtml += '<span style="font-size:.72rem;font-weight:800;background:#ffebee;color:var(--red);padding:.2rem .55rem;border-radius:2rem">-' + disc + '%</span>';
-  }
-  priceHtml += '</div>';
-  document.getElementById('pdPriceWrap').innerHTML = priceHtml;
-
-  // star bullets from description lines
-  var descLines = (p.description||'').split('\n').map(function(l){return l.trim();}).filter(function(l){return l.length>0;});
+  // short bullets: first 2 sentences from description
+  var descFull = (p.description||'');
+  var descSentences = descFull.replace(/([.!?])\s+/g,'$1
+').split('
+').map(function(l){return l.trim();}).filter(function(l){return l.length>0;});
+  var descLines = descSentences.slice(0,2).map(function(s){return s.length>130?s.slice(0,130)+'...':s;});
   var bulletsEl = document.getElementById('pdBullets');
-  bulletsEl.innerHTML = descLines.slice(0,5).map(function(l){return '<li>' + l + '</li>';}).join('');
+  bulletsEl.innerHTML = descLines.map(function(l){return '<li>'+l+'</li>';}).join('');
 
   // variant (packaging/weight as button)
   var variantBtns = document.getElementById('pdVariantBtns');
   var variantLabel = p.weight || p.packaging || 'Tiêu chuẩn';
-  variantBtns.innerHTML = '<button class="pd-variant-btn active">' + variantLabel + '</button>';
-
-  // points
-  var pts = (p.price / 100000).toFixed(1);
-  document.getElementById('pdPointsVal').textContent = pts;
+  variantBtns.innerHTML = '<button class="pd-variant-btn active">'+variantLabel+'</button>';
 
   // details tabs
   var tabs = document.querySelectorAll('.pd-tab');
@@ -679,11 +656,8 @@ function renderProduct(p) {
   document.getElementById('pdTabIngredients').innerHTML = ingrHtml;
 
   // Cảnh báo panel
-  var warnLines = (p.packaging||'').split('\n').map(function(l){return l.trim();}).filter(function(l){return l;});
-  if (warnLines.length === 0) {
-    warnLines = ['Không được vượt quá liều lượng khuyến cáo hàng ngày.','Thực phẩm chức năng không thể thay thế cho một chế độ ăn uống đa dạng.','Chế độ ăn uống đa dạng và cân bằng rất cần thiết để duy trì sức khỏe.'];
-  }
-  document.getElementById('pdTabPackaging').innerHTML = warnLines.map(function(w){
+  var warnLines = ['Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.','Để xa tầm tay trẻ em.','Không sử dụng cho người mẫn cảm với bất kỳ thành phần nào của sản phẩm.','Không được vượt quá liều lượng khuyến cáo hàng ngày.','Đọc kỹ hướng dẫn sử dụng trước khi dùng. Thực phẩm chức năng không thể thay thế cho một chế độ ăn uống đa dạng và cân bằng.'];
+    document.getElementById('pdTabPackaging').innerHTML = warnLines.map(function(w){
     return '<li><i class="pd-warn-icon">ⓘ</i><span>' + w + '</span></li>';
   }).join('');
 
@@ -707,24 +681,7 @@ function renderProduct(p) {
   document.getElementById('pdLoading').style.display = 'none';
   document.getElementById('pdContent').style.display = 'block';
   
-  // cart button
-  document.getElementById('pdBtnBuy').addEventListener('click', function(){
-    var badge = document.querySelector('.cart-badge');
-    if (badge) badge.textContent = parseInt(badge.textContent||0)+1;
-    this.innerHTML = '<i class=\"fa-solid fa-check\"></i> ĐÃ THÊM';
-    this.style.background = '#22a06b';
-    var self = this;
-    setTimeout(function(){ self.innerHTML = '<i class=\"fa-solid fa-cart-shopping\"></i> THÊM VÀO GIỎ HÀNG'; self.style.background=''; }, 1500);
-  });
 }
-
-function changeQty(delta) {
-  var inp = document.getElementById('pdQtyInput');
-  if (!inp) return;
-  var v = parseInt(inp.value||1) + delta;
-  inp.value = Math.max(1, Math.min(99, v));
-}
-
 function renderCards(products, gridId, sectionId) {
   if (!products.length) return;
   var sec = document.getElementById(sectionId);
