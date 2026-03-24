@@ -204,8 +204,7 @@
           <div class="vp-popup-title">Tạo tài khoản miễn phí &amp; nhận ngay quyền lợi</div>
           <ul class="vp-popup-perks">
             <li><i class="fa-solid fa-tag"></i> <span>Giá thành viên ưu đãi hơn – tiết kiệm mỗi đơn hàng</span></li>
-            <li><i class="fa-solid fa-truck"></i> <span>Theo dõi đơn hàng real-time, không cần hỏi hotline</span></li>
-            <li><i class="fa-solid fa-bell"></i> <span>Nhận thông báo flash sale &amp; khuyến mãi trước ai hết</span></li>
+<li><i class="fa-solid fa-bell"></i> <span>Nhận thông báo flash sale &amp; khuyến mãi trước ai hết</span></li>
             <li><i class="fa-solid fa-rotate-left"></i> <span>Đổi trả 14 ngày nếu lý do từ nhà sản xuất – không lo rủi ro</span></li>
           </ul>
           <a href="tai-khoan.html?mode=register" class="vp-popup-btn-register">Đăng ký ngay – miễn phí</a>
