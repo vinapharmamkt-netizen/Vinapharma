@@ -636,6 +636,30 @@ document.addEventListener('click', e => {
       if(d.success && Array.isArray(d.data) && d.data.length) render(d.data);
     })
     .catch(function(){});
+
+  // Load bài viết thực tế vào phần "Những câu chuyện"
+  function renderStories(posts) {
+    var grid = document.querySelector('.jj-stories-grid');
+    if (!grid || !posts.length) return;
+    grid.innerHTML = posts.map(function(p) {
+      var img = p.thumbnail || (p.images && p.images[0]) || '';
+      var imgHtml = img
+        ? '<img src="'+(img.startsWith('http')?img:API+img)+'" alt="'+p.title+'" loading="lazy">'
+        : '<div class="jj-story-img-ph"><i class="fa-solid fa-newspaper" style="color:#ddd"></i></div>';
+      return '<a class="jj-story-card" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
+        +'<div class="jj-story-img">'+imgHtml+'</div>'
+        +'<div class="jj-story-cat">'+(p.category||'TIN TỨC')+'</div>'
+        +'<div class="jj-story-title">'+p.title+'</div>'
+        +'<span class="jj-story-more">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
+        +'</a>';
+    }).join('');
+  }
+  fetch(API + '/api/posts?limit=3&status=published')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.success && Array.isArray(d.data) && d.data.length) renderStories(d.data);
+    })
+    .catch(function(){});
 })();
 </script>
 </body>
