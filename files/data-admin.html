@@ -1696,7 +1696,7 @@ function editBanner(id) {
   document.getElementById('bOrder').value    = b.order ?? 0;
   selectedFiles['banner'] = null;
   const prev = document.getElementById('bImgPreview');
-  prev.src = API + b.image;
+  prev.src = b.image.startsWith('http') ? b.image : API + b.image;
   prev.style.display = 'block';
   document.getElementById('bImgText').textContent = 'Ảnh hiện tại (chọn ảnh mới để thay)';
   document.querySelector('#bannerOverlay .modal-title').textContent = 'Sửa Banner';
