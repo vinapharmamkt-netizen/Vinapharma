@@ -215,6 +215,18 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .jj-intro-cta:hover{background:#a81818}
 .jj-intro-img{overflow:hidden;border-radius:.5rem;aspect-ratio:4/3;background:var(--light)}
 .jj-intro-img img{width:100%;height:100%;object-fit:cover;display:block}
+/* ── Unified alternating section layout ── */
+.jj-sec{padding:3.5rem 7%;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 45%;gap:4rem;align-items:center;border-bottom:1px solid var(--border)}
+.jj-sec-rev .jj-sec-body{order:2}
+.jj-sec-rev .jj-sec-img{order:1}
+.jj-sec-img{overflow:hidden;border-radius:.5rem;aspect-ratio:4/3;background:var(--light)}
+.jj-sec-img img{width:100%;height:100%;object-fit:cover;display:block}
+.jj-sec-eyebrow{font-size:.65rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:.9rem}
+.jj-sec-heading{font-size:clamp(1.6rem,3vw,2.6rem);font-weight:900;line-height:1.15;color:#111;margin-bottom:1rem}
+.jj-sec-heading-lg{font-size:clamp(2rem,4vw,3.2rem)}
+.jj-sec-text{font-size:.95rem;color:#555;line-height:1.75;margin-bottom:1.6rem}
+.jj-sec-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.65rem 1.5rem;border-radius:2rem;font-size:.85rem;font-weight:700;text-decoration:none;transition:background .2s}
+.jj-sec-cta:hover{background:#a81818}
 .jj-challenge{position:relative;min-height:440px;overflow:hidden;background:#111;display:flex;align-items:center}
 .jj-challenge>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .jj-challenge-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
@@ -292,7 +304,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .jj-story-title{font-size:.95rem;font-weight:800;line-height:1.35;color:#111}
 .jj-story-more{display:inline-flex;align-items:center;gap:.4rem;background:var(--red);color:#fff;padding:.5rem 1.1rem;border-radius:2rem;font-size:.78rem;font-weight:700;text-decoration:none;margin-top:.6rem;transition:background .2s}
 .jj-story-more:hover{background:#a81818}
-@media(max-width:900px){.jj-intro,.jj-leaders{grid-template-columns:1fr;gap:2rem}.jj-feature,.jj-feature.reverse{grid-template-columns:1fr}.jj-feature.reverse .jj-feature-body{order:0}.jj-feature-body{padding:2.5rem 1.5rem}.jj-intro-img{display:none}.jj-people{grid-template-columns:1fr}.jj-history,.jj-story-row{grid-template-columns:1fr}.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.jj-sec,.jj-sec-rev{grid-template-columns:1fr;gap:2rem}.jj-sec-rev .jj-sec-body,.jj-sec-rev .jj-sec-img{order:unset}.jj-sec-img{aspect-ratio:16/9}.jj-intro,.jj-leaders{grid-template-columns:1fr;gap:2rem}.jj-feature,.jj-feature.reverse{grid-template-columns:1fr}.jj-feature.reverse .jj-feature-body{order:0}.jj-feature-body{padding:2.5rem 1.5rem}.jj-intro-img{display:none}.jj-people{grid-template-columns:1fr}.jj-history,.jj-story-row{grid-template-columns:1fr}.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr}.jj-challenge-text{padding:3rem 5%}.jj-history-body{padding:2rem 1.5rem}}
 </style>
 <link rel="stylesheet" href="mobile.css"/>
@@ -531,72 +543,21 @@ document.addEventListener('click', e => {
   function sImg(s,icon){
     return s.image?'<img src="'+s.image+'" alt="'+s.title+'" loading="lazy">':phImg(icon);
   }
+  var SEC_ICONS=['fa-solid fa-building','fa-solid fa-heart-pulse','fa-solid fa-capsules','fa-solid fa-user-tie','fa-solid fa-people-group','fa-solid fa-clock-rotate-left'];
   function render(sections){
     var s=sections,o='';
-    // 0 — Intro
-    if(s[0]){
-      o+='<div class="jj-intro"><div>'
-        +'<div class="jj-intro-eyebrow">'+s[0].label+'</div>'
-        +'<h1 class="jj-intro-heading">'+s[0].title+'</h1>'
-        +'<p class="jj-intro-body">'+s[0].desc+'</p>'
-        +'<a class="jj-intro-cta" href="'+s[0].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div><div class="jj-intro-img">'+sImg(s[0],'fa-solid fa-building')+'</div></div>';
-    }
-    // 1 — Challenge (full-width dark image section)
-    if(s[1]){
-      o+='<div class="jj-challenge">'
-        +(s[1].image?'<img src="'+s[1].image+'" alt="'+s[1].title+'">':'')
-        +'<div class="jj-challenge-overlay"></div>'
-        +'<div class="jj-challenge-text">'
-        +'<div class="jj-challenge-eyebrow">'+s[1].label+'</div>'
-        +'<h2 class="jj-challenge-heading">'+s[1].title+'</h2>'
-        +'<p class="jj-challenge-body">'+s[1].desc+'</p>'
-        +'<a class="jj-challenge-link" href="'+s[1].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div></div>';
-    }
-    // 2 — Feature block (image left, text right)
-    if(s[2]){
-      o+='<div class="jj-feature">'
-        +'<div class="jj-feature-img">'+sImg(s[2],'fa-solid fa-capsules')+'</div>'
-        +'<div class="jj-feature-body">'
-        +'<div class="jj-feature-eyebrow">'+s[2].label+'</div>'
-        +'<h2 class="jj-feature-heading">'+s[2].title+'</h2>'
-        +'<p class="jj-feature-body-text">'+s[2].desc+'</p>'
-        +'<a class="jj-feature-link" href="'+s[2].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div></div>';
-    }
-    // 3 — Leaders (image left, cards right)
-    if(s[3]){
-      o+='<div class="jj-leaders">'
-        +'<div class="jj-leaders-img">'+sImg(s[3],'fa-solid fa-user-tie')+'</div>'
-        +'<div>'
-        +'<div class="jj-leaders-eyebrow">'+s[3].label+'</div>'
-        +'<h2 class="jj-leaders-heading">'+s[3].title+'</h2>'
-        +'<p class="jj-leaders-sub">'+s[3].desc+'</p>'
-        +'<a class="jj-intro-cta" href="'+s[3].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div></div>';
-    }
-    // 4 — Red "Our People" banner
-    if(s[4]){
-      o+='<a class="jj-people" href="'+s[4].href+'">'
-        +'<div class="jj-people-img">'+sImg(s[4],'fa-solid fa-heart')+'</div>'
-        +'<div class="jj-people-body">'
-        +'<div class="jj-people-eyebrow">'+s[4].label+'</div>'
-        +'<div class="jj-people-heading">'+s[4].title+'</div>'
-        +'<p class="jj-people-body-text">'+s[4].desc+'</p>'
-        +'<span class="jj-people-cta">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
-        +'</div></a>';
-    }
-    // 5 — History (image left)
-    if(s[5]){
-      o+='<div class="jj-history">'
-        +'<div class="jj-history-img">'+sImg(s[5],'fa-solid fa-clock-rotate-left')+'</div>'
-        +'<div class="jj-history-body">'
-        +'<div class="jj-history-eyebrow">'+s[5].label+'</div>'
-        +'<h2 class="jj-history-heading">'+s[5].title+'</h2>'
-        +'<p class="jj-history-body-text">'+s[5].desc+'</p>'
-        +'<a class="jj-history-link" href="'+s[5].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div></div>';
+    // Sections 0-5: unified alternating layout
+    for(var i=0;i<Math.min(6,s.length);i++){
+      var item=s[i];
+      var rev=i%2===1;
+      var hTag=i===0?'h1':'h2';
+      var hCls='jj-sec-heading'+(i===0?' jj-sec-heading-lg':'');
+      o+='<div class="jj-sec'+(rev?' jj-sec-rev':'')+'"><div class="jj-sec-body">'
+        +'<div class="jj-sec-eyebrow">'+item.label+'</div>'
+        +'<'+hTag+' class="'+hCls+'">'+item.title+'</'+hTag+'>'
+        +'<p class="jj-sec-text">'+item.desc+'</p>'
+        +'<a class="jj-sec-cta" href="'+item.href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
+        +'</div><div class="jj-sec-img">'+sImg(item,SEC_ICONS[i])+'</div></div>';
     }
     // 6 — Stats "at a glance"
     if(s[6]){
