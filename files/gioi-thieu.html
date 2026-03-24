@@ -206,54 +206,89 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .mega-brand-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.6rem;padding:.2rem 0}
 .mega-brand-card{display:flex;align-items:center;justify-content:center;text-decoration:none;padding:.5rem 1.2rem;border:1.5px solid #ebebeb;border-radius:.7rem;font-size:.8rem;font-weight:700;color:#333;background:#fff;white-space:nowrap;transition:border-color .15s,color .15s,box-shadow .15s}
 .mega-brand-card:hover{border-color:var(--red);color:var(--red);box-shadow:0 2px 10px rgba(204,31,31,.1)}
-.news-hero{background:#fff;border-bottom:1px solid var(--border)}
-.news-hero-inner{display:grid;grid-template-columns:55% 1fr;max-width:1280px;margin:0 auto;min-height:400px;align-items:stretch}
-.news-hero-img{overflow:hidden;background:var(--light)}
-.news-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
-.news-hero-img-placeholder{width:100%;min-height:400px;display:flex;align-items:center;justify-content:center;font-size:5rem;background:#f5f5f5}
-.news-hero-text{padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:center}
-.news-hero-label{font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.6rem}
-.news-hero-title{font-size:clamp(1.6rem,2.5vw,2.3rem);font-weight:900;color:#111;line-height:1.2;margin-bottom:.75rem}
-.news-hero-sub{font-size:.9rem;color:#666;line-height:1.65;margin-bottom:1.4rem}
-.news-hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;font-size:.82rem;font-weight:700;padding:.55rem 1.3rem;border-radius:2rem;text-decoration:none;transition:background .2s}
-.news-hero-cta:hover{background:#a81818}
-.news-body{padding:2.5rem 4%;max-width:1280px;margin:0 auto}
-.asym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem}
-.asym-card{text-decoration:none;color:var(--dark);display:block}
-.asym-card-sm{grid-column:span 1}
-.asym-card-lg{grid-column:span 2}
-.asym-card-img{overflow:hidden;background:var(--light);margin-bottom:.85rem}
-.asym-card-sm .asym-card-img{aspect-ratio:3/4}
-.asym-card-lg .asym-card-img{aspect-ratio:16/7}
-.asym-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
-.asym-card:hover .asym-card-img img{transform:scale(1.03)}
-.asym-card-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--light)}
-.asym-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
-.asym-title{font-size:1rem;font-weight:800;line-height:1.35;margin-bottom:.5rem;color:#111}
-.asym-card-lg .asym-title{font-size:1.25rem}
-.asym-more{font-size:.78rem;font-weight:700;color:var(--red);margin-top:.4rem;display:inline-block}
-.red-banner{background:var(--red);display:grid;grid-template-columns:40% 1fr;min-height:320px;margin-bottom:3rem;text-decoration:none;color:#fff}
-.red-banner-img{overflow:hidden}
-.red-banner-img img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
-.red-banner-img-ph{width:100%;height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:rgba(0,0,0,.15)}
-.red-banner-body{padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:center}
-.red-banner-cat{font-size:.63rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.55rem}
-.red-banner-title{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;line-height:1.2;margin-bottom:.85rem}
-.red-banner-excerpt{font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:1.4rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.red-banner-arrow{width:42px;height:42px;border:2px solid rgba(255,255,255,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem}
-.more-from-heading{font-size:1.6rem;font-weight:900;margin-bottom:1.6rem;color:#111}
-.more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:2rem}
-.jcard{text-decoration:none;color:var(--dark);display:flex;flex-direction:column}
-.jcard-img{overflow:hidden;background:var(--light);aspect-ratio:16/9;margin-bottom:.85rem}
-.jcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
-.jcard:hover .jcard-img img{transform:scale(1.04)}
-.jcard-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--light)}
-.jcard-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
-.jcard-title{font-size:.95rem;font-weight:800;line-height:1.4;margin-bottom:.4rem;color:#111}
-.jcard-excerpt{font-size:.82rem;color:#666;line-height:1.6;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.jcard-more{font-size:.78rem;font-weight:700;color:var(--red)}
-@media(max-width:900px){.asym-grid{grid-template-columns:1fr 1fr}.asym-card-sm,.asym-card-lg{grid-column:span 1}.asym-card-sm .asym-card-img{aspect-ratio:16/9}.asym-card-lg .asym-card-img{aspect-ratio:16/9}.red-banner{grid-template-columns:1fr}.more-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.news-hero-inner{grid-template-columns:1fr}.news-hero-img{min-height:220px}.more-grid{grid-template-columns:1fr}}
+/* ── J&J Company Page Layout ── */
+.jj-intro{padding:3.5rem 7% 2.5rem;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:4rem;align-items:center}
+.jj-intro-eyebrow{font-size:.65rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:.9rem}
+.jj-intro-heading{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.1;color:#111;margin-bottom:1rem}
+.jj-intro-body{font-size:.95rem;color:#555;line-height:1.75;margin-bottom:1.6rem}
+.jj-intro-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.65rem 1.5rem;border-radius:.3rem;font-size:.85rem;font-weight:700;text-decoration:none;transition:background .2s}
+.jj-intro-cta:hover{background:#a81818}
+.jj-intro-img{overflow:hidden;border-radius:.5rem;aspect-ratio:4/3;background:var(--light)}
+.jj-intro-img img{width:100%;height:100%;object-fit:cover;display:block}
+.jj-challenge{position:relative;min-height:440px;overflow:hidden;background:#111;display:flex;align-items:center}
+.jj-challenge>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.jj-challenge-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
+.jj-challenge-text{position:relative;z-index:1;padding:4rem 7%;max-width:680px}
+.jj-challenge-eyebrow{font-size:.65rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.8rem}
+.jj-challenge-heading{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:1rem}
+.jj-challenge-body{font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:1.5rem;max-width:500px}
+.jj-challenge-link{display:inline-flex;align-items:center;gap:.4rem;color:#fff;font-size:.85rem;font-weight:700;text-decoration:none;border-bottom:2px solid rgba(255,255,255,.5);padding-bottom:.15rem;transition:border-color .2s}
+.jj-challenge-link:hover{border-color:#fff}
+.jj-feature{display:grid;grid-template-columns:55% 45%;min-height:380px;border-bottom:1px solid var(--border)}
+.jj-feature.reverse{grid-template-columns:45% 55%}
+.jj-feature-img{overflow:hidden;position:relative;background:var(--light)}
+.jj-feature-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.jj-feature:hover .jj-feature-img img{transform:scale(1.03)}
+.jj-feature-img-ph{width:100%;height:100%;min-height:380px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.jj-feature-body{padding:3.5rem 4.5rem;display:flex;flex-direction:column;justify-content:center}
+.jj-feature.reverse .jj-feature-body{order:-1}
+.jj-feature-eyebrow{font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.7rem}
+.jj-feature-heading{font-size:clamp(1.4rem,2.5vw,2.2rem);font-weight:900;color:#111;line-height:1.2;margin-bottom:.8rem}
+.jj-feature-body-text{font-size:.9rem;color:#555;line-height:1.75;margin-bottom:1.4rem}
+.jj-feature-link{display:inline-flex;align-items:center;gap:.45rem;color:var(--red);font-size:.84rem;font-weight:700;text-decoration:none}
+.jj-feature-link:hover{text-decoration:underline}
+.jj-leaders{padding:3.5rem 7%;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:40% 1fr;gap:4rem;align-items:start;border-bottom:1px solid var(--border)}
+.jj-leaders-img{overflow:hidden;aspect-ratio:3/4;background:var(--light)}
+.jj-leaders-img img{width:100%;height:100%;object-fit:cover;display:block}
+.jj-leaders-img-ph{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.jj-leaders-eyebrow{font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.7rem}
+.jj-leaders-heading{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:900;color:#111;margin-bottom:.6rem}
+.jj-leaders-sub{font-size:.88rem;color:#555;line-height:1.7;margin-bottom:1.8rem}
+.jj-board-card{background:var(--light);padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--dark);border-left:4px solid var(--red);transition:background .2s;margin-bottom:.8rem}
+.jj-board-card:hover{background:#fde8e8}
+.jj-board-title{font-size:.95rem;font-weight:800;margin-bottom:.2rem}
+.jj-board-sub{font-size:.78rem;color:var(--gray)}
+.jj-board-arrow{color:var(--red)}
+.jj-people{background:var(--red);display:grid;grid-template-columns:45% 1fr;min-height:320px;text-decoration:none;color:#fff}
+.jj-people-img{overflow:hidden;background:rgba(0,0,0,.15)}
+.jj-people-img img{width:100%;height:100%;object-fit:cover;display:block;opacity:.8}
+.jj-people-img-ph{width:100%;height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.jj-people-body{padding:3.5rem 3rem;display:flex;flex-direction:column;justify-content:center}
+.jj-people-eyebrow{font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.6rem}
+.jj-people-heading{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:900;line-height:1.2;margin-bottom:.9rem}
+.jj-people-body-text{font-size:.9rem;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:1.4rem}
+.jj-people-arrow{width:44px;height:44px;border:2px solid rgba(255,255,255,.65);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.jj-history{display:grid;grid-template-columns:50% 1fr;min-height:380px;background:#f7f7f7;border-bottom:1px solid var(--border)}
+.jj-history-img{overflow:hidden;background:var(--light)}
+.jj-history-img img{width:100%;height:100%;object-fit:cover;display:block}
+.jj-history-img-ph{width:100%;height:100%;min-height:380px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.jj-history-body{padding:3.5rem 3.5rem;display:flex;flex-direction:column;justify-content:center}
+.jj-history-eyebrow{font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.7rem}
+.jj-history-heading{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;color:#111;line-height:1.2;margin-bottom:.8rem}
+.jj-history-body-text{font-size:.9rem;color:#555;line-height:1.75;margin-bottom:1.4rem}
+.jj-history-link{display:inline-flex;align-items:center;gap:.45rem;color:var(--red);font-size:.84rem;font-weight:700;text-decoration:none}
+.jj-history-link:hover{text-decoration:underline}
+.jj-glance-wrap{background:#fff;border-bottom:1px solid var(--border);padding:3rem 7%}
+.jj-glance{max-width:1280px;margin:0 auto}
+.jj-glance-heading{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:900;color:#111;margin-bottom:2rem}
+.jj-glance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.jj-stat{padding:1.5rem;border:1.5px solid var(--border);border-radius:.5rem}
+.jj-stat-num{font-size:clamp(2rem,4vw,3.5rem);font-weight:900;color:var(--red);line-height:1}
+.jj-stat-label{font-size:.85rem;color:#555;line-height:1.5;margin-top:.5rem}
+.jj-stories-wrap{padding:3.5rem 7%;background:#fff}
+.jj-stories{max-width:1280px;margin:0 auto}
+.jj-stories-heading{font-size:clamp(1.4rem,2.5vw,2.2rem);font-weight:900;color:#111;margin-bottom:2rem}
+.jj-stories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.jj-story-card{text-decoration:none;color:var(--dark);display:flex;flex-direction:column}
+.jj-story-img{aspect-ratio:16/9;overflow:hidden;margin-bottom:.9rem;background:var(--light)}
+.jj-story-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.jj-story-card:hover .jj-story-img img{transform:scale(1.04)}
+.jj-story-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.jj-story-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
+.jj-story-title{font-size:.95rem;font-weight:800;line-height:1.35;color:#111}
+.jj-story-more{font-size:.78rem;font-weight:700;color:var(--red);margin-top:.4rem}
+@media(max-width:900px){.jj-intro,.jj-leaders{grid-template-columns:1fr;gap:2rem}.jj-feature,.jj-feature.reverse{grid-template-columns:1fr}.jj-feature.reverse .jj-feature-body{order:0}.jj-feature-body{padding:2.5rem 1.5rem}.jj-intro-img{display:none}.jj-people{grid-template-columns:1fr}.jj-history{grid-template-columns:1fr}.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr}.jj-challenge-text{padding:3rem 5%}.jj-history-body{padding:2rem 1.5rem}}
 </style>
 <link rel="stylesheet" href="mobile.css"/>
 </head>
@@ -351,34 +386,9 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
   </nav>
 </header>
 
-<div class="breadcrumb"><a href="index.html">Trang chủ</a><span>›</span>Giới thiệu</div>
-<div class="page-hero">
-  <div class="page-hero-label">Công ty chúng tôi</div>
-  <div class="page-hero-title">Vinapharma – Vì một Việt Nam khỏe mạnh hơn</div>
-  <div class="page-hero-sub">Khám phá câu chuyện, con người và những giá trị đằng sau thương hiệu dược phẩm được hàng triệu gia đình tin tưởng.</div>
-</div>
+<div class="breadcrumb"><a href="index.html">Trang chủ</a><span>›</span>Công ty chúng tôi</div>
 
-<div class="news-hero">
-  <div class="news-hero-inner">
-    <div class="news-hero-img" id="aboutHeroImg">
-      <div class="news-hero-img-placeholder"><i class="fa-solid fa-building" style="color:#d1d5db"></i></div>
-    </div>
-    <div class="news-hero-text">
-      <div class="news-hero-label" id="aboutHeroLabel">Công ty chúng tôi</div>
-      <div class="news-hero-title" id="aboutHeroTitle">Về VinaPharma</div>
-      <div class="news-hero-sub" id="aboutHeroDesc"></div>
-      <a class="news-hero-cta" id="aboutHeroLink" href="ve-vinapharma.html">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-  </div>
-</div>
-<div class="news-body">
-  <div class="asym-grid" id="aboutAsymGrid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div></div>
-  <a id="aboutRedBanner" class="red-banner" href="#" style="display:none"></a>
-  <div>
-    <div class="more-from-heading">Khám phá thêm</div>
-    <div class="more-grid" id="aboutMoreGrid"></div>
-  </div>
-</div>
+<div id="jjLayout"><div style="text-align:center;padding:5rem 2rem;color:#bbb;font-size:.9rem">Đang tải...</div></div>
 
 
 <footer>
@@ -510,56 +520,110 @@ document.addEventListener('click', e => {
     {href:'nhung-cau-chuyen-tao-tac-dong.html',label:'Tác động',title:'Những câu chuyện tạo tác động',desc:'Tại VinaPharma, tác động không chỉ được tạo nên từ sản phẩm hay độ phủ thị trường, mà còn được thể hiện qua những câu chuyện đồng hành cùng đối tác, nhà thuốc và cộng đồng.',image:''}
   ];
 
-  var BGCOLORS=['#f0f4ff','#fff0f5','#f0fff4','#fffdf0','#f5f0ff','#f0f9ff','#fff8f0','#f5fff0'];
-  function sImg(s,i,ph){
-    if(s.image) return '<img src="'+s.image+'" alt="'+s.title+'" loading="lazy">';
-    return '<div class="'+ph+'-ph" style="background:'+BGCOLORS[i%BGCOLORS.length]+'"><i class="fa-solid fa-building" style="color:#cc1f1f;opacity:.35;font-size:3rem"></i></div>';
+  function phImg(icon){
+    return '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;background:var(--light)"><i class="'+icon+'" style="color:#ddd"></i></div>';
   }
-  function asymCard(s,size,i){
-    return '<a class="asym-card asym-card-'+size+'" href="'+s.href+'">'
-      +'<div class="asym-card-img">'+sImg(s,i,'asym-card-img')+'</div>'
-      +'<div class="asym-cat">'+s.label+'</div>'
-      +'<div class="asym-title">'+s.title+'</div>'
-      +'<span class="asym-more">Tìm hiểu thêm →</span>'
-      +'</a>';
-  }
-  function jCard(s,i){
-    return '<a class="jcard" href="'+s.href+'">'
-      +'<div class="jcard-img">'+sImg(s,i,'jcard-img')+'</div>'
-      +'<div class="jcard-cat">'+s.label+'</div>'
-      +'<div class="jcard-title">'+s.title+'</div>'
-      +'<div class="jcard-excerpt">'+s.desc+'</div>'
-      +'<span class="jcard-more">Tìm hiểu thêm →</span>'
-      +'</a>';
+  function sImg(s,icon){
+    return s.image?'<img src="'+s.image+'" alt="'+s.title+'" loading="lazy">':phImg(icon);
   }
   function render(sections){
-    var s0=sections[0];
-    if(s0){
-      if(s0.image) document.getElementById('aboutHeroImg').innerHTML='<img src="'+s0.image+'" alt="'+s0.title+'" style="width:100%;height:100%;object-fit:cover;display:block">';
-      document.getElementById('aboutHeroLabel').textContent=s0.label;
-      document.getElementById('aboutHeroTitle').textContent=s0.title;
-      document.getElementById('aboutHeroDesc').textContent=s0.desc;
-      document.getElementById('aboutHeroLink').href=s0.href;
+    var s=sections,o='';
+    // 0 — Intro
+    if(s[0]){
+      o+='<div class="jj-intro"><div>'
+        +'<div class="jj-intro-eyebrow">'+s[0].label+'</div>'
+        +'<h1 class="jj-intro-heading">'+s[0].title+'</h1>'
+        +'<p class="jj-intro-body">'+s[0].desc+'</p>'
+        +'<a class="jj-intro-cta" href="'+s[0].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
+        +'</div><div class="jj-intro-img">'+sImg(s[0],'fa-solid fa-building')+'</div></div>';
     }
-    var ap=sections.slice(0,4),h='';
-    if(ap[0]) h+=asymCard(ap[0],'sm',0);
-    if(ap[1]) h+=asymCard(ap[1],'lg',1);
-    if(ap[2]) h+=asymCard(ap[2],'lg',2);
-    if(ap[3]) h+=asymCard(ap[3],'sm',3);
-    document.getElementById('aboutAsymGrid').innerHTML=h;
-    var s4=sections[4],banner=document.getElementById('aboutRedBanner');
-    if(s4&&banner){
-      banner.style.display='grid'; banner.href=s4.href;
-      var bImg=s4.image?'<img src="'+s4.image+'" alt="'+s4.title+'">':'<div class="red-banner-img-ph"><i class="fa-solid fa-building"></i></div>';
-      banner.innerHTML='<div class="red-banner-img">'+bImg+'</div>'
-        +'<div class="red-banner-body">'
-        +'<div class="red-banner-cat">'+s4.label+'</div>'
-        +'<div class="red-banner-title">'+s4.title+'</div>'
-        +'<div class="red-banner-excerpt">'+s4.desc+'</div>'
-        +'<div class="red-banner-arrow"><i class="fa-solid fa-arrow-right"></i></div>'
-        +'</div>';
+    // 1 — Challenge (full-width dark image section)
+    if(s[1]){
+      o+='<div class="jj-challenge">'
+        +(s[1].image?'<img src="'+s[1].image+'" alt="'+s[1].title+'">':'')
+        +'<div class="jj-challenge-overlay"></div>'
+        +'<div class="jj-challenge-text">'
+        +'<div class="jj-challenge-eyebrow">'+s[1].label+'</div>'
+        +'<h2 class="jj-challenge-heading">'+s[1].title+'</h2>'
+        +'<p class="jj-challenge-body">'+s[1].desc+'</p>'
+        +'<a class="jj-challenge-link" href="'+s[1].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
+        +'</div></div>';
     }
-    document.getElementById('aboutMoreGrid').innerHTML=sections.slice(5).map(function(s,i){return jCard(s,i+5);}).join('');
+    // 2 — Feature block (image left, text right)
+    if(s[2]){
+      o+='<div class="jj-feature">'
+        +'<div class="jj-feature-img">'+sImg(s[2],'fa-solid fa-capsules')+'</div>'
+        +'<div class="jj-feature-body">'
+        +'<div class="jj-feature-eyebrow">'+s[2].label+'</div>'
+        +'<h2 class="jj-feature-heading">'+s[2].title+'</h2>'
+        +'<p class="jj-feature-body-text">'+s[2].desc+'</p>'
+        +'<a class="jj-feature-link" href="'+s[2].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
+        +'</div></div>';
+    }
+    // 3 — Leaders (image left, cards right)
+    if(s[3]){
+      o+='<div class="jj-leaders">'
+        +'<div class="jj-leaders-img">'+sImg(s[3],'fa-solid fa-user-tie')+'</div>'
+        +'<div>'
+        +'<div class="jj-leaders-eyebrow">'+s[3].label+'</div>'
+        +'<h2 class="jj-leaders-heading">'+s[3].title+'</h2>'
+        +'<p class="jj-leaders-sub">'+s[3].desc+'</p>'
+        +'<a class="jj-board-card" href="'+s[3].href+'">'
+        +'<div><div class="jj-board-title">Xem danh sách lãnh đạo</div><div class="jj-board-sub">Ban lãnh đạo Vinapharma</div></div>'
+        +'<span class="jj-board-arrow"><i class="fa-solid fa-chevron-right"></i></span></a>'
+        +'</div></div>';
+    }
+    // 4 — Red "Our People" banner
+    if(s[4]){
+      o+='<a class="jj-people" href="'+s[4].href+'">'
+        +'<div class="jj-people-img">'+sImg(s[4],'fa-solid fa-heart')+'</div>'
+        +'<div class="jj-people-body">'
+        +'<div class="jj-people-eyebrow">'+s[4].label+'</div>'
+        +'<div class="jj-people-heading">'+s[4].title+'</div>'
+        +'<p class="jj-people-body-text">'+s[4].desc+'</p>'
+        +'<div class="jj-people-arrow"><i class="fa-solid fa-arrow-right"></i></div>'
+        +'</div></a>';
+    }
+    // 5 — History (image left)
+    if(s[5]){
+      o+='<div class="jj-history">'
+        +'<div class="jj-history-img">'+sImg(s[5],'fa-solid fa-clock-rotate-left')+'</div>'
+        +'<div class="jj-history-body">'
+        +'<div class="jj-history-eyebrow">'+s[5].label+'</div>'
+        +'<h2 class="jj-history-heading">'+s[5].title+'</h2>'
+        +'<p class="jj-history-body-text">'+s[5].desc+'</p>'
+        +'<a class="jj-history-link" href="'+s[5].href+'">Xem hành trình <i class="fa-solid fa-arrow-right"></i></a>'
+        +'</div></div>';
+    }
+    // 6 — Stats "at a glance"
+    if(s[6]){
+      o+='<div class="jj-glance-wrap"><div class="jj-glance">'
+        +'<h2 class="jj-glance-heading">'+s[6].title+'</h2>'
+        +'<div class="jj-glance-grid">'
+        +'<div class="jj-stat"><div class="jj-stat-num">2018</div><div class="jj-stat-label">Năm thành lập, xây dựng nền tảng phân phối dược phẩm chuyên nghiệp</div></div>'
+        +'<div class="jj-stat"><div class="jj-stat-num">10+</div><div class="jj-stat-label">Thương hiệu uy tín trong và ngoài nước trong danh mục phân phối</div></div>'
+        +'<div class="jj-stat"><div class="jj-stat-num">1000+</div><div class="jj-stat-label">Nhà thuốc đối tác trên toàn quốc</div></div>'
+        +'</div>'
+        +'<div style="margin-top:1.4rem"><a class="jj-feature-link" href="'+s[6].href+'">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a></div>'
+        +'</div></div>';
+    }
+    // 7 — Stories of impact
+    if(s[7]){
+      var rest=sections.slice(7);
+      o+='<div class="jj-stories-wrap"><div class="jj-stories">'
+        +'<h2 class="jj-stories-heading">'+s[7].title+'</h2>'
+        +'<div class="jj-stories-grid">'
+        +rest.map(function(item){
+          return '<a class="jj-story-card" href="'+item.href+'">'
+            +'<div class="jj-story-img">'+sImg(item,'fa-solid fa-star')+'</div>'
+            +'<div class="jj-story-cat">'+item.label+'</div>'
+            +'<div class="jj-story-title">'+item.title+'</div>'
+            +'<span class="jj-story-more">Đọc thêm →</span>'
+            +'</a>';
+        }).join('')
+        +'</div></div></div>';
+    }
+    document.getElementById('jjLayout').innerHTML=o;
   }
 
   fetch(API + '/api/settings/about-sections')

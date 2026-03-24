@@ -829,15 +829,15 @@ i.fa-solid,i.fa-regular{line-height:1}
       </div>
       <div style="width:1px;height:22px;background:#e0e0e0;flex-shrink:0"></div>
       <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:#555;flex:1;min-width:200px">
-        <i class="fa-solid fa-circle-half-stroke" style="color:#888;font-size:.7rem"></i> Bóng tối
+        <i class="fa-solid fa-square" style="color:#888;font-size:.7rem"></i> Shadow box (nền sau chữ)
         <input type="range" id="bOverlay" min="0" max="0.85" step="0.05" value="0.55"
           style="flex:1;accent-color:var(--red)" oninput="updateBannerPreview()">
         <span id="bOverlayVal" style="min-width:28px;text-align:right;color:var(--red);font-weight:700">55%</span>
       </div>
       <!-- Preview nhỏ -->
-      <div id="bPreviewBox" style="width:100%;height:52px;border-radius:.5rem;overflow:hidden;position:relative;background:#222;border:1px solid #eee;margin-top:.2rem">
-        <div id="bPreviewOverlay" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),transparent)"></div>
-        <div id="bPreviewText" style="position:absolute;inset:0;display:flex;align-items:center;padding:0 1rem;font-weight:900;font-size:.92rem;color:#fff;z-index:1;white-space:nowrap;overflow:hidden">Tiêu đề banner</div>
+      <div id="bPreviewBox" style="width:100%;height:62px;border-radius:.5rem;overflow:hidden;position:relative;background:linear-gradient(120deg,#555,#888);border:1px solid #eee;margin-top:.2rem;display:flex;align-items:center;padding:0 7%">
+        <div id="bPreviewOverlay" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.25),transparent 70%)"></div>
+        <div id="bPreviewText" style="position:relative;z-index:1;display:inline-flex;align-items:center;padding:.35rem .8rem;border-radius:.35rem;background:rgba(0,0,0,.55);font-weight:900;font-size:.82rem;color:#fff;white-space:nowrap;overflow:hidden;max-width:80%">Tiêu đề banner</div>
       </div>
     </div>
     <div class="modal-body">
@@ -2082,17 +2082,19 @@ function updateBannerPreview() {
   const color = document.getElementById('bTitleColor').value;
   const opacity = parseFloat(document.getElementById('bOverlay').value);
   document.getElementById('bOverlayVal').textContent = Math.round(opacity*100) + '%';
+  // Preview overlay fixed (mimics subtle full-image gradient)
   document.getElementById('bPreviewOverlay').style.background =
-    `linear-gradient(90deg,rgba(0,0,0,${opacity}),transparent)`;
+    'linear-gradient(90deg,rgba(0,0,0,0.25),transparent 70%)';
   const txt = document.getElementById('bPreviewText');
   txt.style.color = color;
+  txt.style.background = `rgba(0,0,0,${opacity})`;
   txt.textContent = document.getElementById('bTitle').value || 'Tiêu đề banner';
 }
 
 function openBannerModal() {
   editingBannerId = null;
   ['bTitle','bSubtitle'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('bBtn').value = 'Khám phá ngay';
+  document.getElementById('bBtn').value = '';
   document.getElementById('bLink').value = 'san-pham.html';
   document.getElementById('bTitleColor').value = '#ffffff';
   document.getElementById('bOverlay').value = 0.55;
@@ -2112,7 +2114,7 @@ function editBanner(id) {
   editingBannerId = id;
   document.getElementById('bTitle').value    = b.title || '';
   document.getElementById('bSubtitle').value = b.subtitle || '';
-  document.getElementById('bBtn').value      = b.buttonText || 'Khám phá ngay';
+  document.getElementById('bBtn').value      = b.buttonText ?? '';
   document.getElementById('bLink').value     = b.buttonLink || 'san-pham.html';
   document.getElementById('bPos').value      = b.position || 'hero';
   document.getElementById('bOrder').value    = b.order ?? 0;

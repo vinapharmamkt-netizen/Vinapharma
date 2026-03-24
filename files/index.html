@@ -607,10 +607,10 @@ async function loadHeroBanners() {
       <div class="hero-slide" style="position:relative;overflow:hidden;min-width:100%">
         <img src="${b.image&&b.image.startsWith('http')?b.image:API+b.image}" alt="${b.title}"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
-        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,${b.overlayOpacity??0.55}) 0%,rgba(0,0,0,${(b.overlayOpacity??0.55)*0.18}) 60%,transparent 100%)"></div>
-        <div class="slide-text" style="position:relative;z-index:2;padding:0 8%;max-width:60%">
-          <h1 class="slide-title" style="white-space:nowrap;font-size:clamp(1rem,3vw,2.6rem);line-height:1.1;color:${b.titleColor||'#fff'}">${b.title}</h1>
-          ${b.subtitle ? `<p class="slide-desc">${b.subtitle}</p>` : ''}
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.25) 0%,transparent 70%)"></div>
+        <div class="slide-text" style="position:relative;z-index:2;margin-left:7%;padding:1.1rem 1.6rem;background:rgba(0,0,0,${b.overlayOpacity??0});border-radius:.6rem;display:inline-flex;flex-direction:column;gap:.4rem;max-width:52%">
+          <h1 class="slide-title" style="white-space:nowrap;font-size:clamp(1rem,3vw,2.6rem);line-height:1.1;color:${b.titleColor||'#fff'};margin:0">${b.title}</h1>
+          ${b.subtitle ? `<p class="slide-desc" style="margin:0">${b.subtitle}</p>` : ''}
           ${(b.buttonText||'').trim() ? `<a href="${b.buttonLink || 'san-pham.html'}" class="slide-btn">${b.buttonText}</a>` : ''}
         </div>
       </div>`).join('');
