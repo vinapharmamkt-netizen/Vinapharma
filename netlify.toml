@@ -1,8 +1,4 @@
 [build]
   publish = "files"
 
-# BAO TRI: xoa comment de bat, them # de tat
-[[redirects]]
-  from = "/*"
-  to = "/bao-tri.html"
-  status = 200
+# Khong dung Netlify redirect cho che do bao tri trong du an nay.
