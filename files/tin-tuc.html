@@ -185,16 +185,45 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .news-hero-label{font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.6rem}
 .news-hero-title{font-size:clamp(1.6rem,2.5vw,2.3rem);font-weight:900;color:#111;line-height:1.2;margin-bottom:.75rem}
 .news-hero-sub{font-size:.9rem;color:#666;line-height:1.65}
-.news-body{padding:2rem 4%;max-width:1280px;margin:0 auto}
+.news-body{padding:2.5rem 4%;max-width:1280px;margin:0 auto}
+/* Asymmetric grid */
+.asym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem}
+.asym-card{text-decoration:none;color:var(--dark);display:block}
+.asym-card-sm{grid-column:span 1}
+.asym-card-lg{grid-column:span 2}
+.asym-card-img{overflow:hidden;background:var(--light);margin-bottom:.85rem}
+.asym-card-sm .asym-card-img{aspect-ratio:3/4}
+.asym-card-lg .asym-card-img{aspect-ratio:16/7}
+.asym-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.asym-card:hover .asym-card-img img{transform:scale(1.03)}
+.asym-card-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--light)}
+.asym-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
+.asym-title{font-size:1rem;font-weight:800;line-height:1.35;margin-bottom:.5rem;color:#111}
+.asym-card-lg .asym-title{font-size:1.25rem}
+.asym-more{font-size:.78rem;font-weight:700;color:var(--red);margin-top:.4rem;display:inline-block}
+/* Red banner */
+.red-banner{background:var(--red);display:grid;grid-template-columns:40% 1fr;min-height:320px;margin-bottom:3rem;text-decoration:none;color:#fff}
+.red-banner-img{overflow:hidden}
+.red-banner-img img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+.red-banner-img-ph{width:100%;height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:rgba(0,0,0,.15)}
+.red-banner-body{padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:center}
+.red-banner-cat{font-size:.63rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.55rem}
+.red-banner-title{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;line-height:1.2;margin-bottom:.85rem}
+.red-banner-excerpt{font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:1.4rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.red-banner-arrow{width:42px;height:42px;border:2px solid rgba(255,255,255,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem}
+/* More from */
+.more-from-heading{font-size:1.6rem;font-weight:900;margin-bottom:1.6rem;color:#111}
+.more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:2rem}
+/* jcard */
 .jcard{text-decoration:none;color:var(--dark);display:flex;flex-direction:column}
 .jcard-img{overflow:hidden;background:var(--light);aspect-ratio:16/9;margin-bottom:.85rem}
 .jcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
 .jcard:hover .jcard-img img{transform:scale(1.04)}
-.jcard-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--light)}
-.jcard-cat{font-size:.63rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
-.jcard-title{font-size:.95rem;font-weight:800;line-height:1.4;margin-bottom:.45rem;color:#111}
-.jcard-excerpt{font-size:.82rem;color:#666;line-height:1.6;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.jcard-more{font-size:.75rem;color:#aaa}
+.jcard-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--light)}
+.jcard-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
+.jcard-title{font-size:.95rem;font-weight:800;line-height:1.4;margin-bottom:.4rem;color:#111}
+.jcard-excerpt{font-size:.82rem;color:#666;line-height:1.6;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.jcard-more{font-size:.78rem;font-weight:700;color:var(--red)}
 .featured-section{margin-bottom:2.5rem}
 .featured-label,.grid-label{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
 .featured-heading,.grid-heading{font-size:1.1rem;font-weight:800;margin-bottom:1.2rem;color:var(--dark)}
@@ -250,8 +279,8 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .filter-chip.active,.filter-chip:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .empty-news{text-align:center;padding:4rem 1rem;color:#bbb}
 .empty-news .empty-icon{font-size:3rem;margin-bottom:.75rem}
-@media(max-width:900px){.news-hero-inner{grid-template-columns:1fr}.news-hero-img{display:none}.news-hero-text{padding:2rem 0}.featured-grid{grid-template-columns:1fr}.featured-card{grid-template-columns:1fr}.featured-card-img{aspect-ratio:16/9}.article-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.article-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.news-hero-inner{grid-template-columns:1fr}.news-hero-img{display:none}.news-hero-text{padding:2rem 0}.asym-grid{grid-template-columns:1fr 1fr}.asym-card-sm,.asym-card-lg{grid-column:span 1}.red-banner{grid-template-columns:1fr}.more-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.asym-grid{grid-template-columns:1fr}.asym-card-sm,.asym-card-lg{grid-column:span 1}.more-grid{grid-template-columns:1fr}}
 
 
 /* Mega menu Activlab-style */
@@ -410,14 +439,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 </div>
 
 <div class="news-body">
-  <div id="heroSection" style="display:none">
-    <div id="heroCard"></div>
+  <div id="asymSection">
+    <div class="asym-grid" id="asymGrid"></div>
   </div>
-  <div id="mediumSection" style="display:none">
-    <div class="medium-grid" id="mediumGrid"></div>
+  <a id="redBanner" class="red-banner" href="#" style="display:none"></a>
+  <div id="moreFromSection">
+    <div class="more-from-heading">Thêm từ Vinapharma</div>
+    <div class="more-grid" id="moreGrid"></div>
   </div>
-  <div class="grid-section">
-    <div class="grid-label">Tất cả bài viết</div>
+  <div class="grid-section" style="display:none">
     <div class="article-grid" id="articleGrid">
       <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div>
     </div>
@@ -518,97 +548,94 @@ function tagsHtml(tags, cls){
   return (tags||[]).map(t => '<span class="'+cls+'">'+t+'</span>').join('');
 }
 
-function renderHero(posts){
-  var sec = document.getElementById('heroSection');
-  var box = document.getElementById('heroCard');
-  var p = posts[0];
-  if(!p){ sec.style.display='none'; return; }
-  sec.style.display = 'block';
-  var heroImg = document.getElementById('newsHeroImg');
-  if(heroImg && p.thumbnail){
-    var hsrc = p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail;
-    heroImg.innerHTML = '<img src="'+hsrc+'" alt="'+p.title+'">';
-  }
-  var img = p.thumbnail
-    ? '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'"/>'
-    : '<div class="hero-card-img-placeholder" style="background:'+cc(0)+';display:flex;align-items:center;justify-content:center;font-size:5rem;min-height:340px">'+( p.icon||'<i class="fa-solid fa-newspaper" style="color:#6b7280"></i>')+'</div>';
-  box.innerHTML = '<a class="hero-card" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
-    +'<div class="hero-card-img">'+img+'</div>'
-    +'<div class="hero-card-body">'
-    +'<div>'
-    +'<div class="hero-card-cat">'+p.category+'</div>'
-    +'<div class="hero-card-title">'+p.title+'</div>'
-    +'<div class="hero-card-excerpt">'+p.excerpt+'</div>'
-    +'</div>'
-    +'<div>'
-    +'<div class="hero-card-tags">'+tagsHtml(p.tags,'tag-chip highlight')+'</div>'
-    +'<div class="hero-card-meta"><span><i class="fa-solid fa-calendar" style="color:#6b7280"></i> '+fd(p.publishedAt||p.createdAt)+'</span></div>'
-    +'</div>'
-    +'</div>'
+function aImg(p,i){
+  if(p.thumbnail) return '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'" loading="lazy">';
+  return '<div class="asym-card-img-ph" style="background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
+}
+function jImg(p,i){
+  if(p.thumbnail) return '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'" loading="lazy">';
+  return '<div class="jcard-img-ph" style="background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
+}
+function asymCard(p,size,i){
+  return '<a class="asym-card asym-card-'+size+'" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
+    +'<div class="asym-card-img">'+aImg(p,i)+'</div>'
+    +'<div class="asym-cat">'+p.category+'</div>'
+    +'<div class="asym-title">'+p.title+'</div>'
+    +'<span class="asym-more">Read more \u2192</span>'
+    +'</a>';
+}
+function jCard(p,i){
+  return '<a class="jcard" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
+    +'<div class="jcard-img">'+jImg(p,i)+'</div>'
+    +'<div class="jcard-cat">'+p.category+'</div>'
+    +'<div class="jcard-title">'+p.title+'</div>'
+    +'<div class="jcard-excerpt">'+p.excerpt+'</div>'
+    +'<span class="jcard-more">Read more \u2192</span>'
     +'</a>';
 }
 
-function renderMedium(posts){
-  var sec = document.getElementById('mediumSection');
-  var grid = document.getElementById('mediumGrid');
-  var mid = posts.slice(1,3);
-  if(!mid.length){ sec.style.display='none'; return; }
-  sec.style.display = 'block';
-  grid.innerHTML = mid.map(function(p,i){
-    var bg = 'background:'+cc(i+1);
-    var img = p.thumbnail
-      ? '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'"/>'
-      : '<div class="jcard-img-placeholder" style="'+bg+'">'+( p.icon||'<i class="fa-solid fa-newspaper" style="color:#6b7280"></i>')+'</div>';
-    return '<a class="jcard" href="tin-tuc-chi-tiet.html?id='+p._id+'">'  
-      +'<div class="jcard-img">'+img+'</div>'
-      +'<div class="jcard-cat">'+p.category+'</div>'
-      +'<div class="jcard-title">'+p.title+'</div>'
-      +'<div class="jcard-excerpt">'+p.excerpt+'</div>'
-      +'<span class="jcard-more">'+fd(p.publishedAt||p.createdAt)+' &nbsp;&middot;&nbsp; '+(p.readTime||5)+' ph\u00fat \u0111\u1ecdc</span>'
-      +'</a>';
-  }).join('');
+function renderHero(posts){
+  // top white hero: ảnh bài đầu tiên
+  var heroImg = document.getElementById('newsHeroImg');
+  var p0 = posts[0];
+  if(heroImg && p0 && p0.thumbnail){
+    var s = p0.thumbnail.startsWith('http')?p0.thumbnail:API+p0.thumbnail;
+    heroImg.innerHTML = '<img src="'+s+'" alt="'+p0.title+'" style="width:100%;height:100%;object-fit:cover;display:block">';
+  }
+  // asym grid: posts[0-3] → sm,lg / lg,sm
+  var grid = document.getElementById('asymGrid');
+  var ap = posts.slice(0,4);
+  var h = '';
+  if(ap[0]) h += asymCard(ap[0],'sm',0);
+  if(ap[1]) h += asymCard(ap[1],'lg',1);
+  if(ap[2]) h += asymCard(ap[2],'lg',2);
+  if(ap[3]) h += asymCard(ap[3],'sm',3);
+  grid.innerHTML = h;
+  // red banner: posts[4]
+  var banner = document.getElementById('redBanner');
+  var pb = posts[4];
+  if(pb && banner){
+    banner.style.display = 'grid';
+    banner.href = 'tin-tuc-chi-tiet.html?id='+pb._id;
+    var bImg = pb.thumbnail
+      ? '<img src="'+(pb.thumbnail.startsWith('http')?pb.thumbnail:API+pb.thumbnail)+'" alt="'+pb.title+'">'
+      : '<div class="red-banner-img-ph"><i class="fa-solid fa-newspaper"></i></div>';
+    banner.innerHTML = '<div class="red-banner-img">'+bImg+'</div>'
+      +'<div class="red-banner-body">'
+      +'<div class="red-banner-cat">'+pb.category+'</div>'
+      +'<div class="red-banner-title">'+pb.title+'</div>'
+      +'<div class="red-banner-excerpt">'+pb.excerpt+'</div>'
+      +'<div class="red-banner-arrow"><i class="fa-solid fa-arrow-right"></i></div>'
+      +'</div>';
+  }
+  // more from: posts[5+]
+  var moreGrid = document.getElementById('moreGrid');
+  moreGrid.innerHTML = posts.slice(5).map(function(p,i){ return jCard(p,i+5); }).join('');
 }
 
+function renderMedium(posts){ /* merged into renderHero */ }
+
 function renderGrid(posts, append){
-  var grid = document.getElementById('articleGrid');
-  // skip first 3 posts (hero + 2 medium)
-  var regular = append ? posts : posts.slice(3);
-  if(!regular.length && !append){
-    grid.innerHTML = '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Chưa có bài viết nào</p></div>';
-    return;
-  }
-  var cards = regular.map(function(p,i){
-    var img = p.thumbnail
-      ? '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'"/>'
-      : '<div class="jcard-img-placeholder" style="background:'+cc(i)+'">'+( p.icon||'<i class="fa-solid fa-newspaper" style="color:#6b7280"></i>')+'</div>';
-    return '<a class="jcard" href="tin-tuc-chi-tiet.html?id=' + p._id + '">'
-      +'<div class="jcard-img">'+img+'</div>'
-      +'<div class="jcard-cat">'+p.category+'</div>'
-      +'<div class="jcard-title">'+p.title+'</div>'
-      +'<div class="jcard-excerpt">'+p.excerpt+'</div>'
-      +'<span class="jcard-more">'+fd(p.publishedAt||p.createdAt)+' &nbsp;&middot;&nbsp; '+(p.readTime||5)+' ph\u00fat \u0111\u1ecdc</span>'
-      +'</a>';
-  }).join('');
-  if(append) grid.insertAdjacentHTML('beforeend', cards);
-  else grid.innerHTML = cards || '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Chưa có bài viết nào</p></div>';
+  if(!append) return;
+  var moreGrid = document.getElementById('moreGrid');
+  moreGrid.insertAdjacentHTML('beforeend', posts.map(function(p,i){ return jCard(p,i); }).join(''));
 }
 
 async function loadPosts(cat, pg, append){
   cat = cat || ''; pg = pg || 1; append = append || false;
-  if(!append) document.getElementById('articleGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div>';
+  if(!append) document.getElementById('asymGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">\u0110ang t\u1ea3i...</div>';
   try{
     var url = API+'/api/posts?limit='+perPage+'&page='+pg;
     if(cat) url += '&category='+encodeURIComponent(cat);
     var res = await fetch(url);
     var data = await res.json();
     if(!data.success) return;
-    if(pg===1){ renderHero(data.data); renderMedium(data.data); }
-    renderGrid(data.data, append);
+    if(pg===1){ renderHero(data.data); } else { renderGrid(data.data, true); }
     var hasMore = pg < data.totalPages;
     document.getElementById('loadMoreWrap').style.display = hasMore ? 'block' : 'none';
     page = pg;
   }catch(e){
-    document.getElementById('articleGrid').innerHTML = '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Không thể kết nối server</p></div>';
+    document.getElementById('asymGrid').innerHTML = '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Kh\u00f4ng th\u1ec3 k\u1ebft n\u1ed1i server</p></div>';
   }
 }
 
