@@ -612,21 +612,23 @@ document.addEventListener('click', e => {
         +'<div style="margin-top:1.4rem"><a class="jj-feature-link" href="'+s[6].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a></div>'
         +'</div></div>';
     }
-    // 7 — Stories of impact
+    // 7 — Stories of impact (layout kiểu jj-history)
     if(s[7]){
       var rest=sections.slice(7);
-      o+='<div class="jj-stories-wrap"><div class="jj-stories">'
+      o+='<div class="jj-stories-wrap">'
         +'<h2 class="jj-stories-heading">'+s[7].title+'</h2>'
-        +'<div class="jj-stories-grid">'
-        +rest.map(function(item){
-          return '<a class="jj-story-card" href="'+item.href+'">'
-            +'<div class="jj-story-img">'+sImg(item,'fa-solid fa-star')+'</div>'
-            +'<div class="jj-story-cat">'+item.label+'</div>'
-            +'<div class="jj-story-title">'+item.title+'</div>'
-            +'<span class="jj-story-more">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
-            +'</a>';
+        +rest.map(function(item,i){
+          var rev = i%2===1 ? ' jj-story-row-rev' : '';
+          return '<a class="jj-story-row'+rev+'" href="'+item.href+'">'
+            +'<div class="jj-history-img">'+sImg(item,'fa-solid fa-star')+'</div>'
+            +'<div class="jj-history-body">'
+            +'<div class="jj-history-eyebrow">'+item.label+'</div>'
+            +'<div class="jj-history-heading">'+item.title+'</div>'
+            +'<p class="jj-history-body-text">'+item.desc+'</p>'
+            +'<span class="jj-history-link">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
+            +'</div></a>';
         }).join('')
-        +'</div></div></div>';
+        +'</div>';
     }
     document.getElementById('jjLayout').innerHTML=o;
   }
@@ -641,34 +643,6 @@ document.addEventListener('click', e => {
     })
     .catch(function(){});
 
-  // Load bài viết thực tế vào phần "Những câu chuyện" (layout kiểu jj-history)
-  function renderStories(posts) {
-    var wrap = document.querySelector('.jj-stories-wrap');
-    if (!wrap || !posts.length) return;
-    var heading = wrap.querySelector('.jj-stories-heading');
-    var headingHtml = heading ? heading.outerHTML : '';
-    wrap.innerHTML = headingHtml + posts.map(function(p, i) {
-      var img = p.thumbnail || (p.images && p.images[0]) || '';
-      var imgHtml = img
-        ? '<img src="'+(img.startsWith('http')?img:API+img)+'" alt="'+p.title+'" loading="lazy">'
-        : '<div class="jj-history-img-ph"><i class="fa-solid fa-newspaper" style="color:#ddd"></i></div>';
-      var rev = i % 2 === 1 ? ' jj-story-row-rev' : '';
-      return '<a class="jj-story-row'+rev+'" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
-        +'<div class="jj-history-img">'+imgHtml+'</div>'
-        +'<div class="jj-history-body">'
-        +'<div class="jj-history-eyebrow">'+(p.category||'TIN TỨC')+'</div>'
-        +'<div class="jj-history-heading">'+p.title+'</div>'
-        +(p.excerpt||p.desc ? '<p class="jj-history-body-text">'+(p.excerpt||p.desc)+'</p>' : '')
-        +'<span class="jj-history-link">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
-        +'</div></a>';
-    }).join('');
-  }
-  fetch(API + '/api/posts?limit=3&status=published')
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if(d.success && Array.isArray(d.data) && d.data.length) renderStories(d.data);
-    })
-    .catch(function(){});
 })();
 </script>
 </body>
