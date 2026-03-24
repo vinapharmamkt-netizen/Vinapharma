@@ -814,13 +814,13 @@ i.fa-solid,i.fa-regular{line-height:1}
 
 <!-- ── ABOUT CONTENT EDITOR MODAL ── -->
 <div class="overlay" id="aboutEditorOverlay">
-  <div class="modal" style="max-width:780px;width:95%">
-    <div class="modal-header">
+  <div class="modal" style="max-width:780px;width:95%;display:flex;flex-direction:column;max-height:90vh">
+    <div class="modal-header" style="flex-shrink:0">
       <div class="modal-title" id="aboutEditorTitle">Chỉnh sửa nội dung</div>
       <button class="modal-close" onclick="document.getElementById('aboutEditorOverlay').classList.remove('show')">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="rich-toolbar">
+    <div style="flex-shrink:0;padding:.7rem 1.4rem;border-bottom:1px solid #f0f0f0;background:#fff">
+      <div class="rich-toolbar" style="margin-bottom:.5rem">
         <button class="rich-btn" onclick="fmt('bold')"><b>B</b></button>
         <button class="rich-btn" onclick="fmt('italic')"><i>I</i></button>
         <button class="rich-btn" onclick="fmt('underline')"><u>U</u></button>
@@ -829,15 +829,15 @@ i.fa-solid,i.fa-regular{line-height:1}
         <button class="rich-btn" onclick="fmt('insertUnorderedList')">• List</button>
         <button class="rich-btn" onclick="fmt('insertOrderedList')">1. List</button>
       </div>
-      <div class="rich-content" id="aboutEditorContent" contenteditable="true" style="min-height:320px"></div>
-      <div style="margin-top:.5rem">
-        <label class="btn btn-outline" style="font-size:.82rem;padding:.35rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem">
-          <i class="fa-solid fa-image ic-gray"></i> Thêm ảnh vào nội dung
-          <input type="file" accept="image/*" style="display:none" onchange="insertAboutImage(this)">
-        </label>
-      </div>
+      <label class="btn btn-outline" style="font-size:.82rem;padding:.35rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="saveAboutEditorRange()">
+        <i class="fa-solid fa-image ic-gray"></i> Thêm ảnh vào nội dung
+        <input type="file" accept="image/*" style="display:none" onchange="insertAboutImage(this)">
+      </label>
     </div>
-    <div class="modal-footer">
+    <div class="modal-body" style="flex:1;overflow-y:auto;padding:1.2rem 1.4rem">
+      <div class="rich-content" id="aboutEditorContent" contenteditable="true" style="min-height:320px;outline:none"></div>
+    </div>
+    <div class="modal-footer" style="flex-shrink:0">
       <button class="btn btn-outline" onclick="document.getElementById('aboutEditorOverlay').classList.remove('show')">Hủy</button>
       <button class="btn btn-red" onclick="saveAboutContent()"><i class="fa-solid fa-floppy-disk"></i> Lưu nội dung</button>
     </div>
@@ -1786,6 +1786,18 @@ async function saveAboutContent() {
   } catch(e) { showToast('Lỗi kết nối', 'error'); }
 }
 
+let aboutEditorRange = null;
+function saveAboutEditorRange() {
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) {
+    const range = sel.getRangeAt(0);
+    const editor = document.getElementById('aboutEditorContent');
+    if (editor.contains(range.commonAncestorContainer)) {
+      aboutEditorRange = range.cloneRange();
+    }
+  }
+}
+
 async function insertAboutImage(input) {
   const file = input.files[0];
   if (!file) return;
@@ -1801,8 +1813,22 @@ async function insertAboutImage(input) {
     const img = document.createElement('img');
     img.src = data.url.startsWith('http') ? data.url : API + data.url;
     img.style.cssText = 'max-width:100%;height:auto;border-radius:.4rem;margin:.5rem 0;display:block';
-    editor.appendChild(img);
-    editor.appendChild(document.createElement('br'));
+    const br = document.createElement('br');
+    if (aboutEditorRange) {
+      aboutEditorRange.deleteContents();
+      aboutEditorRange.insertNode(br);
+      aboutEditorRange.insertNode(img);
+      aboutEditorRange.setStartAfter(br);
+      aboutEditorRange.collapse(true);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(aboutEditorRange);
+      aboutEditorRange = null;
+    } else {
+      editor.appendChild(img);
+      editor.appendChild(br);
+    }
+    editor.focus();
     showToast('Đã chèn ảnh', 'success');
   } catch(e) { showToast('Lỗi upload', 'error'); }
 }
