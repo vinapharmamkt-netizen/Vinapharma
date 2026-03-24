@@ -543,51 +543,21 @@ document.addEventListener('click', e => {
   function sImg(s,icon){
     return s.image?'<img src="'+s.image+'" alt="'+s.title+'" loading="lazy">':phImg(icon);
   }
-  var SEC_ICONS=['fa-solid fa-building','fa-solid fa-heart-pulse','fa-solid fa-capsules','fa-solid fa-user-tie','fa-solid fa-people-group','fa-solid fa-clock-rotate-left'];
+  var SEC_ICONS=['fa-solid fa-building','fa-solid fa-heart-pulse','fa-solid fa-capsules','fa-solid fa-user-tie','fa-solid fa-people-group','fa-solid fa-clock-rotate-left','fa-solid fa-chart-bar','fa-solid fa-star'];
   function render(sections){
     var s=sections,o='';
-    // Sections 0-5: unified alternating layout
-    for(var i=0;i<Math.min(6,s.length);i++){
+    for(var i=0;i<s.length;i++){
       var item=s[i];
       var rev=i%2===1;
       var hTag=i===0?'h1':'h2';
       var hCls='jj-sec-heading'+(i===0?' jj-sec-heading-lg':'');
+      var icon=SEC_ICONS[i]||'fa-solid fa-circle';
       o+='<div class="jj-sec'+(rev?' jj-sec-rev':'')+'"><div class="jj-sec-body">'
         +'<div class="jj-sec-eyebrow">'+item.label+'</div>'
         +'<'+hTag+' class="'+hCls+'">'+item.title+'</'+hTag+'>'
         +'<p class="jj-sec-text">'+item.desc+'</p>'
         +'<a class="jj-sec-cta" href="'+item.href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a>'
-        +'</div><div class="jj-sec-img">'+sImg(item,SEC_ICONS[i])+'</div></div>';
-    }
-    // 6 — Stats "at a glance"
-    if(s[6]){
-      o+='<div class="jj-glance-wrap"><div class="jj-glance">'
-        +'<h2 class="jj-glance-heading">'+s[6].title+'</h2>'
-        +'<div class="jj-glance-grid">'
-        +'<div class="jj-stat"><div class="jj-stat-num">2018</div><div class="jj-stat-label">Năm thành lập, xây dựng nền tảng phân phối dược phẩm chuyên nghiệp</div></div>'
-        +'<div class="jj-stat"><div class="jj-stat-num">10+</div><div class="jj-stat-label">Thương hiệu uy tín trong và ngoài nước trong danh mục phân phối</div></div>'
-        +'<div class="jj-stat"><div class="jj-stat-num">1000+</div><div class="jj-stat-label">Nhà thuốc đối tác trên toàn quốc</div></div>'
-        +'</div>'
-        +'<div style="margin-top:1.4rem"><a class="jj-feature-link" href="'+s[6].href+'">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></a></div>'
-        +'</div></div>';
-    }
-    // 7 — Stories of impact (layout kiểu jj-history)
-    if(s[7]){
-      var rest=sections.slice(7);
-      o+='<div class="jj-stories-wrap">'
-        +'<h2 class="jj-stories-heading">'+s[7].title+'</h2>'
-        +rest.map(function(item,i){
-          var rev = i%2===1 ? ' jj-story-row-rev' : '';
-          return '<a class="jj-story-row'+rev+'" href="'+item.href+'">'
-            +(item.image ? '<div class="jj-history-img"><img src="'+item.image+'" alt="'+item.title+'" loading="lazy"></div>' : '')
-            +'<div class="jj-history-body">'
-            +'<div class="jj-history-eyebrow">'+item.label+'</div>'
-            +'<div class="jj-history-heading">'+item.title+'</div>'
-            +'<p class="jj-history-body-text">'+item.desc+'</p>'
-            +'<span class="jj-history-link">Tìm hiểu thêm <i class="fa-solid fa-arrow-right"></i></span>'
-            +'</div></a>';
-        }).join('')
-        +'</div>';
+        +'</div><div class="jj-sec-img">'+sImg(item,icon)+'</div></div>';
     }
     document.getElementById('jjLayout').innerHTML=o;
   }
