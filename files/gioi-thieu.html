@@ -620,7 +620,7 @@ document.addEventListener('click', e => {
         +rest.map(function(item,i){
           var rev = i%2===1 ? ' jj-story-row-rev' : '';
           return '<a class="jj-story-row'+rev+'" href="'+item.href+'">'
-            +'<div class="jj-history-img">'+sImg(item,'fa-solid fa-star')+'</div>'
+            +(item.image ? '<div class="jj-history-img"><img src="'+item.image+'" alt="'+item.title+'" loading="lazy"></div>' : '')
             +'<div class="jj-history-body">'
             +'<div class="jj-history-eyebrow">'+item.label+'</div>'
             +'<div class="jj-history-heading">'+item.title+'</div>'
