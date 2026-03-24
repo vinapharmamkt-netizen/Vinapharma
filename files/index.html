@@ -225,12 +225,12 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--white);color:var(-
 .hero-dots{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);display:flex;gap:.45rem;z-index:5;transition:opacity .35s ease}
 .hero-dot{width:26px;height:4px;border-radius:2px;background:rgba(255,255,255,.35);cursor:pointer;transition:background .3s,width .3s}
 .hero-dot.active{background:#fff;width:40px}
-.hero-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;background:linear-gradient(120deg,rgba(204,31,31,.96) 0%,rgba(138,16,16,.92) 100%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
+.hero-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:6;background:linear-gradient(120deg,#cc1f1f 0%,#8a1010 100%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
 .hero-loading-inner{display:flex;flex-direction:column;align-items:center;gap:.8rem;color:#fff;text-align:center}
 .hero-loading-spinner{width:42px;height:42px;border-radius:50%;border:3px solid rgba(255,255,255,.24);border-top-color:#fff;animation:heroSpin .8s linear infinite}
 .hero-loading-text{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.88)}
 .hero.is-hydrating .hero-loading{opacity:1;visibility:visible}
-.hero.is-switching .hero-slides,.hero.is-switching .hero-prev,.hero.is-switching .hero-next,.hero.is-switching .hero-dots{opacity:0}
+.hero.is-hydrating .hero-slides,.hero.is-hydrating .hero-prev,.hero.is-hydrating .hero-next,.hero.is-hydrating .hero-dots,.hero.is-switching .hero-slides,.hero.is-switching .hero-prev,.hero.is-switching .hero-next,.hero.is-switching .hero-dots{opacity:0}
 .hero.is-ready .hero-slides,.hero.is-ready .hero-prev,.hero.is-ready .hero-next,.hero.is-ready .hero-dots{opacity:1}
 @keyframes heroSpin{to{transform:rotate(360deg)}}
 .promo-banner{background:linear-gradient(120deg,#cc1f1f,#8a1010);border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:2.2rem 3.5rem;margin:0 4% 3rem;position:relative}
