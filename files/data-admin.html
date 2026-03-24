@@ -1825,13 +1825,18 @@ function renderAbout() {
       <div style="display:grid;grid-template-columns:180px 1fr;gap:1.2rem;align-items:start">
         <div>
           <div style="font-size:.72rem;color:#888;margin-bottom:.3rem;font-weight:600">ẢNH THUMBNAIL</div>
-          <div style="height:110px;background:#f5f5f5;border-radius:.5rem;overflow:hidden;margin-bottom:.4rem;display:flex;align-items:center;justify-content:center" id="aboutImgWrap_${i}">
+          <div style="width:100%;height:120px;background:#f5f5f5;border-radius:.5rem;overflow:hidden;margin-bottom:.4rem;display:flex;align-items:center;justify-content:center" id="aboutImgWrap_${i}">
             ${s.image ? `<img src="${s.image}" style="width:100%;height:100%;object-fit:cover">` : '<i class="fa-solid fa-image" style="font-size:2rem;color:#ccc"></i>'}
           </div>
-          <label class="btn btn-sm btn-outline" style="cursor:pointer;display:flex;align-items:center;gap:.3rem;justify-content:center">
-            <i class="fa-solid fa-upload"></i> Chọn ảnh
-            <input type="file" accept="image/*" style="display:none" onchange="uploadAboutImage(this,${i})">
-          </label>
+          <div style="display:flex;flex-direction:column;gap:.3rem">
+            <label class="btn btn-sm btn-outline" style="cursor:pointer;display:flex;align-items:center;gap:.3rem;justify-content:center">
+              <i class="fa-solid fa-upload"></i> Chọn ảnh
+              <input type="file" accept="image/*" style="display:none" onchange="uploadAboutImage(this,${i})">
+            </label>
+            <button class="btn btn-sm" onclick="clearAboutImage(${i})" style="background:#fff5f5;color:#cc1f1f;border:1px solid #fecaca;display:flex;align-items:center;gap:.3rem;justify-content:center">
+              <i class="fa-solid fa-trash-can"></i> Xóa ảnh
+            </button>
+          </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:.6rem">
           <div>
@@ -2031,6 +2036,14 @@ async function uploadAboutImage(input, idx) {
     showToast('Đang lưu...', 'info');
     await saveAbout(true);
   } catch(e) { showToast('Lỗi: ' + e.message, 'error'); }
+}
+
+async function clearAboutImage(idx) {
+  aboutData[idx].image = '';
+  const wrap = document.getElementById('aboutImgWrap_' + idx);
+  if (wrap) wrap.innerHTML = '<i class="fa-solid fa-image" style="font-size:2rem;color:#ccc"></i>';
+  await saveAbout(true);
+  showToast('Đã xóa ảnh', 'success');
 }
 
 async function saveAbout(silent) {
