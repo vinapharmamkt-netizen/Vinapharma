@@ -845,17 +845,34 @@ i.fa-solid,i.fa-regular{line-height:1}
       <div class="modal-title" id="aboutEditorTitle">Chỉnh sửa nội dung</div>
       <button class="modal-close" onclick="document.getElementById('aboutEditorOverlay').classList.remove('show')">✕</button>
     </div>
-    <div style="flex-shrink:0;padding:.7rem 1.4rem;border-bottom:1px solid #f0f0f0;background:#fff">
-      <div class="rich-toolbar" style="margin-bottom:.5rem">
-        <button class="rich-btn" onclick="fmt('bold')"><b>B</b></button>
-        <button class="rich-btn" onclick="fmt('italic')"><i>I</i></button>
-        <button class="rich-btn" onclick="fmt('underline')"><u>U</u></button>
-        <button class="rich-btn" onclick="fmtBlock('h2')">H2</button>
-        <button class="rich-btn" onclick="fmtBlock('h3')">H3</button>
-        <button class="rich-btn" onclick="fmt('insertUnorderedList')">• List</button>
-        <button class="rich-btn" onclick="fmt('insertOrderedList')">1. List</button>
+    <div style="flex-shrink:0;padding:.6rem 1.4rem;border-bottom:1px solid #f0f0f0;background:#fafafa">
+      <div class="rich-toolbar" style="margin-bottom:.4rem">
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('bold')" title="Đậm"><b>B</b></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('italic')" title="Nghiêng"><i>I</i></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('underline')" title="Gạch dưới"><u>U</u></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('strikeThrough')" title="Gạch ngang"><s>S</s></button>
+        <span class="rich-sep"></span>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmtBlock('p')" title="Đoạn văn thường">P</button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmtBlock('h2')" title="Tiêu đề lớn">H2</button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmtBlock('h3')" title="Tiêu đề nhỏ">H3</button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmtBlock('blockquote')" title="Trích dẫn"><i class="fa-solid fa-quote-left" style="font-size:.7rem"></i></button>
+        <span class="rich-sep"></span>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('insertUnorderedList')" title="Danh sách">• List</button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('insertOrderedList')" title="Danh sách số">1. List</button>
+        <span class="rich-sep"></span>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('justifyLeft')" title="Căn trái"><i class="fa-solid fa-align-left" style="font-size:.7rem"></i></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('justifyCenter')" title="Căn giữa"><i class="fa-solid fa-align-center" style="font-size:.7rem"></i></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('justifyRight')" title="Căn phải"><i class="fa-solid fa-align-right" style="font-size:.7rem"></i></button>
+        <span class="rich-sep"></span>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="insertAboutLink()" title="Chèn liên kết"><i class="fa-solid fa-link" style="font-size:.7rem"></i></button>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('insertHorizontalRule')" title="Đường kẻ ngang">—</button>
+        <label class="rich-btn" title="Màu chữ" style="cursor:pointer;display:inline-flex;align-items:center;gap:.2rem;font-weight:700" onmousedown="saveAboutEditorRange()">
+          <i class="fa-solid fa-font" style="font-size:.7rem"></i>
+          <input type="color" value="#cc1f1f" style="width:16px;height:16px;padding:0;border:none;cursor:pointer;border-radius:2px;vertical-align:middle" onchange="applyAboutColor(this.value)">
+        </label>
+        <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('removeFormat')" title="Xóa định dạng"><i class="fa-solid fa-eraser" style="font-size:.7rem"></i></button>
       </div>
-      <label class="btn btn-outline" style="font-size:.82rem;padding:.35rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="saveAboutEditorRange()">
+      <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="saveAboutEditorRange()">
         <i class="fa-solid fa-image ic-gray"></i> Thêm ảnh vào nội dung
         <input type="file" accept="image/*" style="display:none" onchange="insertAboutImage(this)">
       </label>
@@ -1870,6 +1887,24 @@ function saveAboutEditorRange() {
     if (editor.contains(range.commonAncestorContainer)) {
       aboutEditorRange = range.cloneRange();
     }
+  }
+}
+function applyAboutColor(color) {
+  if (aboutEditorRange) {
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(aboutEditorRange);
+    aboutEditorRange = null;
+  }
+  document.execCommand('foreColor', false, color);
+  document.getElementById('aboutEditorContent').focus();
+}
+function insertAboutLink() {
+  const url = prompt('Nhập URL liên kết:');
+  if (url) {
+    document.getElementById('aboutEditorContent').focus();
+    document.execCommand('createLink', false, url);
+    document.querySelectorAll('#aboutEditorContent a').forEach(a => { a.target = '_blank'; });
   }
 }
 
