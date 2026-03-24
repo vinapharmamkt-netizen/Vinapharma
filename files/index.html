@@ -702,7 +702,7 @@ loadPromoBanner();
       if(!grid) return;
       grid.innerHTML = data.data.map(function(p,i){
         var thumb = p.thumbnail
-          ? '<img src="'+API+p.thumbnail+'" alt="'+p.title+'"/>'
+          ? '<img src="'+(p.thumbnail.startsWith('http')?'':API)+p.thumbnail+'" alt="'+p.title+'"/>'
           : ( p.icon || '<i class="fa-solid fa-newspaper" style="color:#6b7280"></i>');
         var thumbStyle = p.thumbnail ? '' : ' style="background:'+BG[i%3]+'"';
         var tags = (p.tags||[]).slice(0,3).map(function(t){
