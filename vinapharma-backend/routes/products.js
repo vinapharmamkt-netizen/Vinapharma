@@ -9,10 +9,11 @@ const upload = createUpload('products', 20);
 // GET /api/products
 router.get('/', async (req, res) => {
   try {
-    const { brand, category, featured, search, page = 1, limit = 20 } = req.query;
+    const { brand, category, ageGroup, featured, search, page = 1, limit = 20 } = req.query;
     const filter = { active: true };
     if (brand)    filter.brand    = brand;
     if (category) filter.category = category;
+    if (ageGroup) filter.ageGroup = ageGroup;
     if (featured) filter.featured = true;
     if (search)   filter.name     = { $regex: search, $options: 'i' };
     const skip  = (page - 1) * limit;
