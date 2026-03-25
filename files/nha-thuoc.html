@@ -690,9 +690,10 @@ const PHARMACIES = [
 
 // ─── Map Init ─────────────────────────────────────────────────────────────────
 const map = L.map('map', {zoomControl: true}).setView([16.0, 106.0], 6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-  maxZoom: 19
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+  maxZoom: 19,
+  subdomains: 'abcd'
 }).addTo(map);
 
 // Custom icon
