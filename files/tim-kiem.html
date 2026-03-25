@@ -6,6 +6,7 @@
 <title>Kết quả tìm kiếm – Vinapharma</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="mobile.css"/>
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -453,6 +454,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 </div>
 
 <div class="search-results-wrap">
+  <div id="loadingState" style="text-align:center;padding:3rem 1rem;color:#9ca3af;display:none">
+    <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;color:#cc1f1f;margin-bottom:.8rem;display:block"></i>
+    <p>Đang tìm kiếm...</p>
+  </div>
   <div id="productsWrap" style="display:none">
     <div class="sr-section-title"><i class="fa-solid fa-box"></i> Sản phẩm</div>
     <div class="sr-count" id="productsCount"></div>
@@ -546,16 +551,22 @@ function imgUrl(u) {
 
 async function doSearch(query) {
   const heroTitle = document.getElementById('heroTitle');
+  const wrap = document.getElementById('loadingState');
   if (!query) {
     heroTitle.textContent = 'Nhập từ khóa để tìm kiếm';
     return;
   }
   heroTitle.innerHTML = 'Kết quả cho "<span class="sr-hero-keyword">' + escHtml(query) + '</span>"';
+  document.getElementById('loadingState').style.display = '';
   try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15000);
     const [pRes, aRes] = await Promise.all([
-      fetch(API + '/api/products?search=' + encodeURIComponent(query) + '&limit=40'),
-      fetch(API + '/api/posts?search=' + encodeURIComponent(query) + '&limit=12'),
+      fetch(API + '/api/products?search=' + encodeURIComponent(query) + '&limit=40', { signal: ctrl.signal }),
+      fetch(API + '/api/posts?search=' + encodeURIComponent(query) + '&limit=12', { signal: ctrl.signal }),
     ]);
+    clearTimeout(timer);
+    document.getElementById('loadingState').style.display = 'none';
     const [pData, aData] = await Promise.all([pRes.json(), aRes.json()]);
     const products = pData.success ? (pData.data || []) : [];
     const posts    = aData.success ? (aData.data || []) : [];
@@ -599,8 +610,14 @@ async function doSearch(query) {
       heroTitle.innerHTML = 'Không tìm thấy "<span class="sr-hero-keyword">' + escHtml(query) + '</span>"';
     }
   } catch(e) {
-    document.getElementById('emptyState').style.display = '';
-    document.getElementById('emptyState').innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i><h3>Lỗi kết nối</h3><p>Không thể kết nối server. Vui lòng thử lại.</p>';
+    document.getElementById('loadingState').style.display = 'none';
+    const es = document.getElementById('emptyState');
+    es.style.display = '';
+    if (e.name === 'AbortError') {
+      es.innerHTML = '<i class="fa-solid fa-clock" style="color:#d97706"></i><h3>Server đang khởi động</h3><p>Vui lòng đợi 30 giây rồi tải lại trang.</p>';
+    } else {
+      es.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i><h3>Lỗi kết nối</h3><p>Không thể kết nối server. Vui lòng thử lại.</p>';
+    }
   }
 }
 
