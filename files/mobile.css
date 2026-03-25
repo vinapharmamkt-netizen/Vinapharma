@@ -262,7 +262,7 @@
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: .9rem 4% !important;
+    padding: .9rem 5% !important;
     margin: 0 !important;
     cursor: pointer !important;
     user-select: none !important;
@@ -279,7 +279,7 @@
 
   .footer-col .footer-links {
     display: none !important;
-    padding: 0 4% .9rem !important;
+    padding: 0 5% 1rem !important;
     margin: 0 !important;
   }
   .footer-col.mob-open .footer-links { display: flex !important; }
@@ -295,15 +295,19 @@
 
   /* Footer spacing: khoảng cách với nội dung */
   footer { margin-top: 0 !important; border-top: 4px solid var(--red) !important; }
-  .footer-col:first-child { padding: 1.4rem 4% 1rem !important; }
+  .footer-col:first-child { padding: 1.4rem 5% 1.2rem !important; }
   .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
   .footer-desc { font-size: .72rem !important; margin-bottom: .6rem !important; }
   .social-links { gap: .4rem !important; }
 
   /* Footer contact bar: nền đen chữ trắng */
-  .footer-contact-bar { background: #111 !important; padding: 1rem 4% !important; }
-  .footer-contact-inner { flex-direction: column !important; gap: .45rem !important; align-items: flex-start !important; }
+  .footer-contact-bar { background: #111 !important; padding: 1.2rem 5% !important; }
+  .footer-contact-inner { flex-direction: column !important; gap: .55rem !important; align-items: flex-start !important; }
   .footer-contact-item { font-size: .78rem !important; color: #ddd !important; }
   .footer-contact-item a { color: #ddd !important; }
   .footer-contact-item .fci-icon { font-size: .85rem !important; }
+
+  /* Footer bottom: thêm padding */
+  .footer-bottom { padding: 1rem 5% !important; gap: .6rem !important; }
+  .footer-bottom p { font-size: .7rem !important; line-height: 1.5 !important; }
 }
