@@ -472,7 +472,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
         <button class="pd-tab active" data-acc="pdAccUses">Mô tả và hoạt động</button>
         <button class="pd-tab" data-acc="pdAccDosage">Sử dụng</button>
         <button class="pd-tab" data-acc="pdAccIngredients">Thành phần</button>
-        <button class="pd-tab" data-acc="pdAccPackaging">Cảnh báo và thông tin bổ sung</button>
+        <button class="pd-tab" data-acc="pdAccPackaging">Lưu ý và thông tin bổ sung</button>
       </div>
       <div class="pd-acc-area">
         <div class="pd-acc-item open" id="pdAccUses">
@@ -506,7 +506,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
         </div>
         <div class="pd-acc-item" id="pdAccPackaging">
           <button class="pd-acc-hdr" onclick="toggleAcc('pdAccPackaging')">
-            <span>Cảnh báo và thông tin bổ sung</span>
+            <span>Lưu ý và thông tin bổ sung</span>
             <i class="fa-solid fa-chevron-down pd-acc-chevron"></i>
           </button>
           <div class="pd-acc-body">
@@ -688,9 +688,10 @@ function renderProduct(p) {
   }
   document.getElementById('pdTabIngredients').innerHTML = ingrHtml;
 
-  // Cảnh báo panel
+  // Lưu ý panel
   var warnLines = ['Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.','Để xa tầm tay trẻ em.','Không sử dụng cho người mẫn cảm với bất kỳ thành phần nào của sản phẩm.','Không được vượt quá liều lượng khuyến cáo hàng ngày.','Đọc kỹ hướng dẫn sử dụng trước khi dùng. Thực phẩm chức năng không thể thay thế cho một chế độ ăn uống đa dạng và cân bằng.'];
-    document.getElementById('pdTabPackaging').innerHTML = warnLines.map(function(w){
+  if (p.ageGroup === 'Trẻ em') warnLines = warnLines.filter(function(w){ return w !== 'Để xa tầm tay trẻ em.'; });
+  document.getElementById('pdTabPackaging').innerHTML = warnLines.map(function(w){
     return '<li><i class="pd-warn-icon">ⓘ</i><span>' + w + '</span></li>';
   }).join('');
 
