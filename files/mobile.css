@@ -250,62 +250,44 @@
 
 /* ── FOOTER ACCORDION – mobile ───────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .footer-top { display: flex !important; flex-direction: column !important; gap: 0 !important; padding: 0 !important; }
+  footer { background: #111 !important; border-top: none !important; margin-top: 0 !important; }
+  .footer-top { display: flex !important; flex-direction: column !important; gap: 0 !important; padding: 0 !important; background: #111 !important; }
 
-  .footer-col {
-    border-bottom: 1px solid rgba(255,255,255,.08) !important;
-    padding: 0 !important;
-  }
-  .footer-col:first-child { padding: 1.2rem 4% !important; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
+  .footer-col { border-bottom: 1px solid rgba(255,255,255,.08) !important; padding: 0 !important; }
 
+  /* Cột logo: padding đều 4 phía */
+  .footer-col:first-child { padding: 1.4rem 5% 1.2rem !important; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
+  .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
+  .footer-desc { font-size: .78rem !important; margin-bottom: .7rem !important; line-height: 1.6 !important; }
+  .social-links { gap: .4rem !important; margin-bottom: .8rem !important; }
+
+  /* Tiêu đề accordion: padding lề đều */
   .footer-col h4 {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: .9rem 5% !important;
-    margin: 0 !important;
-    cursor: pointer !important;
-    user-select: none !important;
+    display: flex !important; justify-content: space-between !important;
+    align-items: center !important; padding: .9rem 5% !important;
+    margin: 0 !important; cursor: pointer !important; user-select: none !important;
   }
   .footer-col h4::after {
-    content: '\f107' !important;
-    font-family: 'Font Awesome 6 Free' !important;
-    font-weight: 900 !important;
-    font-size: .75rem !important;
-    color: #777 !important;
-    transition: transform .25s !important;
+    content: '\f107' !important; font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 900 !important; font-size: .75rem !important;
+    color: #777 !important; transition: transform .25s !important;
   }
   .footer-col.mob-open h4::after { transform: rotate(180deg) !important; }
 
-  .footer-col .footer-links {
-    display: none !important;
-    padding: 0 5% 1rem !important;
-    margin: 0 !important;
-  }
+  .footer-col .footer-links { display: none !important; padding: 0 5% 1rem !important; margin: 0 !important; }
   .footer-col.mob-open .footer-links { display: flex !important; }
+  .footer-links a { font-size: .82rem !important; }
 
-  /* Newsletter luôn hiện */
-  .footer-newsletter .footer-links { display: flex !important; }
+  /* Newsletter: padding lề đều */
+  .footer-newsletter { padding: 1rem 5% 1.2rem !important; }
+  .footer-newsletter h4 { padding: 0 0 .4rem !important; cursor: default !important; font-size: .7rem !important; }
   .footer-newsletter h4::after { display: none !important; }
+  .footer-newsletter .footer-links { display: flex !important; padding: 0 !important; }
 
-  .footer-contact-bar { padding: .8rem 4% !important; }
-  .footer-contact-inner { flex-direction: column !important; gap: .5rem !important; align-items: flex-start !important; }
-  .footer-contact-item { font-size: .72rem !important; }
-  .footer-contact-item .fci-icon { font-size: .8rem !important; }
-
-  /* Footer spacing: khoảng cách với nội dung */
-  footer { margin-top: 0 !important; border-top: none !important; padding-top: 0 !important; background: #111 !important; }
-  .footer-top { background: #111 !important; }
-  .footer-col:first-child { padding: 1.4rem 5% 1.2rem !important; }
-
-  /* Ẩn footer-contact-bar trên mobile (SĐT/email đã có ở cột đầu) */
+  /* Ẩn footer-contact-bar (SĐT/email đã có ở cột đầu) */
   .footer-contact-bar { display: none !important; }
-  .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
-  .footer-desc { font-size: .72rem !important; margin-bottom: .6rem !important; }
-  .social-links { gap: .4rem !important; }
 
-
-  /* Footer bottom: thêm padding */
-  .footer-bottom { padding: 1rem 5% !important; gap: .6rem !important; }
+  /* Footer bottom: padding lề đều */
+  .footer-bottom { padding: 1rem 5% !important; gap: .6rem !important; text-align: center !important; }
   .footer-bottom p { font-size: .7rem !important; line-height: 1.5 !important; }
 }
