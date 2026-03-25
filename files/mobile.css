@@ -136,7 +136,7 @@
   .promo-bar { font-size: .7rem; padding: .3rem .8rem; }
 
   /* ── HERO ── */
-  .hero-section { height: 220px !important; min-height: 0 !important; }
+  .hero-section, .hero { height: 220px !important; min-height: 0 !important; }
   .slide-text { padding: 0 5% !important; }
   .slide-badge { font-size: .6rem !important; }
   .slide-title { font-size: 1.35rem !important; line-height: 1.2 !important; }
@@ -200,7 +200,7 @@
   .goals-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .blog-grid { grid-template-columns: 1fr !important; }
   .footer-top { grid-template-columns: 1fr !important; }
-  .hero-section { height: 180px !important; }
+  .hero-section, .hero { height: 180px !important; }
   .slide-title { font-size: 1.05rem !important; }
   .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: .5rem !important; }
   .more-grid { grid-template-columns: 1fr !important; }
@@ -294,18 +294,15 @@
   .footer-contact-item .fci-icon { font-size: .8rem !important; }
 
   /* Footer spacing: khoảng cách với nội dung */
-  footer { margin-top: 0 !important; border-top: 4px solid var(--red) !important; }
-  .footer-col:first-child { padding: 1.4rem 5% 1.2rem !important; }
+  footer { margin-top: 0 !important; border-top: none !important; padding-top: 1.5rem !important; }
+  .footer-col:first-child { padding: 0 5% 1.2rem !important; }
+
+  /* Ẩn footer-contact-bar trên mobile (SĐT/email đã có ở cột đầu) */
+  .footer-contact-bar { display: none !important; }
   .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
   .footer-desc { font-size: .72rem !important; margin-bottom: .6rem !important; }
   .social-links { gap: .4rem !important; }
 
-  /* Footer contact bar: nền đen chữ trắng */
-  .footer-contact-bar { background: #111 !important; padding: 1.2rem 5% !important; }
-  .footer-contact-inner { flex-direction: column !important; gap: .55rem !important; align-items: flex-start !important; }
-  .footer-contact-item { font-size: .78rem !important; color: #ddd !important; }
-  .footer-contact-item a { color: #ddd !important; }
-  .footer-contact-item .fci-icon { font-size: .85rem !important; }
 
   /* Footer bottom: thêm padding */
   .footer-bottom { padding: 1rem 5% !important; gap: .6rem !important; }
