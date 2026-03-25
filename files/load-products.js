@@ -28,12 +28,12 @@
 
   async function loadAllProducts() {
     try {
-      const res = await fetch(`${API}/api/products?limit=200`);
+      const res = await fetch(`${API}/api/products?limit=500`);
       if (!res.ok) throw new Error('Lỗi tải sản phẩm');
-      
+
       const json = await res.json();
       if (!json.success) throw new Error(json.message);
-      
+
       return json.data;
     } catch (err) {
       console.error('[VP] ❌ Lỗi load products:', err.message);
