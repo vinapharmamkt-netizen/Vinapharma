@@ -147,7 +147,7 @@ router.post('/refresh', async (req, res) => {
 
 // ── POST /api/auth/logout ────────────────────────────────────
 router.post('/logout', (req, res) => {
-  res.clearCookie('vp_refresh', { httpOnly: true, sameSite: 'lax' });
+  res.clearCookie('vp_refresh', COOKIE_OPTS);
   res.json({ success: true, message: 'Đã đăng xuất' });
 });
 
