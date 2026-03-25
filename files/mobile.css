@@ -293,10 +293,17 @@
   .footer-contact-item { font-size: .72rem !important; }
   .footer-contact-item .fci-icon { font-size: .8rem !important; }
 
-  /* Footer spacing: tránh che logo */
-  footer { margin-top: 2rem !important; }
-  .footer-col:first-child { padding-bottom: 1rem !important; }
+  /* Footer spacing: khoảng cách với nội dung */
+  footer { margin-top: 0 !important; border-top: 4px solid var(--red) !important; }
+  .footer-col:first-child { padding: 1.4rem 4% 1rem !important; }
   .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
   .footer-desc { font-size: .72rem !important; margin-bottom: .6rem !important; }
   .social-links { gap: .4rem !important; }
+
+  /* Footer contact bar: nền đen chữ trắng */
+  .footer-contact-bar { background: #111 !important; padding: 1rem 4% !important; }
+  .footer-contact-inner { flex-direction: column !important; gap: .45rem !important; align-items: flex-start !important; }
+  .footer-contact-item { font-size: .78rem !important; color: #ddd !important; }
+  .footer-contact-item a { color: #ddd !important; }
+  .footer-contact-item .fci-icon { font-size: .85rem !important; }
 }
