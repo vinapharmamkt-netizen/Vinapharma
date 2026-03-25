@@ -256,7 +256,7 @@
   .footer-col { border-bottom: 1px solid rgba(255,255,255,.08) !important; padding: 0 !important; }
 
   /* Cột logo: padding đều 4 phía */
-  .footer-col:first-child { padding: 1.4rem 5% 1.2rem !important; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
+  .footer-top > div:first-child { padding: 1.4rem 5% 1.2rem !important; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
   .footer-logo img { height: 20px !important; margin-bottom: .6rem !important; }
   .footer-desc { font-size: .78rem !important; margin-bottom: .7rem !important; line-height: 1.6 !important; }
   .social-links { gap: .4rem !important; margin-bottom: .8rem !important; }
