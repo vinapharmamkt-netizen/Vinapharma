@@ -106,3 +106,22 @@
     init();
   }
 })();
+
+// ── Footer accordion on mobile ─────────────────────────────────────────────
+(function(){
+  function initFooterAccordion() {
+    if (window.innerWidth > 768) return;
+    document.querySelectorAll('.footer-col h4').forEach(function(h4) {
+      var col = h4.closest('.footer-col');
+      if (!col || col.classList.contains('footer-newsletter')) return;
+      h4.addEventListener('click', function() {
+        col.classList.toggle('mob-open');
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooterAccordion);
+  } else {
+    initFooterAccordion();
+  }
+})();
