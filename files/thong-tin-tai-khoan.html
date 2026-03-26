@@ -310,7 +310,7 @@ function renderRankTable(userType, currentRank) {
     return `<tr class="${isCur ? 'current-rank' : ''}">
       <td style="display:flex;align-items:center;gap:.4rem">${rankIconSVG(r.key,16,false)} ${r.label}${isCur ? ' ◀' : ''}</td>
       <td>${shortMoney(r.min)}</td>
-      <td>${rate}₫</td>
+      <td>${rate}₫ = 1 điểm</td>
       <td>${bonusTxt}</td>
     </tr>`;
   }).join('');
