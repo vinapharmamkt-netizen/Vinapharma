@@ -85,15 +85,21 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
     </div>
   </div>
 
-  <!-- Quà thông thường -->
-  <div class="sec-title"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Quà thông thường <span id="allCount"></span></div>
-  <div class="reward-grid" id="allRewards">
-    <div class="empty">Đang tải...</div>
+  <!-- Tabs -->
+  <div id="rewardTabs" style="display:flex;gap:0;border-bottom:2px solid #e8e8e8;margin-bottom:1.2rem">
+    <button id="tabNormal" onclick="switchRewardTab('normal')" style="padding:.6rem 1.4rem;font-size:.88rem;font-weight:800;border:none;background:none;cursor:pointer;border-bottom:3px solid #cc1f1f;color:#cc1f1f;margin-bottom:-2px"><i class="fa-solid fa-gift"></i> Đổi Thưởng</button>
+    <button id="tabVip" onclick="switchRewardTab('vip')" style="display:none;padding:.6rem 1.4rem;font-size:.88rem;font-weight:800;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;color:#6b7280;margin-bottom:-2px"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Đổi Thưởng VIP</button>
   </div>
 
-  <!-- Quà BtoB đặc biệt (chỉ hiện với BtoB) -->
-  <div id="btobSection" style="display:none">
-    <div class="sec-title"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Quà đặc biệt Quý đối tác <span id="btobCount"></span></div>
+  <!-- Đổi Thưởng (thường) -->
+  <div id="sectionNormal">
+    <div class="sec-title"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi Thưởng <span id="allCount"></span></div>
+    <div class="reward-grid" id="allRewards"><div class="empty">Đang tải...</div></div>
+  </div>
+
+  <!-- Đổi Thưởng VIP (chỉ hiện với BtoB) -->
+  <div id="sectionVip" style="display:none">
+    <div class="sec-title"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Đổi Thưởng VIP <span id="btobCount"></span></div>
     <div class="reward-grid" id="btobRewards"></div>
   </div>
 
@@ -109,10 +115,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 <script src="authClient.js"></script>
 <script src="rank-icons.js"></script>
 <script>
-const API = 'http://localhost:5000';
+const API = 'https://vinapharma-pwv2.onrender.com';
 let currentUser = null;
 let availablePoints = 0;
 
+const RANK_ORDER = ['thanh-vien','dong','bac','vang','kim-cuong'];
 const RANK_INFO = {
   'thanh-vien': { label:'Thành Viên' },
   'dong':       { label:'Đồng'       },
@@ -120,6 +127,16 @@ const RANK_INFO = {
   'vang':       { label:'Vàng'       },
   'kim-cuong':  { label:'Kim Cương'  }
 };
+
+function switchRewardTab(tab) {
+  const isVip = tab === 'vip';
+  document.getElementById('sectionNormal').style.display = isVip ? 'none' : 'block';
+  document.getElementById('sectionVip').style.display   = isVip ? 'block' : 'none';
+  document.getElementById('tabNormal').style.borderBottomColor = isVip ? 'transparent' : '#cc1f1f';
+  document.getElementById('tabNormal').style.color = isVip ? '#6b7280' : '#cc1f1f';
+  document.getElementById('tabVip').style.borderBottomColor = isVip ? '#1d4ed8' : 'transparent';
+  document.getElementById('tabVip').style.color = isVip ? '#1d4ed8' : '#6b7280';
+}
 function getPointsRate(rank) {
   if (rank === 'kim-cuong') return 9000;
   if (rank === 'vang')      return 9500;
@@ -132,24 +149,43 @@ function showToast(msg, type='') {
   setTimeout(() => t.className = 'toast', 3000);
 }
 
-function rewardCardHTML(r, canRedeem) {
-  const imgHTML = r.image
-    ? `<div class="reward-img"><img src="${API + r.image}" alt="${r.name}"/></div>`
-    : `<div class="reward-img"><i class="fa-solid fa-medal" style="color:#d97706;font-size:3rem"></i></div>`;
-  const disabled = !canRedeem || availablePoints < r.pointsRequired;
-  const disabledReason = !canRedeem ? 'Đã dùng hết điểm' : availablePoints < r.pointsRequired ? `Cần thêm ${(r.pointsRequired - availablePoints).toLocaleString('vi-VN')} điểm` : '';
-  const stockText = r.stock === -1 ? '' : r.stock === 0 ? '<div class="reward-stock"><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> Hết hàng</div>' : `<div class="reward-stock">Còn ${r.stock} phần thưởng</div>`;
+function rewardCardHTML(r) {
+  const userRank = currentUser?.rank || 'thanh-vien';
+  const userRankIdx   = RANK_ORDER.indexOf(userRank);
+  const rewardRankIdx = RANK_ORDER.indexOf(r.rankRequired || 'thanh-vien');
+  const rankOk    = userRankIdx >= rewardRankIdx;
+  const pointsOk  = availablePoints >= r.pointsRequired;
   const outOfStock = r.stock === 0;
+  const canRedeem  = rankOk && pointsOk && !outOfStock;
+
+  const imgHTML = r.image
+    ? `<div class="reward-img"><img src="${r.image.startsWith('http') ? r.image : API + r.image}" alt="${r.name}"/></div>`
+    : `<div class="reward-img"><i class="fa-solid fa-medal" style="color:#d97706;font-size:3rem"></i></div>`;
+
+  const rankBadge = r.rankRequired && r.rankRequired !== 'thanh-vien'
+    ? `<div style="display:inline-flex;align-items:center;gap:.3rem;background:${rankOk?'#fef9c3':'#fee2e2'};color:${rankOk?'#854d0e':'#dc2626'};font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;margin-bottom:.5rem"><i class="fa-solid fa-lock" style="font-size:.6rem"></i> Yêu cầu hạng ${RANK_INFO[r.rankRequired]?.label||r.rankRequired}</div>`
+    : '';
+
+  const stockText = r.stock === -1 ? '' : r.stock === 0
+    ? '<div class="reward-stock"><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> Hết hàng</div>'
+    : `<div class="reward-stock">Còn ${r.stock} phần thưởng</div>`;
+
+  let btnLabel, btnTitle = '';
+  if (outOfStock)   { btnLabel = '<i class="fa-solid fa-circle-xmark"></i> Hết hàng'; btnTitle = 'Hết hàng'; }
+  else if (!rankOk) { btnLabel = `<i class="fa-solid fa-lock"></i> Yêu cầu hạng ${RANK_INFO[r.rankRequired]?.label||r.rankRequired}`; btnTitle = 'Chưa đủ hạng'; }
+  else if (!pointsOk){ btnLabel = `<i class="fa-solid fa-circle-xmark"></i> Cần thêm ${(r.pointsRequired - availablePoints).toLocaleString('vi-VN')} điểm`; }
+  else              { btnLabel = '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi ngay'; }
+
   return `
-    <div class="reward-card${r.type === 'btob' ? ' btob-only' : ''}">
-      ${r.type === 'btob' ? '<div class="btob-badge"><i class="fa-solid fa-building" style="color:#fff"></i> Quý đối tác</div>' : ''}
+    <div class="reward-card">
       ${imgHTML}
       <div class="reward-body">
+        ${rankBadge}
         <div class="reward-name">${r.name}</div>
         <div class="reward-desc">${r.description || ''}</div>
         <div class="reward-pts">Cần <strong>${r.pointsRequired.toLocaleString('vi-VN')}</strong> điểm</div>
-        <button class="btn-redeem" ${(disabled || outOfStock) ? 'disabled' : ''} onclick="redeem('${r._id}','${r.name}',${r.pointsRequired})" title="${disabledReason}">
-          ${outOfStock ? '<i class="fa-solid fa-circle-xmark" style="color:#dc2626"></i> Hết hàng' : disabled ? '<i class="fa-solid fa-circle-xmark" style="color:#dc2626"></i> Không đủ điểm' : '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi ngay'}
+        <button class="btn-redeem" ${!canRedeem ? 'disabled' : ''} onclick="redeem('${r._id}','${r.name}',${r.pointsRequired})" title="${btnTitle}">
+          ${btnLabel}
         </button>
         ${stockText}
       </div>
@@ -164,24 +200,23 @@ async function loadRewards() {
     const rewards = data.data;
     const isBtoB  = currentUser?.userType === 'btob';
 
-    const allList  = rewards.filter(r => r.type === 'all');
-    const btobList = rewards.filter(r => r.type === 'btob');
+    const normalList = rewards.filter(r => r.type === 'all');
+    const vipList    = rewards.filter(r => r.type === 'btob');
 
     const allDiv  = document.getElementById('allRewards');
     const btobDiv = document.getElementById('btobRewards');
 
-    document.getElementById('allCount').textContent = allList.length + ' quà';
+    document.getElementById('allCount').textContent = normalList.length + ' quà';
+    allDiv.innerHTML = normalList.length
+      ? normalList.map(r => rewardCardHTML(r)).join('')
+      : '<div class="empty">Chưa có phần thưởng nào</div>';
 
-    if (allList.length) {
-      allDiv.innerHTML = allList.map(r => rewardCardHTML(r, true)).join('');
-    } else {
-      allDiv.innerHTML = '<div class="empty">Chưa có phần thưởng nào</div>';
-    }
-
-    if (isBtoB && btobList.length) {
-      document.getElementById('btobSection').style.display = 'block';
-      document.getElementById('btobCount').textContent = btobList.length + ' quà';
-      btobDiv.innerHTML = btobList.map(r => rewardCardHTML(r, true)).join('');
+    if (isBtoB) {
+      document.getElementById('tabVip').style.display = 'inline-block';
+      document.getElementById('btobCount').textContent = vipList.length + ' quà';
+      btobDiv.innerHTML = vipList.length
+        ? vipList.map(r => rewardCardHTML(r)).join('')
+        : '<div class="empty">Chưa có phần thưởng VIP nào</div>';
     }
   } catch(e) { console.error(e); }
 }

@@ -31,12 +31,13 @@ router.get('/admin', protect, adminOnly, async (req, res) => {
 // POST create reward (admin)
 router.post('/', protect, adminOnly, upload.single('image'), async (req, res) => {
   try {
-    const { name, description, pointsRequired, type, stock, active, order } = req.body;
+    const { name, description, pointsRequired, type, rankRequired, stock, active, order } = req.body;
     const image = req.file ? req.file.path : (req.body.image || '');
     const reward = await Reward.create({
       name, description,
       pointsRequired: Number(pointsRequired),
       type: type || 'all',
+      rankRequired: rankRequired || 'thanh-vien',
       stock: stock !== undefined ? Number(stock) : -1,
       active: active !== 'false',
       order:  Number(order) || 0,
@@ -49,11 +50,12 @@ router.post('/', protect, adminOnly, upload.single('image'), async (req, res) =>
 // PUT update reward (admin)
 router.put('/:id', protect, adminOnly, upload.single('image'), async (req, res) => {
   try {
-    const { name, description, pointsRequired, type, stock, active, order } = req.body;
+    const { name, description, pointsRequired, type, rankRequired, stock, active, order } = req.body;
     const updates = {
       name, description,
       pointsRequired: Number(pointsRequired),
       type: type || 'all',
+      rankRequired: rankRequired || 'thanh-vien',
       stock: stock !== undefined ? Number(stock) : -1,
       active: active !== 'false',
       order:  Number(order) || 0

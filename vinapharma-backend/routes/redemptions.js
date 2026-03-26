@@ -19,6 +19,13 @@ router.post('/', protect, async (req, res) => {
     if (reward.type === 'btob' && user.userType !== 'btob')
       return res.status(403).json({ success: false, message: 'Quà này chỉ dành cho khách BtoB' });
 
+    // Kiểm tra rank yêu cầu
+    const RANK_ORDER = ['thanh-vien','dong','bac','vang','kim-cuong'];
+    const userRankIdx   = RANK_ORDER.indexOf(user.rank || 'thanh-vien');
+    const rewardRankIdx = RANK_ORDER.indexOf(reward.rankRequired || 'thanh-vien');
+    if (userRankIdx < rewardRankIdx)
+      return res.status(403).json({ success: false, message: `Quà này yêu cầu hạng ${reward.rankRequired}` });
+
     // Tính điểm khả dụng
     const available = Math.floor((user.totalSpent || 0) / 10000) - (user.redeemedPoints || 0);
     if (available < reward.pointsRequired)
