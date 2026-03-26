@@ -320,7 +320,7 @@ function renderRankTable(userType, currentRank) {
   const tbl = document.getElementById('rankTable');
   tbl.style.display = 'block';
   tbl.innerHTML = `
-    <div class="rt-header"><i class="fa-solid fa-chart-bar" style="color:#cc1f1f"></i> Bảng hạng thành viên</div>
+    <div class="rt-header"><i class="fa-solid fa-chart-bar" style="color:#cc1f1f"></i> Bảng hạng thành viên <span style="font-size:.7rem;font-weight:400;color:#888;margin-left:.4rem">10.000 ₫ = 1 điểm</span></div>
     <table class="rank-table">
       <thead><tr><th>Hạng</th><th>Chi tiêu</th><th>Tỷ lệ</th><th>Bonus</th></tr></thead>
       <tbody>${rows}</tbody>
