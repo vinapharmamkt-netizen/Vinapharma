@@ -7,8 +7,8 @@ const { computeRank, getPointsRate, RANK_ORDER, BTOB_BONUS } = require('../utils
 
 // Sau khi tạo/cập nhật công nợ → tính lại totalSpent, rank và bonusPoints cho user BtoB
 async function syncUserSpent(userId) {
-  const paidDebts = await Debt.find({ user: userId, status: 'paid' });
-  const total = paidDebts.reduce((s, d) => s + (d.amount || 0), 0);
+  const allDebts = await Debt.find({ user: userId });
+  const total = allDebts.reduce((s, d) => s + (d.amount || 0), 0);
 
   const user = await User.findById(userId);
   if (!user) return;
