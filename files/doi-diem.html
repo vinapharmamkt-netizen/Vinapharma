@@ -41,7 +41,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 /* Points sort */
 .pts-sort{display:flex;align-items:center;gap:.5rem;margin-bottom:1.1rem}
 .pts-sort span{font-size:.78rem;font-weight:700;color:#555}
-.sort-btn{display:flex;align-items:center;gap:.35rem;padding:.3rem .85rem;border-radius:999px;border:1.5px solid #e0e0e0;background:#fff;font-family:inherit;font-size:.77rem;font-weight:700;cursor:pointer;transition:.15s;color:#555}
+.sort-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:.15s;color:#555}
 .sort-btn:hover{border-color:var(--red);color:var(--red)}
 .sort-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
 .reward-body{padding:1rem}
@@ -109,11 +109,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
   <!-- Đổi Thưởng (thường) -->
   <div id="sectionNormal">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-      <div class="sec-title" style="margin-bottom:0"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi Thưởng <span id="allCount"></span></div>
+      <div class="sec-title" style="margin-bottom:0"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi Thưởng</div>
       <div class="pts-sort">
         <span>Sắp xếp:</span>
-        <button class="sort-btn active" id="sortNormalAsc" onclick="sortRewards('normal','asc')">&#8593; Điểm thấp</button>
-        <button class="sort-btn" id="sortNormalDesc" onclick="sortRewards('normal','desc')">&#8595; Điểm cao</button>
+        <button class="sort-btn active" id="sortNormalAsc" onclick="sortRewards('normal','asc')" title="Điểm thấp đến cao">&#8593;</button>
+        <button class="sort-btn" id="sortNormalDesc" onclick="sortRewards('normal','desc')" title="Điểm cao đến thấp">&#8595;</button>
       </div>
     </div>
     <div class="reward-grid" id="allRewards"><div class="empty">Đang tải...</div></div>
@@ -122,11 +122,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
   <!-- Đổi Thưởng VIP (chỉ hiện với BtoB) -->
   <div id="sectionVip" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-      <div class="sec-title" style="margin-bottom:0"><i class="fa-solid fa-crown" style="color:#1d4ed8"></i> Đổi Thưởng VIP <span id="btobCount"></span></div>
+      <div class="sec-title" style="margin-bottom:0"><i class="fa-solid fa-crown" style="color:#1d4ed8"></i> Đổi Thưởng VIP</div>
       <div class="pts-sort">
         <span>Sắp xếp:</span>
-        <button class="sort-btn active" id="sortVipAsc" onclick="sortRewards('vip','asc')">&#8593; Điểm thấp</button>
-        <button class="sort-btn" id="sortVipDesc" onclick="sortRewards('vip','desc')">&#8595; Điểm cao</button>
+        <button class="sort-btn active" id="sortVipAsc" onclick="sortRewards('vip','asc')" title="Điểm thấp đến cao">&#8593;</button>
+        <button class="sort-btn" id="sortVipDesc" onclick="sortRewards('vip','desc')" title="Điểm cao đến thấp">&#8595;</button>
       </div>
     </div>
     <div class="reward-grid" id="btobRewards"></div>
@@ -240,14 +240,12 @@ async function loadRewards() {
     const allDiv  = document.getElementById('allRewards');
     const btobDiv = document.getElementById('btobRewards');
 
-    document.getElementById('allCount').textContent = normalList.length + ' quà';
     allDiv.innerHTML = normalList.length
       ? normalList.map(r => rewardCardHTML(r)).join('')
       : '<div class="empty">Chưa có phần thưởng nào</div>';
 
     if (isBtoB) {
       document.getElementById('tabVip').style.display = 'inline-block';
-      document.getElementById('btobCount').textContent = vipList.length + ' quà';
       btobDiv.innerHTML = vipList.length
         ? vipList.map(r => rewardCardHTML(r)).join('')
         : '<div class="empty">Chưa có phần thưởng VIP nào</div>';
