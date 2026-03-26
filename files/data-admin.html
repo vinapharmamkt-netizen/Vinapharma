@@ -1071,9 +1071,10 @@ async function insertContentImage(input, editorId) {
   const editor = document.getElementById(editorId);
   try {
     const token = AuthClient.getToken();
+    showToast('Đang xử lý ảnh...', 'info');
+    const compressed = await compressImage(file, 1600, 0.82);
     const fd = new FormData();
-    fd.append('image', file);
-    showToast('Đang upload...', 'info');
+    fd.append('image', compressed, file.name.replace(/\.[^.]+$/, '.jpg'));
     const res = await fetch(`${API}/api/posts/upload-image`, {
       method: 'POST',
       headers: token ? { 'Authorization': 'Bearer ' + token } : {},
@@ -2020,9 +2021,10 @@ async function insertAboutImage(input) {
   const file = input.files[0];
   if (!file) return;
   input.value = '';
+  showToast('Đang xử lý ảnh...', 'info');
+  const compressed = await compressImage(file, 1600, 0.82);
   const fd = new FormData();
-  fd.append('image', file);
-  showToast('Đang upload...', 'info');
+  fd.append('image', compressed, file.name.replace(/\.[^.]+$/, '.jpg'));
   try {
     const token = AuthClient.getToken();
     const res = await fetch(API + '/api/settings/upload-image', {
@@ -2057,10 +2059,34 @@ async function insertAboutImage(input) {
   } catch(e) { showToast('Lỗi upload', 'error'); }
 }
 
+// ── Nén ảnh client-side trước khi upload (Canvas API) ──
+function compressImage(file, maxW, quality) {
+  return new Promise(function(resolve) {
+    // Nếu không phải ảnh thì bỏ qua nén
+    if (!file.type.startsWith('image/')) { resolve(file); return; }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = function() {
+      URL.revokeObjectURL(url);
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(function(blob) {
+        resolve(blob || file);
+      }, 'image/jpeg', quality);
+    };
+    img.onerror = function() { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 // ── Upload helper dùng chung ──
 async function uploadOneImage(file) {
+  const compressed = await compressImage(file, 1600, 0.82);
   const fd = new FormData();
-  fd.append('image', file);
+  fd.append('image', compressed, file.name.replace(/\.[^.]+$/, '.jpg'));
   const token = AuthClient.getToken();
   const res = await fetch(API + '/api/settings/upload-image', {
     method: 'POST',
