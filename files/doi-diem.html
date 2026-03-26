@@ -31,13 +31,19 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 .sec-title span{background:#fff;border:1px solid #e8e8e8;border-radius:999px;padding:.15rem .65rem;font-size:.72rem;font-weight:700;color:#666}
 
 /* Reward grid */
-.reward-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2rem}
+.reward-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin-bottom:2rem}
 .reward-card{background:#fff;border-radius:.8rem;border:1px solid #e8e8e8;overflow:hidden;transition:.2s;position:relative}
 .reward-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-2px)}
 .reward-card.btob-only{border-color:#3b82f6}
 .btob-badge{position:absolute;top:.6rem;right:.6rem;background:#3b82f6;color:#fff;font-size:.6rem;font-weight:800;padding:.2rem .5rem;border-radius:999px}
-.reward-img{width:100%;height:140px;object-fit:cover;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:3rem}
-.reward-img img{width:100%;height:100%;object-fit:cover}
+.reward-img{width:100%;aspect-ratio:1/1;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden}
+.reward-img img{width:100%;height:100%;object-fit:cover;display:block}
+/* Points filter */
+.pts-filter{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.pts-filter span{font-size:.78rem;font-weight:700;color:#555}
+.pts-btn{padding:.3rem .85rem;border-radius:999px;border:1.5px solid #e0e0e0;background:#fff;font-family:inherit;font-size:.77rem;font-weight:700;cursor:pointer;transition:.15s;color:#555}
+.pts-btn:hover{border-color:var(--red);color:var(--red)}
+.pts-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
 .reward-body{padding:1rem}
 .reward-name{font-size:.88rem;font-weight:800;margin-bottom:.3rem}
 .reward-desc{font-size:.75rem;color:#888;margin-bottom:.8rem;line-height:1.4}
@@ -94,12 +100,30 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
   <!-- Đổi Thưởng (thường) -->
   <div id="sectionNormal">
     <div class="sec-title"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi Thưởng <span id="allCount"></span></div>
+    <div class="pts-filter" id="filterNormal">
+      <span>Lọc điểm:</span>
+      <button class="pts-btn active" onclick="applyFilter('normal',0)" data-max="0">Tất cả</button>
+      <button class="pts-btn" onclick="applyFilter('normal',500)" data-max="500">≤ 500</button>
+      <button class="pts-btn" onclick="applyFilter('normal',1000)" data-max="1000">≤ 1.000</button>
+      <button class="pts-btn" onclick="applyFilter('normal',2000)" data-max="2000">≤ 2.000</button>
+      <button class="pts-btn" onclick="applyFilter('normal',3000)" data-max="3.000">≤ 3.000</button>
+      <button class="pts-btn" onclick="applyFilter('normal',99999)" data-max="99999">&gt; 3.000</button>
+    </div>
     <div class="reward-grid" id="allRewards"><div class="empty">Đang tải...</div></div>
   </div>
 
   <!-- Đổi Thưởng VIP (chỉ hiện với BtoB) -->
   <div id="sectionVip" style="display:none">
     <div class="sec-title"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Đổi Thưởng VIP <span id="btobCount"></span></div>
+    <div class="pts-filter" id="filterVip">
+      <span>Lọc điểm:</span>
+      <button class="pts-btn active" onclick="applyFilter('vip',0)" data-max="0">Tất cả</button>
+      <button class="pts-btn" onclick="applyFilter('vip',500)" data-max="500">≤ 500</button>
+      <button class="pts-btn" onclick="applyFilter('vip',1000)" data-max="1000">≤ 1.000</button>
+      <button class="pts-btn" onclick="applyFilter('vip',2000)" data-max="2000">≤ 2.000</button>
+      <button class="pts-btn" onclick="applyFilter('vip',3000)" data-max="3000">≤ 3.000</button>
+      <button class="pts-btn" onclick="applyFilter('vip',99999)" data-max="99999">&gt; 3.000</button>
+    </div>
     <div class="reward-grid" id="btobRewards"></div>
   </div>
 
@@ -118,6 +142,23 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#f5f5f5;color:#111;min-h
 const API = 'https://vinapharma-pwv2.onrender.com';
 let currentUser = null;
 let availablePoints = 0;
+let _normalList = [];
+let _vipList = [];
+
+function applyFilter(tab, max) {
+  const list = tab === 'vip' ? _vipList : _normalList;
+  const gridId = tab === 'vip' ? 'btobRewards' : 'allRewards';
+  const filterId = tab === 'vip' ? 'filterVip' : 'filterNormal';
+  // highlight active btn
+  document.querySelectorAll('#' + filterId + ' .pts-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  let filtered;
+  if (max === 0) { filtered = list; }
+  else if (max === 99999) { filtered = list.filter(function(r){ return r.pointsRequired > 3000; }); }
+  else { filtered = list.filter(function(r){ return r.pointsRequired <= max; }); }
+  const div = document.getElementById(gridId);
+  div.innerHTML = filtered.length ? filtered.map(rewardCardHTML).join('') : '<div class="empty">Không có phần thưởng trong khoảng điểm này</div>';
+}
 
 const RANK_ORDER = ['thanh-vien','dong','bac','vang','kim-cuong'];
 const RANK_INFO = {
@@ -190,8 +231,10 @@ async function loadRewards() {
     const rewards = data.data;
     const isBtoB  = currentUser?.userType === 'btob';
 
-    const normalList = rewards.filter(r => r.type === 'all');
-    const vipList    = rewards.filter(r => r.type === 'btob');
+    _normalList = rewards.filter(r => r.type === 'all');
+    _vipList    = rewards.filter(r => r.type === 'btob');
+    const normalList = _normalList;
+    const vipList    = _vipList;
 
     const allDiv  = document.getElementById('allRewards');
     const btobDiv = document.getElementById('btobRewards');
