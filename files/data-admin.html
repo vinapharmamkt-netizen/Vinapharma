@@ -661,10 +661,28 @@ i.fa-solid,i.fa-regular{line-height:1}
         </label>
         <button class="rich-btn" onmousedown="event.preventDefault()" onclick="fmt('removeFormat')" title="Xóa định dạng"><i class="fa-solid fa-eraser" style="font-size:.7rem"></i></button>
       </div>
-      <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" onclick="event.stopPropagation()">
-        <i class="fa-solid fa-image ic-gray"></i> Thêm ảnh vào nội dung
-        <input type="file" id="postContentImgInput" accept="image/*" style="display:none" onchange="insertContentImage(this,'postContent')">
-      </label>
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+        <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" onclick="event.stopPropagation()">
+          <i class="fa-solid fa-image ic-gray"></i> 1 ảnh
+          <input type="file" id="postContentImgInput" accept="image/*" style="display:none" onchange="insertContentImage(this,'postContent')">
+        </label>
+        <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" title="Chèn lưới 2 ảnh">
+          <i class="fa-solid fa-table-columns ic-gray"></i> Grid 2
+          <input type="file" accept="image/*" multiple style="display:none" onchange="insertContentImageGrid(this,'postContent',2)">
+        </label>
+        <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" title="Chèn lưới 3 ảnh">
+          <i class="fa-solid fa-border-all ic-gray"></i> Grid 3
+          <input type="file" accept="image/*" multiple style="display:none" onchange="insertContentImageGrid(this,'postContent',3)">
+        </label>
+        <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" title="Chèn lưới 4 ảnh">
+          <i class="fa-solid fa-grip ic-gray"></i> Grid 4
+          <input type="file" accept="image/*" multiple style="display:none" onchange="insertContentImageGrid(this,'postContent',4)">
+        </label>
+        <label class="btn btn-outline" style="font-size:.82rem;padding:.3rem .85rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem" onmousedown="savePostEditorRange()" title="Chọn nhiều ảnh, tự xếp theo số lượng">
+          <i class="fa-solid fa-images ic-gray"></i> Multi (tự xếp)
+          <input type="file" accept="image/*" multiple style="display:none" onchange="insertContentImageAuto(this,'postContent')">
+        </label>
+      </div>
     </div>
     <div class="modal-body" style="flex:1;overflow-y:auto;padding:1.2rem 1.4rem">
       <input type="hidden" id="postId"/>
@@ -1106,6 +1124,81 @@ async function insertContentImage(input, editorId) {
     showToast('Đã chèn ảnh', 'success');
   } catch(e) { showToast('Lỗi upload ảnh', 'error'); }
 }
+
+// ── Upload 1 ảnh qua endpoint posts (dùng cho grid bài viết) ──
+async function uploadOnePostImage(file) {
+  const compressed = await compressImage(file, 1600, 0.82);
+  const fd = new FormData();
+  fd.append('image', compressed, file.name.replace(/\.[^.]+$/, '.jpg'));
+  const token = AuthClient.getToken();
+  const res = await fetch(`${API}/api/posts/upload-image`, {
+    method: 'POST',
+    headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+    credentials: 'include',
+    body: fd
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.message || 'Upload thất bại');
+  return data.url.startsWith('http') ? data.url : API + data.url;
+}
+
+async function insertContentImageGrid(input, editorId, cols) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  input.value = '';
+  showToast(`Đang upload ${files.length} ảnh...`, 'info');
+  try {
+    const urls = [];
+    for (const f of files) urls.push(await uploadOnePostImage(f));
+    const editor = document.getElementById(editorId);
+    const grid = document.createElement('div');
+    grid.style.cssText = `display:grid;grid-template-columns:repeat(${cols},1fr);gap:.7rem;margin:1.2rem 0`;
+    urls.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.style.cssText = 'width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.5rem;display:block';
+      grid.appendChild(img);
+    });
+    editor.appendChild(grid);
+    editor.appendChild(document.createElement('br'));
+    editor.focus();
+    showToast(`Đã chèn grid ${cols} cột (${urls.length} ảnh)`, 'success');
+  } catch(e) { showToast('Lỗi upload: ' + e.message, 'error'); }
+}
+
+async function insertContentImageAuto(input, editorId) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  input.value = '';
+  showToast(`Đang upload ${files.length} ảnh...`, 'info');
+  try {
+    const urls = [];
+    for (const f of files) urls.push(await uploadOnePostImage(f));
+    const n = urls.length;
+    const cols = n === 1 ? 1 : n === 2 ? 2 : n <= 4 ? 2 : n <= 6 ? 3 : 4;
+    const editor = document.getElementById(editorId);
+    if (n === 1) {
+      const img = document.createElement('img');
+      img.src = urls[0];
+      img.style.cssText = 'width:100%;border-radius:.7rem;margin:1.2rem 0;display:block';
+      editor.appendChild(img);
+    } else {
+      const grid = document.createElement('div');
+      grid.style.cssText = `display:grid;grid-template-columns:repeat(${cols},1fr);gap:.7rem;margin:1.2rem 0`;
+      urls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.style.cssText = 'width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.5rem;display:block';
+        grid.appendChild(img);
+      });
+      editor.appendChild(grid);
+    }
+    editor.appendChild(document.createElement('br'));
+    editor.focus();
+    showToast(`Đã chèn ${n} ảnh (${cols} cột)`, 'success');
+  } catch(e) { showToast('Lỗi upload: ' + e.message, 'error'); }
+}
+
 const formatPrice = p => new Intl.NumberFormat('vi-VN').format(p) + ' ₫';
 const formatDate = d => new Date(d).toLocaleDateString('vi-VN');
 
