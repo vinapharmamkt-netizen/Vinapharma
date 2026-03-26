@@ -25,7 +25,12 @@ router.get('/', async (req, res) => {
     const filter = { published: true };
     if (category) filter.category = category;
     if (featured === 'true') filter.featured = true;
-    if (search) filter.title = { $regex: search, $options: 'i' };
+    if (search) filter.$or = [
+      { title:   { $regex: search, $options: 'i' } },
+      { summary: { $regex: search, $options: 'i' } },
+      { tags:    { $regex: search, $options: 'i' } },
+      { content: { $regex: search, $options: 'i' } },
+    ];
     const skip = (page - 1) * limit;
     const total = await Post.countDocuments(filter);
     const posts = await Post.find(filter)

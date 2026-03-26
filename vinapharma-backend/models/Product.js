@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Vui lòng chọn danh mục'],
     enum: [
       'Tăng đề kháng', 'Xương khớp', 'Tim mạch', 'Làm đẹp',
-      'Giảm cân', 'Tăng cơ', 'Trí não', 'Giấc ngủ', 'Detox',
+      'Sinh lý', 'Trí não', 'Giấc ngủ', 'Detox',
       'Vitamin', 'Khoáng chất', 'Omega', 'Probiotics', 'Khác'
     ]
   },

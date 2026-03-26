@@ -15,7 +15,14 @@ router.get('/', async (req, res) => {
     if (category) filter.category = category;
     if (ageGroup) filter.ageGroup = ageGroup;
     if (featured) filter.featured = true;
-    if (search)   filter.name     = { $regex: search, $options: 'i' };
+    if (search)   filter.$or = [
+      { name:        { $regex: search, $options: 'i' } },
+      { brandName:   { $regex: search, $options: 'i' } },
+      { category:    { $regex: search, $options: 'i' } },
+      { description: { $regex: search, $options: 'i' } },
+      { uses:        { $regex: search, $options: 'i' } },
+      { ingredients: { $regex: search, $options: 'i' } },
+    ];
     const skip  = (page - 1) * limit;
     const total = await Product.countDocuments(filter);
     const products = await Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(Number(limit));
