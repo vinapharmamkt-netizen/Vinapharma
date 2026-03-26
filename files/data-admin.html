@@ -488,8 +488,8 @@ i.fa-solid,i.fa-regular{line-height:1}
             <div class="section-title"><i class="fa-solid fa-medal ic-amber"></i> Quản lý phần thưởng</div>
             <button class="btn btn-red btn-sm" onclick="openRewardModal()">+ Thêm phần thưởng</button>
           </div>
-          <table><thead><tr><th>Ảnh</th><th>Tên phần thưởng</th><th>Điểm cần</th><th>Loại</th><th>Hạng yêu cầu</th><th>Kho</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-          <tbody id="rewardTable"><tr><td colspan="8" class="empty-state">Đang tải...</td></tr></tbody></table>
+          <table><thead><tr><th>Ảnh</th><th>Tên phần thưởng</th><th>Điểm cần</th><th>Loại</th><th>Kho</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+          <tbody id="rewardTable"><tr><td colspan="7" class="empty-state">Đang tải...</td></tr></tbody></table>
         </div>
       </div>
 
@@ -725,15 +725,6 @@ i.fa-solid,i.fa-regular{line-height:1}
           <select id="rwType">
             <option value="all">Tất cả khách hàng (Đổi Thưởng)</option>
             <option value="btob">Chỉ Quý đối tác (Đổi Thưởng VIP)</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Hạng tối thiểu</label>
-          <select id="rwRank">
-            <option value="thanh-vien">Thành Viên (mặc định)</option>
-            <option value="dong">Đồng</option>
-            <option value="bac">Bạc</option>
-            <option value="vang">Vàng</option>
-            <option value="kim-cuong">Kim Cương</option>
           </select>
         </div>
         <div class="form-group"><label>Thứ tự hiển thị</label><input type="number" id="rwOrder" value="0"/></div>
@@ -2467,16 +2458,13 @@ async function loadRewards() {
 }
 function renderRewards(list) {
   const tbody = document.getElementById('rewardTable');
-  const RANK_LABEL = {'thanh-vien':'Thành Viên','dong':'Đồng','bac':'Bạc','vang':'Vàng','kim-cuong':'Kim Cương'};
-  const RANK_BADGE = {'thanh-vien':'badge-gray','dong':'badge-dong','bac':'badge-bac','vang':'badge-vang','kim-cuong':'badge-kim'};
-  if (!list.length) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Chưa có phần thưởng</td></tr>'; return; }
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Chưa có phần thưởng</td></tr>'; return; }
   tbody.innerHTML = list.map(r => `
     <tr>
       <td>${r.image ? `<img src="${r.image.startsWith('http')?r.image:API+r.image}" style="width:40px;height:40px;border-radius:.4rem;object-fit:cover">` : '<div class="product-thumb"><i class=\\"fa-solid fa-medal ic-amber\\"></i></div>'}</td>
       <td><div style="font-weight:700;font-size:.83rem">${r.name}</div><div style="font-size:.72rem;color:#888">${r.description||''}</div></td>
       <td><b>${r.pointsRequired.toLocaleString('vi-VN')}</b> điểm</td>
       <td><span class="badge ${r.type==='btob'?'badge-blue':'badge-green'}">${r.type==='btob'?'VIP':'Thường'}</span></td>
-      <td><span class="badge ${RANK_BADGE[r.rankRequired||'thanh-vien']}">${RANK_LABEL[r.rankRequired||'thanh-vien']}</span></td>
       <td>${r.stock===-1?'∞':r.stock}</td>
       <td><span class="badge ${r.active?'badge-green':'badge-gray'}">${r.active?'Hoạt động':'Ẩn'}</span></td>
       <td><div style="display:flex;gap:.4rem">
@@ -2493,7 +2481,6 @@ function openRewardModal(r) {
   document.getElementById('rwPoints').value  = r?.pointsRequired || '';
   document.getElementById('rwStock').value   = r?.stock ?? -1;
   document.getElementById('rwType').value    = r?.type || 'all';
-  document.getElementById('rwRank').value    = r?.rankRequired || 'thanh-vien';
   document.getElementById('rwOrder').value   = r?.order ?? 0;
   document.getElementById('rwActive').value  = r?.active !== false ? 'true' : 'false';
   document.getElementById('rwImgUrl').value  = r?.image || '';
@@ -2520,7 +2507,6 @@ async function saveReward() {
   fd.append('pointsRequired', pts);
   fd.append('stock',          document.getElementById('rwStock').value);
   fd.append('type',           document.getElementById('rwType').value);
-  fd.append('rankRequired',   document.getElementById('rwRank').value);
   fd.append('order',          document.getElementById('rwOrder').value);
   fd.append('active',         document.getElementById('rwActive').value);
   fd.append('image',          document.getElementById('rwImgUrl').value);

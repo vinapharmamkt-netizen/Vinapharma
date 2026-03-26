@@ -150,41 +150,31 @@ function showToast(msg, type='') {
 }
 
 function rewardCardHTML(r) {
-  const userRank = currentUser?.rank || 'thanh-vien';
-  const userRankIdx   = RANK_ORDER.indexOf(userRank);
-  const rewardRankIdx = RANK_ORDER.indexOf(r.rankRequired || 'thanh-vien');
-  const rankOk    = userRankIdx >= rewardRankIdx;
-  const pointsOk  = availablePoints >= r.pointsRequired;
+  const pointsOk   = availablePoints >= r.pointsRequired;
   const outOfStock = r.stock === 0;
-  const canRedeem  = rankOk && pointsOk && !outOfStock;
+  const canRedeem  = pointsOk && !outOfStock;
 
   const imgHTML = r.image
     ? `<div class="reward-img"><img src="${r.image.startsWith('http') ? r.image : API + r.image}" alt="${r.name}"/></div>`
     : `<div class="reward-img"><i class="fa-solid fa-medal" style="color:#d97706;font-size:3rem"></i></div>`;
 
-  const rankBadge = r.rankRequired && r.rankRequired !== 'thanh-vien'
-    ? `<div style="display:inline-flex;align-items:center;gap:.3rem;background:${rankOk?'#fef9c3':'#fee2e2'};color:${rankOk?'#854d0e':'#dc2626'};font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;margin-bottom:.5rem"><i class="fa-solid fa-lock" style="font-size:.6rem"></i> Yêu cầu hạng ${RANK_INFO[r.rankRequired]?.label||r.rankRequired}</div>`
-    : '';
-
   const stockText = r.stock === -1 ? '' : r.stock === 0
     ? '<div class="reward-stock"><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> Hết hàng</div>'
     : `<div class="reward-stock">Còn ${r.stock} phần thưởng</div>`;
 
-  let btnLabel, btnTitle = '';
-  if (outOfStock)   { btnLabel = '<i class="fa-solid fa-circle-xmark"></i> Hết hàng'; btnTitle = 'Hết hàng'; }
-  else if (!rankOk) { btnLabel = `<i class="fa-solid fa-lock"></i> Yêu cầu hạng ${RANK_INFO[r.rankRequired]?.label||r.rankRequired}`; btnTitle = 'Chưa đủ hạng'; }
+  let btnLabel;
+  if (outOfStock)  { btnLabel = '<i class="fa-solid fa-circle-xmark"></i> Hết hàng'; }
   else if (!pointsOk){ btnLabel = `<i class="fa-solid fa-circle-xmark"></i> Cần thêm ${(r.pointsRequired - availablePoints).toLocaleString('vi-VN')} điểm`; }
-  else              { btnLabel = '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi ngay'; }
+  else             { btnLabel = '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i> Đổi ngay'; }
 
   return `
     <div class="reward-card">
       ${imgHTML}
       <div class="reward-body">
-        ${rankBadge}
         <div class="reward-name">${r.name}</div>
         <div class="reward-desc">${r.description || ''}</div>
         <div class="reward-pts">Cần <strong>${r.pointsRequired.toLocaleString('vi-VN')}</strong> điểm</div>
-        <button class="btn-redeem" ${!canRedeem ? 'disabled' : ''} onclick="redeem('${r._id}','${r.name}',${r.pointsRequired})" title="${btnTitle}">
+        <button class="btn-redeem" ${!canRedeem ? 'disabled' : ''} onclick="redeem('${r._id}','${r.name}',${r.pointsRequired})">
           ${btnLabel}
         </button>
         ${stockText}
