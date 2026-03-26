@@ -571,7 +571,7 @@ i.fa-solid,i.fa-regular{line-height:1}
         <div class="form-group"><label>Danh mục</label>
           <select id="pCategory">
             <option>Tăng đề kháng</option><option>Xương khớp</option><option>Tim mạch</option><option>Làm đẹp</option>
-            <option>Giảm cân</option><option>Tăng cơ</option><option>Trí não</option><option>Giấc ngủ</option>
+            <option>Sinh lý</option><option>Trí não</option><option>Giấc ngủ</option>
             <option>Detox</option><option>Vitamin</option><option>Khoáng chất</option><option>Omega</option>
             <option>Probiotics</option><option>Khác</option>
           </select>
@@ -1587,7 +1587,7 @@ function openProductModal(p = null) {
   document.getElementById('pName').value = p?.name || '';
   refreshBrandUI();
   document.getElementById('pBrand').value = p?.brand || (allBrands[0]?._id || '');
-  document.getElementById('pCategory').value  = p?.category  || 'Tăng cơ';
+  document.getElementById('pCategory').value  = p?.category  || 'Sinh lý';
   document.getElementById('pAgeGroup').value  = p?.ageGroup  || 'Tất cả';
   document.getElementById('pPrice').value = p?.price || '';
   document.getElementById('pOriginalPrice').value = p?.originalPrice || '';
