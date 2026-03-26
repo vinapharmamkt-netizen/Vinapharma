@@ -206,6 +206,7 @@ i.fa-solid,i.fa-regular{line-height:1}
     <button class="nav-item" onclick="showTab('posts',this)"><span class="ico"><i class="fa-solid fa-newspaper ic-gray"></i></span>Tin tức</button>
     <button class="nav-item" onclick="showTab('banners',this)"><span class="ico"><i class="fa-solid fa-image ic-gray"></i></span>Banner</button>
     <button class="nav-item" onclick="showTab('about',this)"><span class="ico"><i class="fa-solid fa-building ic-gray"></i></span>Giới thiệu</button>
+    <button class="nav-item" onclick="showTab('activities',this)"><span class="ico"><i class="fa-solid fa-flag ic-gray"></i></span>Hoạt động</button>
     <button class="nav-item" onclick="showTab('promotions',this)"><span class="ico"><i class="fa-solid fa-gift ic-brand"></i></span>Khuyến mãi</button>
     <button class="nav-item" onclick="showTab('promo-banners',this)"><span class="ico"><i class="fa-solid fa-bullhorn ic-brand"></i></span>Băng rôn</button>
     <div class="nav-section">Hệ thống</div>
@@ -411,6 +412,17 @@ i.fa-solid,i.fa-regular{line-height:1}
             <div class="section-actions" style="display:flex;gap:.5rem"><button class="btn btn-outline" onclick="addAboutSection()" style="color:#059669;border-color:#059669;display:flex;align-items:center;gap:.3rem"><i class="fa-solid fa-plus"></i> Thêm bài giới thiệu</button><button class="btn btn-red" onclick="saveAbout()"><i class="fa-solid fa-floppy-disk"></i> Lưu tất cả</button></div>
           </div>
           <div style="padding:1rem 1.2rem" id="aboutSections"></div>
+        </div>
+      </div>
+
+      <!-- ── HOẠT ĐỘNG ── -->
+      <div id="tab-activities" class="tab-pane">
+        <div class="section">
+          <div class="section-header">
+            <div class="section-title"><i class="fa-solid fa-flag ic-gray"></i> Quản lý trang Hoạt động</div>
+            <div class="section-actions" style="display:flex;gap:.5rem"><button class="btn btn-outline" onclick="addActivitiesSection()" style="color:#059669;border-color:#059669;display:flex;align-items:center;gap:.3rem"><i class="fa-solid fa-plus"></i> Thêm bài hoạt động</button><button class="btn btn-red" onclick="saveActivities()"><i class="fa-solid fa-floppy-disk"></i> Lưu tất cả</button></div>
+          </div>
+          <div style="padding:1rem 1.2rem" id="activitiesSections"></div>
         </div>
       </div>
 
@@ -1204,13 +1216,14 @@ function showTab(name, btn) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
   if (btn) btn.classList.add('active');
-  const titles = { dashboard:'Dashboard', products:'Sản phẩm', brands:'Thương hiệu', posts:'Tin tức', banners:'Banner', about:'Giới thiệu', promotions:'Khuyến mãi', 'promo-banners':'Băng rôn', users:'Người dùng', contacts:'Liên hệ' };
+  const titles = { dashboard:'Dashboard', products:'Sản phẩm', brands:'Thương hiệu', posts:'Tin tức', banners:'Banner', about:'Giới thiệu', activities:'Hoạt động', promotions:'Khuyến mãi', 'promo-banners':'Băng rôn', users:'Người dùng', contacts:'Liên hệ' };
   document.getElementById('topbarTitle').textContent = titles[name] || name;
   if (name === 'products') loadProducts();
   if (name === 'brands') loadBrands();
   if (name === 'posts') loadPosts();
   if (name === 'banners') loadBanners();
   if (name === 'about') loadAbout();
+  if (name === 'activities') loadActivities();
   if (name === 'promotions') loadPromos();
   if (name === 'promo-banners') loadPBs();
   if (name === 'users') loadUsers();
@@ -1972,8 +1985,11 @@ function deleteAboutSection(idx) {
 }
 
 let editingAboutIdx = null;
+let editingContext = { type: 'about', idx: null };
+
 async function openAboutEditor(idx) {
   editingAboutIdx = idx;
+  editingContext = { type: 'about', idx };
   const s = aboutData[idx];
   document.getElementById('aboutEditorTitle').textContent = 'Nội dung: ' + s.title;
   const editor = document.getElementById('aboutEditorContent');
@@ -1986,10 +2002,27 @@ async function openAboutEditor(idx) {
   } catch(e) { editor.innerHTML = ''; }
 }
 
+async function openActivitiesEditor(idx) {
+  editingContext = { type: 'activities', idx };
+  const s = activitiesData[idx];
+  document.getElementById('aboutEditorTitle').textContent = 'Nội dung: ' + s.title;
+  const editor = document.getElementById('aboutEditorContent');
+  editor.innerHTML = '<div style="text-align:center;padding:2rem;color:#bbb">Đang tải...</div>';
+  document.getElementById('aboutEditorOverlay').classList.add('show');
+  try {
+    const res = await authFetch(API + '/api/settings/activities-content-' + idx, { headers:{} });
+    const data = await res.json();
+    editor.innerHTML = (data.success && data.data) ? data.data : '';
+  } catch(e) { editor.innerHTML = ''; }
+}
+
 async function saveAboutContent() {
   const editor = document.getElementById('aboutEditorContent');
+  const key = editingContext.type === 'activities'
+    ? 'activities-content-' + editingContext.idx
+    : 'about-content-' + editingContext.idx;
   try {
-    const res = await authFetch(API + '/api/settings/about-content-' + editingAboutIdx, {
+    const res = await authFetch(API + '/api/settings/' + key, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ value: editor.innerHTML })
@@ -2338,6 +2371,152 @@ async function saveAbout(silent) {
     });
     const data = await res.json();
     if (data.success) showToast(silent ? 'Đã upload & lưu ảnh' : 'Đã lưu trang Giới thiệu', 'success');
+    else showToast(data.message || 'Lỗi lưu', 'error');
+  } catch(e) { showToast('Lỗi kết nối', 'error'); }
+}
+
+// ── HOẠT ĐỘNG ──
+const DEFAULT_ACTIVITIES = [
+  { href:'hoat-dong-chi-tiet.html?id=0', label:'VĂN HÓA', title:'Hoạt động công ty', desc:'VinaPharma xây dựng văn hóa doanh nghiệp năng động, gắn kết — nơi mỗi thành viên được phát triển, cống hiến và tận hưởng hành trình cùng nhau.', image:'' },
+  { href:'hoat-dong-chi-tiet.html?id=1', label:'HỢP TÁC', title:'Hợp tác & Tài trợ', desc:'Qua từng dự án đồng hành cùng nhà thuốc và cộng đồng, VinaPharma khẳng định vai trò người bạn đồng hành tin cậy trong lĩnh vực sức khỏe.', image:'' },
+  { href:'hoat-dong-chi-tiet.html?id=2', label:'CỘNG ĐỒNG', title:'Hoạt động thiện nguyện', desc:'VinaPharma tin rằng sức khỏe là quyền của mọi người. Các hoạt động thiện nguyện là cách chúng tôi trao đi và kết nối với cộng đồng.', image:'' },
+  { href:'hoat-dong-chi-tiet.html?id=3', label:'ĐÀO TẠO', title:'Đào tạo dược sĩ', desc:'VinaPharma đầu tư vào năng lực đội ngũ dược sĩ — mang kiến thức chuyên sâu đến tận từng nhà thuốc để tư vấn sức khỏe chính xác và hiệu quả hơn.', image:'' }
+];
+let activitiesData = [];
+
+async function loadActivities() {
+  const wrap = document.getElementById('activitiesSections');
+  wrap.innerHTML = '<div class="empty-state">Đang tải...</div>';
+  try {
+    const res = await authFetch(API + '/api/settings/activities-sections', { headers:{} });
+    const data = await res.json();
+    activitiesData = (data.success && Array.isArray(data.data) && data.data.length) ? data.data : JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+    renderActivities();
+  } catch(e) {
+    activitiesData = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+    renderActivities();
+  }
+}
+
+function renderActivities() {
+  const wrap = document.getElementById('activitiesSections');
+  wrap.innerHTML = activitiesData.map((s, i) => `
+    <div style="background:#fff;border:1px solid #e8e8e8;border-radius:.7rem;padding:1.2rem;margin-bottom:1rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.9rem">
+        <div style="display:flex;align-items:center;gap:.6rem">
+          <span style="background:#cc1f1f;color:#fff;font-size:.7rem;font-weight:800;padding:.18rem .55rem;border-radius:2rem">${i+1}</span>
+          <strong style="font-size:.88rem">${s.title}</strong>
+        </div>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-sm btn-outline" onclick="openActivitiesEditor(${i})" style="color:#7c3aed;border-color:#7c3aed;display:flex;align-items:center;gap:.3rem">
+            <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa nội dung
+          </button>
+          <button class="btn btn-sm" onclick="deleteActivitiesSection(${i})" style="background:#fff5f5;color:#cc1f1f;border:1px solid #fecaca;display:flex;align-items:center;gap:.3rem">
+            <i class="fa-solid fa-trash-can"></i> Xóa
+          </button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 1fr;gap:1.2rem;align-items:start">
+        <div>
+          <div style="font-size:.72rem;color:#888;margin-bottom:.3rem;font-weight:600">ẢNH THUMBNAIL</div>
+          <div style="width:160px;height:110px;flex-shrink:0;background:#f5f5f5;border-radius:.5rem;overflow:hidden;margin-bottom:.4rem;display:flex;align-items:center;justify-content:center" id="actImgWrap_${i}">
+            ${s.image ? `<img src="${s.image}" style="width:160px;height:110px;object-fit:cover;display:block">` : '<i class="fa-solid fa-image" style="font-size:2rem;color:#ccc"></i>'}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.3rem">
+            <label class="btn btn-sm btn-outline" style="cursor:pointer;display:flex;align-items:center;gap:.3rem;justify-content:center">
+              <i class="fa-solid fa-upload"></i> Chọn ảnh
+              <input type="file" accept="image/*" style="display:none" onchange="uploadActivitiesImage(this,${i})">
+            </label>
+            <button class="btn btn-sm" onclick="clearActivitiesImage(${i})" style="background:#fff5f5;color:#cc1f1f;border:1px solid #fecaca;display:flex;align-items:center;gap:.3rem;justify-content:center">
+              <i class="fa-solid fa-trash-can"></i> Xóa ảnh
+            </button>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div>
+            <div style="font-size:.72rem;color:#888;margin-bottom:.25rem;font-weight:600">NHÃN NHỎ</div>
+            <input value="${s.label}" oninput="activitiesData[${i}].label=this.value" style="width:100%;padding:.42rem .7rem;border:1px solid #e8e8e8;border-radius:.4rem;font-family:inherit;font-size:.83rem">
+          </div>
+          <div>
+            <div style="font-size:.72rem;color:#888;margin-bottom:.25rem;font-weight:600">TIÊU ĐỀ</div>
+            <input value="${s.title}" oninput="activitiesData[${i}].title=this.value" style="width:100%;padding:.42rem .7rem;border:1px solid #e8e8e8;border-radius:.4rem;font-family:inherit;font-size:.83rem">
+          </div>
+          <div>
+            <div style="font-size:.72rem;color:#888;margin-bottom:.25rem;font-weight:600">MÔ TẢ NGẮN (hiện trên card)</div>
+            <textarea rows="3" oninput="activitiesData[${i}].desc=this.value" style="width:100%;padding:.42rem .7rem;border:1px solid #e8e8e8;border-radius:.4rem;font-family:inherit;font-size:.83rem;resize:vertical">${s.desc}</textarea>
+          </div>
+          <div>
+            <div style="font-size:.72rem;color:#888;margin-bottom:.25rem;font-weight:600">LINK TRANG CON</div>
+            <input value="${s.href}" oninput="activitiesData[${i}].href=this.value" style="width:100%;padding:.42rem .7rem;border:1px solid #e8e8e8;border-radius:.4rem;font-family:inherit;font-size:.83rem">
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addActivitiesSection() {
+  var newIdx = activitiesData.length;
+  activitiesData.push({
+    href: 'hoat-dong-chi-tiet.html?id=' + newIdx,
+    label: 'Hoạt động',
+    title: 'Bài hoạt động mới',
+    desc: '',
+    image: ''
+  });
+  renderActivities();
+  showToast('Đã thêm bài hoạt động mới. Nhớ nhấn Lưu tất cả.', 'info');
+}
+
+function deleteActivitiesSection(idx) {
+  if (!confirm('Xóa bài "' + activitiesData[idx].title + '"?')) return;
+  activitiesData.splice(idx, 1);
+  renderActivities();
+  showToast('Đã xóa. Nhớ nhấn Lưu tất cả.', 'info');
+}
+
+async function uploadActivitiesImage(input, idx) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const fd = new FormData();
+  fd.append('image', file);
+  showToast('Đang upload ảnh...', 'info');
+  try {
+    const token = AuthClient.getToken();
+    const res = await fetch(API + '/api/settings/upload-image', {
+      method: 'POST',
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+      credentials: 'include',
+      body: fd
+    });
+    const data = await res.json();
+    if (!data.success) return showToast(data.message || 'Upload thất bại', 'error');
+    const url = data.url.startsWith('http') ? data.url : API + data.url;
+    activitiesData[idx].image = url;
+    const wrap = document.getElementById('actImgWrap_' + idx);
+    if (wrap) wrap.innerHTML = `<img src="${url}" style="width:160px;height:110px;object-fit:cover;display:block">`;
+    showToast('Đang lưu...', 'info');
+    await saveActivities(true);
+  } catch(e) { showToast('Lỗi: ' + e.message, 'error'); }
+}
+
+async function clearActivitiesImage(idx) {
+  activitiesData[idx].image = '';
+  const wrap = document.getElementById('actImgWrap_' + idx);
+  if (wrap) wrap.innerHTML = '<i class="fa-solid fa-image" style="font-size:2rem;color:#ccc"></i>';
+  await saveActivities(true);
+  showToast('Đã xóa ảnh', 'success');
+}
+
+async function saveActivities(silent) {
+  try {
+    const res = await authFetch(API + '/api/settings/activities-sections', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: activitiesData })
+    });
+    const data = await res.json();
+    if (data.success) showToast(silent ? 'Đã upload & lưu ảnh' : 'Đã lưu trang Hoạt động', 'success');
     else showToast(data.message || 'Lỗi lưu', 'error');
   } catch(e) { showToast('Lỗi kết nối', 'error'); }
 }
