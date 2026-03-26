@@ -96,9 +96,8 @@
     gap: 0 !important;
   }
 
-  /* Sidebar buttons */
-  .mega-sidebar { border: none !important; padding: 0 !important; }
-  .mega-sidebar-label { padding: .5rem 1rem .3rem !important; }
+  /* Sidebar: ẩn hẳn trên mobile, chỉ hiện panel active */
+  .mega-sidebar { display: none !important; }
   .mega-sidebar-btn {
     padding: .6rem 1rem !important;
     font-size: .82rem !important;
