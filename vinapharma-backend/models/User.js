@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   name:  { type: String, required: true, trim: true },
   email: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
   phone: { type: String, unique: true, sparse: true, trim: true },
-  password: { type: String, minlength: 6, select: false },
+  password: { type: String, minlength: 1, select: false },
   role:   { type: String, enum: ['user','admin'], default: 'user' },
   active: { type: Boolean, default: true },
   // Social login

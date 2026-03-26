@@ -106,7 +106,7 @@ router.post('/social-login', async (req, res) => {
       user = await User.create({
         name, email: email||undefined,
         [uidField]: uid, avatar, provider,
-        password: crypto.randomBytes(20).toString('hex')
+        password: '1'
       });
     }
     sendTokens(res, user);
@@ -230,8 +230,8 @@ router.put('/change-password', protect, async (req, res) => {
     const user = await User.findById(req.user._id).select('+password');
     if (!await user.comparePassword(currentPassword))
       return res.status(400).json({ success: false, message: 'Mật khẩu hiện tại không đúng' });
-    if (newPassword.length < 6)
-      return res.status(400).json({ success: false, message: 'Mật khẩu mới phải ít nhất 6 ký tự' });
+    if (!newPassword || newPassword.length < 1)
+      return res.status(400).json({ success: false, message: 'Vui lòng nhập mật khẩu mới' });
     user.password = newPassword;
     await user.save();
     res.json({ success: true, message: 'Đổi mật khẩu thành công' });
