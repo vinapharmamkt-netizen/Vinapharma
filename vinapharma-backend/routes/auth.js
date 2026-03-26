@@ -5,7 +5,7 @@ const crypto     = require('crypto');
 const nodemailer = require('nodemailer');
 const User       = require('../models/User');
 const { protect } = require('../middleware/auth');
-const { computeAvailablePoints, RANK_ORDER } = require('../utils/rankUtils');
+const { computeAvailablePoints, computeRank, RANK_ORDER } = require('../utils/rankUtils');
 const Debt = require('../models/Debt');
 
 // ── Token helpers ────────────────────────────────────────────
@@ -154,24 +154,32 @@ router.post('/logout', (req, res) => {
 // ── GET /api/auth/me ─────────────────────────────────────────
 router.get('/me', protect, async (req, res) => {
   try {
-    // Kiểm tra hạ rank BtoB nếu không có công nợ trong 2 tháng
-    if (req.user.userType === 'btob') {
-      try {
-        const u = await User.findById(req.user._id);
-        if (u && u.rank !== 'thanh-vien') {
-          const twoMonthsAgo = new Date();
-          twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-          const recentDebt = await Debt.findOne({ user: u._id, createdAt: { $gte: twoMonthsAgo } });
-          if (!recentDebt && !(u.lastDemotionAt && u.lastDemotionAt > twoMonthsAgo)) {
-            const idx = RANK_ORDER.indexOf(u.rank);
-            if (idx > 0) {
-              await User.findByIdAndUpdate(u._id, { rank: RANK_ORDER[idx - 1], lastDemotionAt: new Date() });
-            }
-          }
+    const u = await User.findById(req.user._id);
+    if (!u) return res.status(404).json({ success: false, message: 'Không tìm thấy user' });
+
+    const correctRank = computeRank(u.totalSpent || 0, u.userType);
+    const currentRank = u.rank || 'thanh-vien';
+    const currentIdx  = RANK_ORDER.indexOf(currentRank);
+    const correctIdx  = RANK_ORDER.indexOf(correctRank);
+    let rankUpdate = null;
+
+    if (correctIdx > currentIdx) {
+      // Cần nâng hạng
+      rankUpdate = { rank: correctRank };
+    } else if (u.userType === 'btob' && currentRank !== 'thanh-vien') {
+      // Kiểm tra hạ rank BtoB nếu không có công nợ trong 2 tháng
+      const twoMonthsAgo = new Date();
+      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+      const recentDebt = await Debt.findOne({ user: u._id, createdAt: { $gte: twoMonthsAgo } });
+      if (!recentDebt && !(u.lastDemotionAt && u.lastDemotionAt > twoMonthsAgo)) {
+        if (currentIdx > 0) {
+          rankUpdate = { rank: RANK_ORDER[currentIdx - 1], lastDemotionAt: new Date() };
         }
-      } catch (_) {}
+      }
     }
-    const user = await User.findById(req.user._id);
+
+    if (rankUpdate) await User.findByIdAndUpdate(u._id, rankUpdate);
+    const user = rankUpdate ? await User.findById(u._id) : u;
     res.json({ success: true, user });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
