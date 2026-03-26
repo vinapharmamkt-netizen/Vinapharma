@@ -245,6 +245,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .mega-brand-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.6rem;padding:.2rem 0}
 .mega-brand-card{display:flex;align-items:center;justify-content:center;text-decoration:none;padding:.5rem 1.2rem;border:1.5px solid #ebebeb;border-radius:.7rem;font-size:.8rem;font-weight:700;color:#333;background:#fff;white-space:nowrap;transition:border-color .15s,color .15s,box-shadow .15s}
 .mega-brand-card:hover{border-color:var(--red);color:var(--red);box-shadow:0 2px 10px rgba(204,31,31,.1)}
+#imgLightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center}
+#imgLightbox.show{display:flex}
+#imgLightbox img{max-width:92vw;max-height:90vh;border-radius:.6rem;box-shadow:0 8px 48px rgba(0,0,0,.6);cursor:default;user-select:none}
+#imgLightbox .lb-close{position:absolute;top:1rem;right:1.2rem;color:#fff;font-size:2.2rem;cursor:pointer;opacity:.8;line-height:1;background:none;border:none;font-family:inherit}
+#imgLightbox .lb-close:hover{opacity:1}
 </style>
 
 <link rel="stylesheet" href="mobile.css"/>
@@ -453,6 +458,7 @@ function renderArticle(post){
     thumbEl.innerHTML = post.icon || '<i class=\"fa-solid fa-newspaper\" style=\"color:#9ca3af;font-size:2rem\"></i>';
   }
   document.getElementById('articleBody').innerHTML = post.content || '<p>N\u1ed9i dung \u0111ang \u0111\u01b0\u1ee3c c\u1eadp nh\u1eadt...</p>';
+  attachLightbox(document.getElementById('articleBody'));
   document.getElementById('loadingDetail').style.display = 'none';
   document.getElementById('articleContent').style.display = 'block';
 }
@@ -528,5 +534,16 @@ init();
 <script src="chat-widget.js"></script>
 <script src="search-widget.js"></script>
 <script src="footer-brands.js"></script>
+<script>
+function lbOpen(src){var lb=document.getElementById('imgLightbox');document.getElementById('lbImg').src=src;lb.classList.add('show');document.body.style.overflow='hidden';}
+function lbClose(){document.getElementById('imgLightbox').classList.remove('show');document.body.style.overflow='';}
+document.getElementById('imgLightbox').addEventListener('click',function(e){if(e.target===this)lbClose();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')lbClose();});
+function attachLightbox(el){el.querySelectorAll('img').forEach(function(img){img.style.cursor='zoom-in';img.addEventListener('click',function(){lbOpen(this.src);});});}
+</script>
+<div id="imgLightbox">
+  <button class="lb-close" onclick="lbClose()">×</button>
+  <img id="lbImg" src="" alt="" onclick="event.stopPropagation()"/>
+</div>
 </body>
 </html>
