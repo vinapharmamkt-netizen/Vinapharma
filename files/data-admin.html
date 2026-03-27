@@ -720,7 +720,7 @@ i.fa-solid,i.fa-regular{line-height:1}
             <option>Vấn đề thường gặp</option><option>Tin Y tế</option><option>Tin Tuyển dụng</option><option>Truyền thông</option>
           </select>
         </div>
-        <div class="form-group full"><label>Tag bài viết <span style="font-weight:400;color:#999;font-size:.76rem">(click chọn / bỏ chọn)</span></label><div id="postTagChips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;min-height:2rem"></div></div>
+        <div class="form-group full"><label>Tag bài viết <span style="font-weight:400;color:#999;font-size:.76rem">(click chọn / bỏ chọn)</span></label><div id="postTagChips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;min-height:2rem"></div><div style="display:flex;gap:.4rem;margin-top:.55rem"><input id="newTagInput" placeholder="Thêm tag mới..." style="flex:1;padding:.3rem .7rem;border:1.5px solid #e0e0e0;border-radius:99px;font-size:.78rem;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomTag()}" onfocus="this.style.borderColor='#cc1f1f'" onblur="this.style.borderColor='#e0e0e0'"/><button type="button" onclick="addCustomTag()" style="padding:.3rem .9rem;background:#cc1f1f;color:#fff;border:none;border-radius:99px;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap">+ Thêm</button></div></div>
         <div class="form-group"><label>Trạng thái</label>
           <select id="postPublished"><option value="true"><i class="fa-solid fa-circle-check ic-green"></i> Đã đăng</option><option value="false"><i class="fa-solid fa-pen-to-square ic-gray"></i> Nháp</option></select>
         </div>
@@ -1883,6 +1883,23 @@ function renderAdminTagChips(cat, selected) {
   }).join('');
 }
 function toggleAdminTag(el) { el.classList.toggle('sel'); }
+function addCustomTag() {
+  var input = document.getElementById('newTagInput');
+  var val = input.value.trim();
+  if (!val) return;
+  var container = document.getElementById('postTagChips');
+  // Nếu tag đã tồn tại thì chỉ select nó
+  var existing = Array.from(container.querySelectorAll('.admin-tag-chip'))
+    .find(function(el){ return el.textContent === val; });
+  if (existing) { existing.classList.add('sel'); input.value = ''; return; }
+  // Tạo chip mới, đã chọn sẵn
+  var chip = document.createElement('span');
+  chip.className = 'admin-tag-chip sel';
+  chip.textContent = val;
+  chip.onclick = function(){ toggleAdminTag(this); };
+  container.appendChild(chip);
+  input.value = '';
+}
 function getSelectedAdminTags() {
   return Array.from(document.querySelectorAll('#postTagChips .admin-tag-chip.sel')).map(function(el){ return el.textContent; });
 }
