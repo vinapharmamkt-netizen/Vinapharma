@@ -129,6 +129,9 @@ textarea{resize:vertical;min-height:80px}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#111;color:#fff;padding:.75rem 1.2rem;border-radius:.5rem;font-size:.82rem;font-weight:600;transform:translateY(80px);opacity:0;transition:.25s;z-index:9999;max-width:300px}
+.post-cat-tab{padding:.35rem .85rem;border-radius:2rem;border:1.5px solid #e0e0e0;background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;color:#666;transition:.15s;font-family:inherit}
+.post-cat-tab:hover{border-color:var(--red);color:var(--red)}
+.post-cat-tab.active{background:var(--red);color:#fff;border-color:var(--red)}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.success{background:#16a34a}
 .toast.error{background:#dc2626}
@@ -386,8 +389,18 @@ i.fa-solid,i.fa-regular{line-height:1}
               <button class="btn btn-red" onclick="openPostModal()">+ Viết bài mới</button>
             </div>
           </div>
-          <table><thead><tr><th>Bài viết</th><th>Danh mục</th><th>Vị trí</th><th>Trạng thái</th><th>Ngày đăng</th><th>Thao tác</th></tr></thead>
-          <tbody id="postTable"><tr><td colspan="6" class="empty-state">Đang tải...</td></tr></tbody></table>
+          <div style="padding:.5rem 1.2rem;border-bottom:1px solid #f0f0f0;display:flex;flex-wrap:wrap;gap:.3rem" id="postCatTabs">
+            <button class="post-cat-tab active" data-cat="">Tất cả</button>
+            <button class="post-cat-tab" data-cat="Góc sức khỏe">Góc sức khỏe</button>
+            <button class="post-cat-tab" data-cat="Góc làm đẹp">Góc làm đẹp</button>
+            <button class="post-cat-tab" data-cat="Góc dinh dưỡng">Góc dinh dưỡng</button>
+            <button class="post-cat-tab" data-cat="Vấn đề thường gặp">Vấn đề thường gặp</button>
+            <button class="post-cat-tab" data-cat="Tin Y tế">Tin Y tế</button>
+            <button class="post-cat-tab" data-cat="Tin Tuyển dụng">Tin Tuyển dụng</button>
+            <button class="post-cat-tab" data-cat="Truyền thông">Truyền thông</button>
+          </div>
+          <table><thead><tr><th>Bài viết</th><th>Danh mục / Tag</th><th>Trạng thái</th><th>Ngày đăng</th><th>Thao tác</th></tr></thead>
+          <tbody id="postTable"><tr><td colspan="5" class="empty-state">Đang tải...</td></tr></tbody></table>
         </div>
       </div>
 
@@ -721,7 +734,6 @@ i.fa-solid,i.fa-regular{line-height:1}
         <div class="form-group"><label>Bài nổi bật (hiển thị lớn)</label>
           <select id="postFeatured"><option value="false">Không</option><option value="true"><i class="fa-solid fa-star ic-amber"></i> Có – hiển thị lớn trên đầu</option></select>
         </div>
-        <div class="form-group"><label>Vị trí (số nhỏ = lên đầu)</label><input type="number" id="postOrder" value="999" min="1" max="9999" placeholder="1–999"/></div>
         <div class="form-group full"><label>Tóm tắt *</label><textarea id="postExcerpt" rows="2" placeholder="Mô tả ngắn hiển thị ở trang danh sách..."></textarea></div>
         <div class="form-group full">
           <label>Hình ảnh thumbnail</label>
@@ -1782,24 +1794,25 @@ async function loadPosts() {
   try {
     const res = await authFetch(API + '/api/posts/admin/all', { headers:{} });
     const data = await res.json();
-    if (data.success) { allPosts = data.data; renderPosts(allPosts); }
+    if (data.success) { allPosts = data.data; filterPosts(''); setupPostCatTabs(); }
   } catch(e) {}
 }
 
+let currentPostCat = '';
+
 function renderPosts(list) {
   const tbody = document.getElementById('postTable');
-  if (!list.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Chưa có bài viết nào</td></tr>'; return; }
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Chưa có bài viết nào</td></tr>'; return; }
   tbody.innerHTML = list.map(p => `
     <tr>
       <td><div style="display:flex;align-items:center;gap:.7rem">
-        ${p.thumbnail ? `<img src="${API}${p.thumbnail}" style="width:44px;height:36px;object-fit:cover;border-radius:.35rem;flex-shrink:0"/>` : `<div style="font-size:1.5rem;width:44px;text-align:center">${p.icon||'📰'}</div>`}
+        ${p.thumbnail ? `<img src="${p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail}" style="width:44px;height:36px;object-fit:cover;border-radius:.35rem;flex-shrink:0"/>` : `<div style="font-size:1.5rem;width:44px;text-align:center">${p.icon||'📰'}</div>`}
         <div>
           <div style="font-weight:700;font-size:.83rem">${p.featured?'<i class="fa-solid fa-star ic-amber"></i> ':''}${p.title}</div>
-          <div style="font-size:.72rem;color:#888;margin-top:.15rem">${(p.tags||[]).map(t=>`<span style="background:#f0f0f0;padding:.05rem .35rem;border-radius:.2rem;margin-right:.2rem">${t}</span>`).join('')||p.category}</div>
+          <div style="font-size:.72rem;color:#888;margin-top:.15rem">${formatDate(p.publishedAt||p.createdAt)}</div>
         </div>
       </div></td>
       <td><span class="badge badge-blue">${p.category}</span>${p.topic?`<span class="badge badge-bac" style="margin-left:.3rem">${p.topic}</span>`:''}</td>
-      <td style="text-align:center"><input type="number" min="0" max="999" value="${p.order??999}" style="width:54px;text-align:center;border:1px solid #ddd;border-radius:.3rem;padding:.2rem .3rem;font-size:.85rem;font-weight:700;color:${(p.order??999)<100?'var(--red)':'#555'}" onchange="quickOrder('${p._id}',this.value,this)" title="Nhấn Enter để lưu" onkeydown="if(event.key==='Enter')this.blur()"/></td>
       <td><span class="badge ${p.published?'badge-green':'badge-gray'}">${p.published?'Đã đăng':'Nháp'}</span></td>
       <td>${p.publishedAt?formatDate(p.publishedAt):'–'}</td>
       <td><div style="display:flex;gap:.4rem">
@@ -1810,7 +1823,19 @@ function renderPosts(list) {
 }
 
 function filterPosts(q) {
-  renderPosts(allPosts.filter(p => !q || p.title.toLowerCase().includes(q.toLowerCase())));
+  const base = currentPostCat ? allPosts.filter(p => p.category === currentPostCat) : allPosts;
+  renderPosts(base.filter(p => !q || p.title.toLowerCase().includes(q.toLowerCase())));
+}
+
+function setupPostCatTabs() {
+  document.querySelectorAll('.post-cat-tab').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.post-cat-tab').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentPostCat = this.dataset.cat;
+      filterPosts(document.getElementById('postSearch').value);
+    });
+  });
 }
 
 function openPostModal() {
@@ -1821,8 +1846,8 @@ function openPostModal() {
   document.getElementById('postContent').innerHTML = '';
   document.getElementById('postTags').value = '';
   document.getElementById('postFeatured').value = 'false';
-  document.getElementById('postOrder').value = '999';
   document.getElementById('postPublished').value = 'true';
+  if (currentPostCat) document.getElementById('postCategory').value = currentPostCat;
   document.getElementById('postImgPreview').style.display = 'none';
   document.getElementById('postImgText').innerHTML = 'Bấm để chọn ảnh thumbnail<br/><span style="font-size:.72rem;color:#bbb">Khuyến nghị: 1200×630px · JPG/PNG/WEBP</span>';
   document.getElementById('postImgInput').value = '';
@@ -1867,7 +1892,6 @@ async function savePost() {
   formData.append('topic', document.getElementById('postTopic').value);
   formData.append('tags', document.getElementById('postTags').value);
   formData.append('featured', document.getElementById('postFeatured').value);
-  formData.append('order', parseInt(document.getElementById('postOrder').value) >= 0 ? parseInt(document.getElementById('postOrder').value) : 999);
   formData.append('excerpt', excerpt);
   formData.append('content', document.getElementById('postContent').innerHTML);
   formData.append('published', document.getElementById('postPublished').value);

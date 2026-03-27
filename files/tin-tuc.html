@@ -543,7 +543,8 @@ document.addEventListener('click', e => {
 
 <script>
 const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://vinapharma-pwv2.onrender.com';
-let currentCat = '', page = 1, perPage = 9;
+const _urlP = new URLSearchParams(window.location.search);
+let currentCat = _urlP.get('category') || '', currentTopic = _urlP.get('topic') || '', page = 1, perPage = 9;
 
 const COLORS = [
   'linear-gradient(135deg,#fff5f5,#ffe0e0)',
@@ -606,6 +607,7 @@ async function loadPosts(cat, pg, append){
   if(!append) document.getElementById('featGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">\u0110ang t\u1ea3i...</div>';
   try{
     var url = API+'/api/posts?limit='+perPage+'&page='+pg;
+    if(currentCat) url += '&category='+encodeURIComponent(currentCat);
     if(cat) url += '&topic='+encodeURIComponent(cat);
     var res = await fetch(url);
     var data = await res.json();
@@ -635,7 +637,16 @@ function openPost(id){
   window.location.href = 'tin-tuc-chi-tiet.html?id='+id;
 }
 
-loadPosts();
+// Highlight filter chip theo URL param
+if(currentTopic){
+  document.querySelectorAll('#catFilter .filter-chip').forEach(c=>{
+    c.classList.toggle('active', c.dataset.topic===currentTopic);
+  });
+  currentCat = currentCat; // keep category
+  loadPosts(currentTopic, 1);
+} else {
+  loadPosts();
+}
 </script>
 <script src="authClient.js"></script>
 <script src="header.js?v=3"></script>

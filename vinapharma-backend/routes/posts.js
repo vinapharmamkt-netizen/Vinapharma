@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
     const total = await Post.countDocuments(filter);
     const posts = await Post.find(filter)
       .populate('author', 'name')
-      .sort({ order: 1, featured: -1, publishedAt: -1 })
+      .sort({ featured: -1, publishedAt: -1 })
       .skip(skip).limit(Number(limit))
       .select('-content');
     res.json({ success: true, total, page: Number(page), totalPages: Math.ceil(total / limit), data: posts });
@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 // GET all (admin)
 router.get('/admin/all', protect, adminOnly, async (req, res) => {
   try {
-    const posts = await Post.find().populate('author', 'name').sort({ order: 1, createdAt: -1 });
+    const posts = await Post.find().populate('author', 'name').sort({ publishedAt: -1, createdAt: -1 });
     res.json({ success: true, total: posts.length, data: posts });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
