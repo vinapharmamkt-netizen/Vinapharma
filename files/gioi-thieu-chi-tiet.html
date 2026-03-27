@@ -107,7 +107,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .mega-brand-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.6rem;padding:.2rem 0}
 .mega-brand-card{display:flex;align-items:center;justify-content:center;text-decoration:none;padding:.5rem 1.2rem;border:1.5px solid #ebebeb;border-radius:.7rem;font-size:.8rem;font-weight:700;color:#333;background:#fff;white-space:nowrap;transition:border-color .15s,color .15s,box-shadow .15s}
 .mega-brand-card:hover{border-color:var(--red);color:var(--red);box-shadow:0 2px 10px rgba(204,31,31,.1)}
-</style>
+.mini-drop{position:absolute;top:100%;left:0;min-width:215px;background:#fff;border:1px solid #e8e8e8;border-radius:.5rem;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:.4rem 0;z-index:300;display:none;animation:megaIn .15s ease both}.nav-list>li.open .mini-drop{display:block}.mini-drop a{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;font-size:.8rem;color:#333;text-decoration:none;transition:background .12s,color .12s}.mini-drop a:hover{background:#fff5f5;color:var(--red)}.has-mega{position:relative}</style>
 <link rel="stylesheet" href="mobile.css"/>
 </head>
 <body>
@@ -184,22 +184,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
       </li>
       <li class="has-mega">
         <a href="tin-tuc.html">Tin tức</a>
-        <div class="mega-wrap">
-          <div style="max-width:1280px;margin:0 auto">
-            <div class="mega-col-title">Danh mục</div>
-            <ul class="mega-links">
-              <li><a href="tin-tuc.html?category=Góc sức khỏe">Góc sức khỏe</a></li>
-              <li><a href="tin-tuc.html?category=Góc làm đẹp">Góc làm đẹp</a></li>
-              <li><a href="tin-tuc.html?category=Góc dinh dưỡng">Góc dinh dưỡng</a></li>
-              <li><a href="tin-tuc.html?category=Vấn đề thường gặp">Vấn đề thường gặp</a></li>
-              <li><a href="tin-tuc.html?category=Tin Y tế">Tin Y tế</a></li>
-              <li><a href="tin-tuc.html?category=Tin Tuyển dụng">Tin Tuyển dụng</a></li>
-              <li><a href="tin-tuc.html?category=Truyền thông">Truyền thông</a></li>
-            </ul>
-            <div class="mega-cta-row" style="margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--border)">
-              <a href="tin-tuc.html" class="mega-cta-btn">Xem tất cả bài viết →</a>
-            </div>
-          </div>
+        <div class="mini-drop">
+          <a href="tin-tuc.html"><i class="fa-solid fa-newspaper" style="width:1.1rem;color:var(--red)"></i> Tất cả bài viết</a>
+          <a href="tin-tuc.html?category=Góc sức khỏe"><i class="fa-solid fa-heart-pulse" style="width:1.1rem;color:var(--red)"></i> Góc sức khỏe</a>
+          <a href="tin-tuc.html?category=Góc làm đẹp"><i class="fa-solid fa-spa" style="width:1.1rem;color:var(--red)"></i> Góc làm đẹp</a>
+          <a href="tin-tuc.html?category=Góc dinh dưỡng"><i class="fa-solid fa-apple-whole" style="width:1.1rem;color:var(--red)"></i> Góc dinh dưỡng</a>
+          <a href="tin-tuc.html?category=Vấn đề thường gặp"><i class="fa-solid fa-circle-question" style="width:1.1rem;color:var(--red)"></i> Vấn đề thường gặp</a>
+          <a href="tin-tuc.html?category=Tin Y tế"><i class="fa-solid fa-stethoscope" style="width:1.1rem;color:var(--red)"></i> Tin Y tế</a>
+          <a href="tin-tuc.html?category=Tin Tuyển dụng"><i class="fa-solid fa-briefcase" style="width:1.1rem;color:var(--red)"></i> Tin Tuyển dụng</a>
+          <a href="tin-tuc.html?category=Truyền thông"><i class="fa-solid fa-bullhorn" style="width:1.1rem;color:var(--red)"></i> Truyền thông</a>
         </div>
       </li>
       <li><a href="nha-thuoc.html">Nhà thuốc</a></li>
