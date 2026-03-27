@@ -240,6 +240,7 @@
       overlay.style.animation = 'vpFadeIn .25s ease reverse forwards';
       setTimeout(function () { overlay.remove(); }, 250);
       sessionStorage.setItem(SESSION_KEY, '1');
+      document.dispatchEvent(new CustomEvent('vp:authPopupClosed'));
     }
 
     document.getElementById('vp-popup-close').addEventListener('click', closePopup);
