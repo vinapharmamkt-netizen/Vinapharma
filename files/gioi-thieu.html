@@ -307,7 +307,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .jj-story-more:hover{background:#a81818}
 @media(max-width:900px){.jj-sec,.jj-sec-rev{grid-template-columns:1fr;gap:2rem}.jj-sec-rev .jj-sec-body,.jj-sec-rev .jj-sec-img{order:unset}.jj-sec-img{aspect-ratio:16/9}.jj-intro,.jj-leaders{grid-template-columns:1fr;gap:2rem}.jj-feature,.jj-feature.reverse{grid-template-columns:1fr}.jj-feature.reverse .jj-feature-body{order:0}.jj-feature-body{padding:2.5rem 1.5rem}.jj-intro-img{display:none}.jj-people{grid-template-columns:1fr}.jj-history,.jj-story-row{grid-template-columns:1fr}.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.jj-glance-grid{grid-template-columns:1fr 1fr}.jj-stories-grid{grid-template-columns:1fr}.jj-challenge-text{padding:3rem 5%}.jj-history-body{padding:2rem 1.5rem}}
-.mini-drop{position:absolute;top:100%;left:0;min-width:215px;background:#fff;border:1px solid #e8e8e8;border-radius:.5rem;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:.4rem 0;z-index:300;display:none;animation:megaIn .15s ease both}.nav-list>li.open .mini-drop{display:block}.mini-drop a{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;font-size:.8rem;color:#333;text-decoration:none;transition:background .12s,color .12s}.mini-drop a:hover{background:#fff5f5;color:var(--red)}.has-mega{position:relative}</style>
+.mini-drop{position:fixed;min-width:215px;background:#fff;border:1px solid #e8e8e8;border-radius:.5rem;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:.4rem 0;z-index:300;display:none;animation:megaIn .15s ease both}.nav-list>li.open .mini-drop{display:block}.mini-drop a{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;font-size:.8rem;color:#333;text-decoration:none;transition:background .12s,color .12s}.mini-drop a:hover{background:#fff5f5;color:var(--red)}.has-mega{position:relative}</style>
 <link rel="stylesheet" href="mobile.css"/>
 </head>
 <body>
@@ -514,7 +514,7 @@ document.querySelectorAll('.has-mega').forEach(li => {
   li.querySelector(':scope > a').addEventListener('click', e => {
     const wasOpen = li.classList.contains('open');
     document.querySelectorAll('.has-mega').forEach(x => x.classList.remove('open'));
-    if(!wasOpen) li.classList.add('open');
+    if(!wasOpen){const _d=li.querySelector('.mini-drop');if(_d){const _r=li.getBoundingClientRect();_d.style.top=_r.bottom+'px';_d.style.left=_r.left+'px';}li.classList.add('open');}
     e.preventDefault();
   });
 });

@@ -245,7 +245,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .brand-card-name{font-size:.82rem;font-weight:600;text-align:center;white-space:nowrap;color:#333}
 .brand-scroll-btn{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);background:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;transition:border-color .15s,color .15s}
 .brand-scroll-btn:hover{border-color:var(--red);color:var(--red)}
-.mini-drop{position:absolute;top:100%;left:0;min-width:215px;background:#fff;border:1px solid #e8e8e8;border-radius:.5rem;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:.4rem 0;z-index:300;display:none;animation:megaIn .15s ease both}.nav-list>li.open .mini-drop{display:block}.mini-drop a{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;font-size:.8rem;color:#333;text-decoration:none;transition:background .12s,color .12s}.mini-drop a:hover{background:#fff5f5;color:var(--red)}.has-mega{position:relative}</style>
+.mini-drop{position:fixed;min-width:215px;background:#fff;border:1px solid #e8e8e8;border-radius:.5rem;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:.4rem 0;z-index:300;display:none;animation:megaIn .15s ease both}.nav-list>li.open .mini-drop{display:block}.mini-drop a{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;font-size:.8rem;color:#333;text-decoration:none;transition:background .12s,color .12s}.mini-drop a:hover{background:#fff5f5;color:var(--red)}.has-mega{position:relative}</style>
 <link rel="stylesheet" href="mobile.css"/>
 </head>
 <body>
@@ -428,7 +428,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
       } else {
         var wasOpen = li.classList.contains('open');
         document.querySelectorAll('.has-mega').forEach(function(x){ x.classList.remove('open'); });
-        if(!wasOpen) li.classList.add('open');
+        if(!wasOpen){const _d=li.querySelector('.mini-drop');if(_d){const _r=li.getBoundingClientRect();_d.style.top=_r.bottom+'px';_d.style.left=_r.left+'px';}li.classList.add('open');}
         e.preventDefault();
       }
     });
