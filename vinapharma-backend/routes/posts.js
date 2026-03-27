@@ -69,6 +69,7 @@ router.post('/', protect, adminOnly, upload.single('thumbnail'), async (req, res
     body.tags = parseTags(body.tags);
     body.featured = body.featured === 'true' || body.featured === true;
     body.published = body.published === 'true' || body.published === true;
+    if (body.order !== undefined) body.order = parseInt(body.order) >= 0 ? parseInt(body.order) : 999;
     if (body.published && !body.publishedAt) body.publishedAt = new Date();
     const post = await Post.create(body);
     res.status(201).json({ success: true, message: 'Đăng bài thành công', data: post });
@@ -83,6 +84,7 @@ router.put('/:id', protect, adminOnly, upload.single('thumbnail'), async (req, r
     body.tags = parseTags(body.tags);
     body.featured = body.featured === 'true' || body.featured === true;
     body.published = body.published === 'true' || body.published === true;
+    if (body.order !== undefined) body.order = parseInt(body.order) >= 0 ? parseInt(body.order) : 999;
     const existing = await Post.findById(req.params.id);
     if (!existing) return res.status(404).json({ success: false, message: 'Không tìm thấy bài viết' });
     if (body.published && !existing.publishedAt) body.publishedAt = new Date();

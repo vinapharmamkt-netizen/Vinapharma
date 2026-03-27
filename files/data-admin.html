@@ -1856,7 +1856,7 @@ async function savePost() {
   formData.append('category', document.getElementById('postCategory').value);
   formData.append('tags', document.getElementById('postTags').value);
   formData.append('featured', document.getElementById('postFeatured').value);
-  formData.append('order', document.getElementById('postOrder').value || 999);
+  formData.append('order', parseInt(document.getElementById('postOrder').value) >= 0 ? parseInt(document.getElementById('postOrder').value) : 999);
   formData.append('excerpt', excerpt);
   formData.append('content', document.getElementById('postContent').innerHTML);
   formData.append('published', document.getElementById('postPublished').value);
