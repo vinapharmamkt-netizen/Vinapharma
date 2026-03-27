@@ -252,23 +252,18 @@
 
   function tryShow() {
     if (sessionStorage.getItem(SESSION_KEY)) return;
+    // Kiểm tra nhanh từ storage – không đợi backend
+    var saved;
+    try {
+      var raw = sessionStorage.getItem('vp_access') || localStorage.getItem('vp_access');
+      if (raw) saved = JSON.parse(raw);
+    } catch(e) {}
+    if (saved && saved.user) return; // Đã đăng nhập → không hiện popup
 
-    var authReady = window.__vpAuthReady;
-    if (authReady && typeof authReady.then === 'function') {
-      authReady.then(function (user) {
-        if (!user) {
-          setTimeout(function () {
-            injectStyles();
-            createPopup();
-          }, 10000);
-        }
-      });
-    } else {
-      setTimeout(function () {
-        injectStyles();
-        createPopup();
-      }, 10000);
-    }
+    setTimeout(function () {
+      injectStyles();
+      createPopup();
+    }, 3000);
   }
 
   if (document.readyState === 'loading') {

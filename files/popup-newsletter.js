@@ -125,20 +125,7 @@
     setTimeout(createPopup, 10000);
   }
 
-  // TH1: user đóng popup login → đợi 10s
+  // Hiện 10s sau khi user đóng popup đăng nhập
   document.addEventListener('vp:authPopupClosed', scheduleShow);
-
-  // TH2: user đã đăng nhập (auth popup không hiện) → đợi 20s từ page load
-  var authReady = window.__vpAuthReady;
-  if (authReady && typeof authReady.then === 'function') {
-    authReady.then(function () {
-      // Sau 20s nếu chưa có popup nào lên thì hiện
-      setTimeout(function () {
-        scheduleShow();
-      }, 20000);
-    });
-  } else {
-    setTimeout(scheduleShow, 20000);
-  }
 
 })();
