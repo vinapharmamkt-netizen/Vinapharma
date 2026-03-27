@@ -431,15 +431,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 </div>
 
 <div style="padding:1.2rem 4% 0;max-width:1280px;margin:0 auto">
-  <div class="filter-row" id="catFilter">
-    <span class="filter-chip active" data-topic="">Tất cả</span>
-    <span class="filter-chip" data-topic="Sức khỏe">Sức khỏe</span>
-    <span class="filter-chip" data-topic="Làm đẹp">Làm đẹp</span>
-    <span class="filter-chip" data-topic="Dinh dưỡng">Dinh dưỡng</span>
-    <span class="filter-chip" data-topic="Lối sống">Lối sống</span>
-    <span class="filter-chip" data-topic="Thể hình">Thể hình</span>
-    <span class="filter-chip" data-topic="Tim mạch">Tim mạch</span>
-  </div>
+  <div class="filter-row" id="catFilter"></div>
 </div>
 
 <div class="news-body">
@@ -554,6 +546,27 @@ const CAT_INFO = {
   'Tin Tuyển dụng':     ['Tin Tuyển dụng', 'Cơ hội việc làm và phát triển nghề nghiệp tại Vinapharma.'],
   'Truyền thông':       ['Truyền thông', 'Tin tức về hoạt động truyền thông và sự kiện của Vinapharma.'],
 };
+const CAT_TOPICS = {
+  '':                   ['Sức khỏe','Làm đẹp','Dinh dưỡng','Lối sống','Thể hình','Tim mạch'],
+  'Góc sức khỏe':       ['Sức khỏe','Lối sống','Thể hình','Tim mạch'],
+  'Góc làm đẹp':        ['Làm đẹp','Lối sống','Sức khỏe'],
+  'Góc dinh dưỡng':     ['Dinh dưỡng','Sức khỏe','Thể hình','Lối sống'],
+  'Vấn đề thường gặp':  ['Sức khỏe','Tim mạch','Lối sống'],
+  'Tin Y tế':           ['Sức khỏe','Tim mạch','Dinh dưỡng'],
+  'Tin Tuyển dụng':     [],
+  'Truyền thông':       [],
+};
+function renderChips(cat, activeTopic) {
+  var topics = CAT_TOPICS[cat] || CAT_TOPICS[''];
+  var el = document.getElementById('catFilter');
+  if (!el) return;
+  var h = '<span class="filter-chip'+((!activeTopic)?' active':'')+'" data-topic="">Tất cả</span>';
+  topics.forEach(function(t){
+    h += '<span class="filter-chip'+(activeTopic===t?' active':'')+'" data-topic="'+t+'">'+t+'</span>';
+  });
+  el.innerHTML = h;
+}
+renderChips(currentCat, currentTopic);
 if (currentCat && CAT_INFO[currentCat]) {
   document.getElementById('heroTitle').textContent = CAT_INFO[currentCat][0];
   document.getElementById('heroSub').textContent   = CAT_INFO[currentCat][1];
