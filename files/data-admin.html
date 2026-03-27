@@ -1223,6 +1223,18 @@ function doLogout() {
   AuthClient.logout();
 }
 
+// ── AUTO-CHECK AUTH KHI TẢI TRANG ──
+window.__vpAuthReady.then(function(user) {
+  if (user && user.role === 'admin') {
+    token = AuthClient.getToken();
+    currentUser = user;
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('adminName').textContent = user.name;
+    document.getElementById('adminAvatar').textContent = user.name[0].toUpperCase();
+    initData();
+  }
+});
+
 // ── TABS ──
 function showTab(name, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
