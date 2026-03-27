@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['Dinh dưỡng', 'Sức khỏe', 'Lối sống', 'Thể hình', 'Làm đẹp', 'Tim mạch', 'Khác']
+    enum: ['Góc sức khỏe', 'Góc làm đẹp', 'Góc dinh dưỡng', 'Vấn đề thường gặp', 'Tin Y tế', 'Tin Tuyển dụng', 'Truyền thông', 'Dinh dưỡng', 'Sức khỏe', 'Lối sống', 'Thể hình', 'Làm đẹp', 'Tim mạch', 'Khác']
   },
   tags: {
     type: [String],
