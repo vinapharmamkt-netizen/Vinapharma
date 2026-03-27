@@ -371,8 +371,8 @@ i.fa-solid,i.fa-regular{line-height:1}
             <div class="section-title"><i class="fa-solid fa-tag ic-gray"></i> Danh sách thương hiệu</div>
             <div class="section-actions"><button class="btn btn-red" onclick="openBrandModal()">+ Thêm thương hiệu</button></div>
           </div>
-          <table><thead><tr><th>Mã</th><th>Tên thương hiệu</th><th>Mô tả</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-          <tbody id="brandTable"><tr><td colspan="5" class="empty-state">Đang tải...</td></tr></tbody></table>
+          <table><thead><tr><th>STT</th><th>Mã</th><th>Tên thương hiệu</th><th>Mô tả</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+          <tbody id="brandTable"><tr><td colspan="6" class="empty-state">Đang tải...</td></tr></tbody></table>
         </div>
       </div>
 
@@ -541,6 +541,7 @@ i.fa-solid,i.fa-regular{line-height:1}
       <div class="form-grid">
         <div class="form-group"><label>Mã thương hiệu *</label><input id="bCode" placeholder="VD: PHARMED"/></div>
         <div class="form-group"><label>Tên thương hiệu *</label><input id="bName" placeholder="VD: PharMed"/></div>
+        <div class="form-group"><label>Thứ tự ưu tiên <span style="color:#999;font-weight:400">(số nhỏ = hiện trước)</span></label><input id="bOrder" type="number" min="0" placeholder="0"/></div>
         <div class="form-group full"><label>Mô tả</label><textarea id="bDesc" rows="2" placeholder="Mô tả thương hiệu..."></textarea></div>
         <div class="form-group">
           <label>Logo thương hiệu</label>
@@ -1538,9 +1539,10 @@ async function loadBrands() {
 function renderBrands(list) {
   const tbody = document.getElementById('brandTable');
   if (!tbody) return;
-  if (!list.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Chưa có thương hiệu nào</td></tr>'; return; }
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Chưa có thương hiệu nào</td></tr>'; return; }
   tbody.innerHTML = list.map(b => `
     <tr>
+      <td style="text-align:center;font-weight:700;color:#888;font-size:.82rem">${b.order ?? 0}</td>
       <td><span class="badge badge-blue">${b.code}</span></td>
       <td><b>${b.name}</b></td>
       <td style="color:#888;font-size:.8rem">${b.description||'–'}</td>
@@ -1575,6 +1577,7 @@ function openBrandModal(b = null) {
   document.getElementById('bName').value = b?.name || '';
   document.getElementById('bDesc').value = b?.description || '';
   document.getElementById('bActive').value = String(b?.active !== false);
+  document.getElementById('bOrder').value = b?.order ?? 0;
   document.getElementById('bLogo').value = b?.logo || '';
   const prev = document.getElementById('bLogoPreview');
   const txt = document.getElementById('bLogoText');
@@ -1610,7 +1613,7 @@ async function saveBrand() {
   const code = document.getElementById('bCode').value.trim().toUpperCase();
   const name = document.getElementById('bName').value.trim();
   if (!code || !name) return showToast('Vui lòng nhập mã và tên thương hiệu', 'error');
-  const body = { code, name, description: document.getElementById('bDesc').value.trim(), active: document.getElementById('bActive').value, logo: document.getElementById('bLogo').value.trim() };
+  const body = { code, name, description: document.getElementById('bDesc').value.trim(), active: document.getElementById('bActive').value, order: document.getElementById('bOrder').value, logo: document.getElementById('bLogo').value.trim() };
   try {
     const url = id ? `${API}/api/brands/${id}` : `${API}/api/brands`;
     const method = id ? 'PUT' : 'POST';
