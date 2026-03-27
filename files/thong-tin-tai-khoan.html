@@ -214,7 +214,7 @@ input:disabled{background:#f9f9f9;color:#888}
 <script src="authClient.js"></script>
 <script src="rank-icons.js"></script>
 <script>
-const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://vinapharma-pwv2.onrender.com';
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://api.vinapharmajsc.vn';
 
 
 const RANKS_NORMAL = [
@@ -351,7 +351,7 @@ async function loadProfile() {
       const pts    = Math.max(0, Math.floor((u.totalSpent || 0) / rate) + (u.bonusPoints || 0) - (u.redeemedPoints || 0));
       const arr    = uType === 'btob' ? RANKS_BTOB : RANKS_NORMAL;
       const rk     = arr.find(r => r.key === rank) || arr[0];
-      const btobTag = uType === 'btob' ? ' <span style="margin-left:.3rem;background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Quý đối tác</span>' : 'https://vinapharma-pwv2.onrender.com';
+      const btobTag = uType === 'btob' ? ' <span style="margin-left:.3rem;background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-building" style="color:#1d4ed8"></i> Quý đối tác</span>' : 'https://api.vinapharmajsc.vn';
       const roleTag = u.role === 'admin'
         ? '<span style="background:#fee2e2;color:#dc2626;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-star" style="color:#d97706"></i> Admin</span>'
         : '<span style="background:#dbeafe;color:#1d4ed8;padding:.15rem .5rem;border-radius:.25rem;font-size:.72rem;font-weight:800"><i class="fa-solid fa-user" style="color:#6b7280"></i> Thành viên</span>';

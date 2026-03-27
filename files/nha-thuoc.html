@@ -812,8 +812,8 @@ function renderList() {
 
   list.innerHTML = filteredData.map((p,i) => {
     const distHtml = (userLat && p.dist != null)
-      ? `<div class="ph-dist"><i class="fa-solid fa-location-dot"></i> ${p.dist < 1 ? (p.dist*1000).toFixed(0)+'m' : p.dist.toFixed(1)+'km'} từ bạn</div>` : 'https://vinapharma-pwv2.onrender.com';
-    const phoneHtml = p.phone ? `<div style="font-size:.72rem;color:#555;margin-top:.15rem"><i class="fa-solid fa-phone" style="color:var(--red);margin-right:.3rem"></i>${p.phone}</div>` : 'https://vinapharma-pwv2.onrender.com';
+      ? `<div class="ph-dist"><i class="fa-solid fa-location-dot"></i> ${p.dist < 1 ? (p.dist*1000).toFixed(0)+'m' : p.dist.toFixed(1)+'km'} từ bạn</div>` : 'https://api.vinapharmajsc.vn';
+    const phoneHtml = p.phone ? `<div style="font-size:.72rem;color:#555;margin-top:.15rem"><i class="fa-solid fa-phone" style="color:var(--red);margin-right:.3rem"></i>${p.phone}</div>` : 'https://api.vinapharmajsc.vn';
     return `<div class="ph-card${p.id === activeCardId ? ' active' : ''}" id="card-${p.id}" onclick="selectPharmacy('${p.id}', ${p.lat}, ${p.lng})">
       <div class="ph-icon"><i class="fa-solid fa-hospital-user"></i></div>
       <div class="ph-info">

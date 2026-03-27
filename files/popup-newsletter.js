@@ -6,7 +6,7 @@
   const SESSION_KEY = 'vp_nl_shown';
   const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:5000'
-    : 'https://vinapharma-pwv2.onrender.com';
+    : 'https://api.vinapharmajsc.vn';
 
   function injectStyles() {
     if (document.getElementById('vp-nl-style')) return;

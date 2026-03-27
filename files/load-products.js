@@ -5,7 +5,7 @@
 (function() {
   const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000'
-    : 'https://vinapharma-pwv2.onrender.com';
+    : 'https://api.vinapharmajsc.vn';
   let allBrands = [];
   let allProducts = [];
   let currentBrand = 'all';
@@ -181,7 +181,7 @@
         
         const priceHtml = '';
         
-        const badgeHtml = product.badge ? `<span class="product-badge">${product.badge}</span>` : 'https://vinapharma-pwv2.onrender.com';
+        const badgeHtml = product.badge ? `<span class="product-badge">${product.badge}</span>` : 'https://api.vinapharmajsc.vn';
         
         card.innerHTML = `
           ${badgeHtml}

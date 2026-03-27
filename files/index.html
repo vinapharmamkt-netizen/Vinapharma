@@ -640,7 +640,7 @@ document.querySelectorAll('.add-btn').forEach(btn => {
 </script>
 <script>
 // ── Vinapharma API Integration ──
-const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://vinapharma-pwv2.onrender.com';
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://api.vinapharmajsc.vn';
 const formatPrice = p => new Intl.NumberFormat('vi-VN').format(p) + ' ₫';
 
 async function loadHeroBanners() {
@@ -768,7 +768,7 @@ loadPromoBanner();
 
 // Load latest posts for homepage
 (function(){
-  var API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://vinapharma-pwv2.onrender.com';
+  var API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://api.vinapharmajsc.vn';
   var BG = [
     'linear-gradient(135deg,#fde8e8,#f4a0a0)',
     'linear-gradient(135deg,#fff0e8,#f4b080)',

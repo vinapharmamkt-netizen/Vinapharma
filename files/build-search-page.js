@@ -101,7 +101,7 @@ ${footer}
 <script>
 const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:5000'
-  : 'https://vinapharma-pwv2.onrender.com';
+  : 'https://api.vinapharmajsc.vn';
 
 const params = new URLSearchParams(location.search);
 const q = params.get('q') || params.get('search') || '';
@@ -115,7 +115,7 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function fmtPrice(n) {
-  return n ? n.toLocaleString('vi-VN') + '\u20ab' : 'https://vinapharma-pwv2.onrender.com';
+  return n ? n.toLocaleString('vi-VN') + '\u20ab' : 'https://api.vinapharmajsc.vn';
 }
 function imgUrl(u) {
   if (!u) return '';
@@ -167,7 +167,7 @@ async function doSearch(query) {
         const img = src
           ? '<img src="' + imgUrl(src) + '" alt="' + escHtml(a.title) + '" loading="lazy"/>'
           : '<i class="fa-regular fa-newspaper" style="color:#d1d5db;font-size:2.5rem"></i>';
-        const date = a.createdAt ? new Date(a.createdAt).toLocaleDateString('vi-VN') : 'https://vinapharma-pwv2.onrender.com';
+        const date = a.createdAt ? new Date(a.createdAt).toLocaleDateString('vi-VN') : 'https://api.vinapharmajsc.vn';
         return '<a class="sr-post-card" href="tin-tuc-chi-tiet.html?id=' + a._id + '">'
           + '<div class="sr-post-thumb">' + img + '</div>'
           + '<div class="sr-post-body">'

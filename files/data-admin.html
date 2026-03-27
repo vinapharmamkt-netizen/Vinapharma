@@ -1089,7 +1089,7 @@ i.fa-solid,i.fa-regular{line-height:1}
 <script>
 const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:5000'
-  : 'https://vinapharma-pwv2.onrender.com';
+  : 'https://api.vinapharmajsc.vn';
 let token = null;
 
 // ── AUTHENTICATED FETCH dùng AuthClient ──
@@ -2124,7 +2124,7 @@ async function openAboutEditor(idx) {
   try {
     const res = await authFetch(API + '/api/settings/about-content-' + idx, { headers:{} });
     const data = await res.json();
-    editor.innerHTML = (data.success && data.data) ? data.data : 'https://vinapharma-pwv2.onrender.com';
+    editor.innerHTML = (data.success && data.data) ? data.data : 'https://api.vinapharmajsc.vn';
   } catch(e) { editor.innerHTML = ''; }
 }
 
@@ -2138,7 +2138,7 @@ async function openActivitiesEditor(idx) {
   try {
     const res = await authFetch(API + '/api/settings/activities-content-' + idx, { headers:{} });
     const data = await res.json();
-    editor.innerHTML = (data.success && data.data) ? data.data : 'https://vinapharma-pwv2.onrender.com';
+    editor.innerHTML = (data.success && data.data) ? data.data : 'https://api.vinapharmajsc.vn';
   } catch(e) { editor.innerHTML = ''; }
 }
 
@@ -2972,8 +2972,8 @@ async function openDebtModal(d) {
   document.getElementById('dtDesc').value    = d?.description || '';
   document.getElementById('dtStatus').value  = d?.status || 'unpaid';
   document.getElementById('dtNote').value    = d?.note || '';
-  document.getElementById('dtDueDate').value = d?.dueDate ? new Date(d.dueDate).toISOString().slice(0,10) : 'https://vinapharma-pwv2.onrender.com';
-  document.getElementById('dtPaidDate').value = d?.paidDate ? new Date(d.paidDate).toISOString().slice(0,10) : 'https://vinapharma-pwv2.onrender.com';
+  document.getElementById('dtDueDate').value = d?.dueDate ? new Date(d.dueDate).toISOString().slice(0,10) : 'https://api.vinapharmajsc.vn';
+  document.getElementById('dtPaidDate').value = d?.paidDate ? new Date(d.paidDate).toISOString().slice(0,10) : 'https://api.vinapharmajsc.vn';
   togglePaidDate(d?.status || 'unpaid');
 
   // Populate user dropdown
@@ -3090,7 +3090,7 @@ async function saveReward() {
   if (!pts)  return showToast('Vui lòng nhập số điểm cần', 'error');
 
   const saveBtn = document.querySelector('#rewardOverlay .btn-red');
-  const origHtml = saveBtn ? saveBtn.innerHTML : 'https://vinapharma-pwv2.onrender.com';
+  const origHtml = saveBtn ? saveBtn.innerHTML : 'https://api.vinapharmajsc.vn';
   if (saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu...'; }
 
   const fd = new FormData();
@@ -3444,11 +3444,11 @@ function renderPBs(list) {
 function openPBModal(b) {
   b = b || null;
   document.getElementById('pbModalTitle').textContent = b ? 'Sửa băng rôn' : 'Thêm băng rôn';
-  document.getElementById('pbId').value = b ? b._id : 'https://vinapharma-pwv2.onrender.com';
+  document.getElementById('pbId').value = b ? b._id : 'https://api.vinapharmajsc.vn';
   document.getElementById('pbLabel').value = b ? (b.label || '') : 'Uưu đãi tháng này';
-  document.getElementById('pbTitle').value = b ? (b.title || '') : 'https://vinapharma-pwv2.onrender.com';
-  document.getElementById('pbSubtitle').value = b ? (b.subtitle || '') : 'https://vinapharma-pwv2.onrender.com';
-  document.getElementById('pbDescription').value = b ? (b.description || '') : 'https://vinapharma-pwv2.onrender.com';
+  document.getElementById('pbTitle').value = b ? (b.title || '') : 'https://api.vinapharmajsc.vn';
+  document.getElementById('pbSubtitle').value = b ? (b.subtitle || '') : 'https://api.vinapharmajsc.vn';
+  document.getElementById('pbDescription').value = b ? (b.description || '') : 'https://api.vinapharmajsc.vn';
   document.getElementById('pbButtonText').value = b ? (b.buttonText || 'Mua ngay') : 'Mua ngay';
   document.getElementById('pbButtonLink').value = b ? (b.buttonLink || 'san-pham.html') : 'san-pham.html';
   var pbColor = b ? (b.bgColor || '#cc1f1f') : '#cc1f1f';

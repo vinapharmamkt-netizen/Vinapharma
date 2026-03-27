@@ -8,7 +8,7 @@
 const AuthClient = (() => {
   const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000'
-    : 'https://vinapharma-pwv2.onrender.com';
+    : 'https://api.vinapharmajsc.vn';
   let _accessToken = null;
   let _user        = null;
   let _refreshing  = null; // Promise đang refresh (tránh gọi nhiều lần)

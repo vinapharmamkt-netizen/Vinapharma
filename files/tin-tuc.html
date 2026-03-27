@@ -544,7 +544,7 @@ document.addEventListener('click', e => {
 </script>
 
 <script>
-const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://vinapharma-pwv2.onrender.com';
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://api.vinapharmajsc.vn';
 const _urlP = new URLSearchParams(window.location.search);
 let currentCat = _urlP.get('category') || '', currentTopic = _urlP.get('topic') || '', page = 1, perPage = 9;
 const CAT_INFO = {

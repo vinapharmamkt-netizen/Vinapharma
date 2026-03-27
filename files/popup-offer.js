@@ -37,13 +37,13 @@
   color: #fff; text-align: center; position: relative; overflow: hidden;
 }
 #vp-popup-left::before {
-  content: 'https://vinapharma-pwv2.onrender.com';
+  content: 'https://api.vinapharmajsc.vn';
   position: absolute; top: -40px; right: -40px;
   width: 140px; height: 140px; border-radius: 50%;
   background: rgba(255,255,255,.06);
 }
 #vp-popup-left::after {
-  content: 'https://vinapharma-pwv2.onrender.com';
+  content: 'https://api.vinapharmajsc.vn';
   position: absolute; bottom: -30px; left: -30px;
   width: 100px; height: 100px; border-radius: 50%;
   background: rgba(255,255,255,.05);
