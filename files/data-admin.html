@@ -71,7 +71,7 @@ tr:hover td{background:#fafafa}
 .badge-paid{background:#dcfce7;color:#166534}
 .badge-unpaid{background:#fee2e2;color:#dc2626}
 .badge-dong{background:#fef3c7;color:#92400e}
-.badge-bac{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}
+.badge-bac{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}.admin-tag-chip{padding:.28rem .75rem;border-radius:99px;border:1.5px solid #e0e0e0;background:#fff;font-size:.75rem;font-weight:600;cursor:pointer;color:#666;transition:.15s;user-select:none}.admin-tag-chip:hover{border-color:#cc1f1f;color:#cc1f1f}.admin-tag-chip.sel{background:#cc1f1f;color:#fff;border-color:#cc1f1f}
 .badge-vang{background:#fefce8;color:#854d0e}
 .badge-kim{background:#eff6ff;color:#1e40af;border:1px solid #93c5fd}
 
@@ -715,19 +715,12 @@ i.fa-solid,i.fa-regular{line-height:1}
       <div class="form-grid">
         <div class="form-group full"><label>Tiêu đề bài viết *</label><input id="postTitle" placeholder="Tiêu đề bài viết..."/></div>
         <div class="form-group"><label>Danh mục</label>
-          <select id="postCategory">
+          <select id="postCategory" onchange="renderAdminTagChips(this.value,[])">
             <option>Góc sức khỏe</option><option>Góc làm đẹp</option><option>Góc dinh dưỡng</option>
             <option>Vấn đề thường gặp</option><option>Tin Y tế</option><option>Tin Tuyển dụng</option><option>Truyền thông</option>
           </select>
         </div>
-        <div class="form-group"><label>Tag chủ đề</label>
-          <select id="postTopic">
-            <option value="">-- Không chọn --</option>
-            <option>Sức khỏe</option><option>Làm đẹp</option><option>Dinh dưỡng</option>
-            <option>Lối sống</option><option>Thể hình</option><option>Tim mạch</option><option>Khác</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Chủ đề (tags, cách nhau bằng dấu phẩy)</label><input id="postTags" placeholder="VD: Dinh dưỡng, Vitamin, Sức đề kháng"/></div>
+        <div class="form-group full"><label>Tag bài viết <span style="font-weight:400;color:#999;font-size:.76rem">(click chọn / bỏ chọn)</span></label><div id="postTagChips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;min-height:2rem"></div></div>
         <div class="form-group"><label>Trạng thái</label>
           <select id="postPublished"><option value="true"><i class="fa-solid fa-circle-check ic-green"></i> Đã đăng</option><option value="false"><i class="fa-solid fa-pen-to-square ic-gray"></i> Nháp</option></select>
         </div>
@@ -1838,13 +1831,34 @@ function setupPostCatTabs() {
   });
 }
 
+const ADMIN_CAT_TAGS = {
+  'Góc sức khỏe':      ['Thói quen buổi sáng','Thói quen lành mạnh','Sức khỏe toàn diện','Lối sống','Vận động','Giảm stress'],
+  'Góc làm đẹp':       ['Chăm sóc da','Chăm sóc tóc','Skincare','Làm đẹp tự nhiên','Dưỡng ẩm','Chống lão hóa'],
+  'Góc dinh dưỡng':    ['Omega-3','Protein','Não bộ','Cơ thể khỏe mạnh','Chế độ ăn','Vitamin'],
+  'Vấn đề thường gặp': ['Mất ngủ','Giấc ngủ','Đau đầu','Sức khỏe tâm thần','Xương khớp','Tiêu hóa','Mệt mỏi'],
+  'Tin Y tế':          ['Vitamin D','Sức khỏe xương','Miễn dịch','Huyết áp','Tim mạch','Phòng ngừa','Nghiên cứu'],
+  'Tin Tuyển dụng':    ['Tuyển dụng','Nghề nghiệp','Dược sĩ','Trình dược viên','Marketing dược'],
+  'Truyền thông':      ['Sứ mệnh','Cộng đồng','Vinapharma','Sự kiện','Hợp tác','Giải thưởng'],
+};
+function renderAdminTagChips(cat, selected) {
+  var tags = ADMIN_CAT_TAGS[cat] || [];
+  var el = document.getElementById('postTagChips');
+  if (!el) return;
+  el.innerHTML = tags.map(function(t){
+    var isSel = (selected||[]).indexOf(t) > -1;
+    return '<span class="admin-tag-chip'+(isSel?' sel':'')+'" onclick="this.classList.toggle('sel')">'+t+'</span>';
+  }).join('');
+}
+function getSelectedAdminTags() {
+  return Array.from(document.querySelectorAll('#postTagChips .admin-tag-chip.sel')).map(function(el){ return el.textContent; });
+}
 function openPostModal() {
   document.getElementById('postModalTitle').textContent = 'Viết bài mới';
   document.getElementById('postId').value = '';
   document.getElementById('postTitle').value = '';
   document.getElementById('postExcerpt').value = '';
   document.getElementById('postContent').innerHTML = '';
-  document.getElementById('postTags').value = '';
+  renderAdminTagChips(document.getElementById('postCategory').value, []);
   document.getElementById('postFeatured').value = 'false';
   document.getElementById('postPublished').value = 'true';
   if (currentPostCat) document.getElementById('postCategory').value = currentPostCat;
@@ -1863,10 +1877,8 @@ function editPost(idOrObj) {
   document.getElementById('postExcerpt').value = p.excerpt || '';
   document.getElementById('postContent').innerHTML = p.content || '';
   document.getElementById('postCategory').value = p.category;
-  document.getElementById('postTopic').value = p.topic || '';
-  document.getElementById('postTags').value = (p.tags||[]).join(', ');
+  renderAdminTagChips(p.category, p.tags || []);
   document.getElementById('postFeatured').value = p.featured ? 'true' : 'false';
-  document.getElementById('postOrder').value = p.order ?? 999;
   document.getElementById('postPublished').value = p.published ? 'true' : 'false';
   if (p.thumbnail) {
     document.getElementById('postImgPreview').src = API + p.thumbnail;
@@ -1889,8 +1901,8 @@ async function savePost() {
   const formData = new FormData();
   formData.append('title', title);
   formData.append('category', document.getElementById('postCategory').value);
-  formData.append('topic', document.getElementById('postTopic').value);
-  formData.append('tags', document.getElementById('postTags').value);
+  formData.append('topic', '');
+  formData.append('tags', getSelectedAdminTags().join(', '));
   formData.append('featured', document.getElementById('postFeatured').value);
   formData.append('excerpt', excerpt);
   formData.append('content', document.getElementById('postContent').innerHTML);

@@ -546,27 +546,29 @@ const CAT_INFO = {
   'Tin Tuyển dụng':     ['Tin Tuyển dụng', 'Cơ hội việc làm và phát triển nghề nghiệp tại Vinapharma.'],
   'Truyền thông':       ['Truyền thông', 'Tin tức về hoạt động truyền thông và sự kiện của Vinapharma.'],
 };
-const CAT_TOPICS = {
-  '':                   ['Sức khỏe','Làm đẹp','Dinh dưỡng','Lối sống','Thể hình','Tim mạch'],
-  'Góc sức khỏe':       ['Sức khỏe','Lối sống','Thể hình','Tim mạch'],
-  'Góc làm đẹp':        ['Làm đẹp','Lối sống','Sức khỏe'],
-  'Góc dinh dưỡng':     ['Dinh dưỡng','Sức khỏe','Thể hình','Lối sống'],
-  'Vấn đề thường gặp':  ['Sức khỏe','Tim mạch','Lối sống'],
-  'Tin Y tế':           ['Sức khỏe','Tim mạch','Dinh dưỡng'],
-  'Tin Tuyển dụng':     [],
-  'Truyền thông':       [],
+const CAT_TAGS = {
+  '':                  [],
+  'Góc sức khỏe':      ['Thói quen buổi sáng','Thói quen lành mạnh','Sức khỏe toàn diện','Lối sống','Vận động','Giảm stress'],
+  'Góc làm đẹp':       ['Chăm sóc da','Chăm sóc tóc','Skincare','Làm đẹp tự nhiên','Dưỡng ẩm','Chống lão hóa'],
+  'Góc dinh dưỡng':    ['Omega-3','Protein','Não bộ','Cơ thể khỏe mạnh','Chế độ ăn','Vitamin'],
+  'Vấn đề thường gặp': ['Mất ngủ','Giấc ngủ','Đau đầu','Sức khỏe tâm thần','Xương khớp','Tiêu hóa','Mệt mỏi'],
+  'Tin Y tế':          ['Vitamin D','Sức khỏe xương','Miễn dịch','Huyết áp','Tim mạch','Phòng ngừa','Nghiên cứu'],
+  'Tin Tuyển dụng':    ['Tuyển dụng','Nghề nghiệp','Dược sĩ','Trình dược viên','Marketing dược'],
+  'Truyền thông':      ['Sứ mệnh','Cộng đồng','Vinapharma','Sự kiện','Hợp tác','Giải thưởng'],
 };
-function renderChips(cat, activeTopic) {
-  var topics = CAT_TOPICS[cat] || CAT_TOPICS[''];
+var currentTag = _urlP.get('tag') || '';
+function renderChips(cat, activeTag) {
+  var tags = CAT_TAGS[cat] !== undefined ? CAT_TAGS[cat] : [];
   var el = document.getElementById('catFilter');
   if (!el) return;
-  var h = '<span class="filter-chip'+((!activeTopic)?' active':'')+'" data-topic="">Tất cả</span>';
-  topics.forEach(function(t){
-    h += '<span class="filter-chip'+(activeTopic===t?' active':'')+'" data-topic="'+t+'">'+t+'</span>';
+  if (!tags.length) { el.innerHTML = ''; return; }
+  var h = '<span class="filter-chip'+((!activeTag)?' active':'')+'" data-tag="">Tất cả</span>';
+  tags.forEach(function(t){
+    h += '<span class="filter-chip'+(activeTag===t?' active':'')+'" data-tag="'+t+'">'+t+'</span>';
   });
   el.innerHTML = h;
 }
-renderChips(currentCat, currentTopic);
+renderChips(currentCat, currentTag);
 if (currentCat && CAT_INFO[currentCat]) {
   document.getElementById('heroTitle').textContent = CAT_INFO[currentCat][0];
   document.getElementById('heroSub').textContent   = CAT_INFO[currentCat][1];
@@ -628,13 +630,13 @@ function renderGrid(posts,append){
   document.getElementById('nList').insertAdjacentHTML('beforeend',nRows(posts,0));
 }
 
-async function loadPosts(cat, pg, append){
-  cat = cat || ''; pg = pg || 1; append = append || false;
-  if(!append) document.getElementById('featGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">\u0110ang t\u1ea3i...</div>';
+async function loadPosts(pg, append){
+  pg = pg || 1; append = append || false;
+  if(!append) document.getElementById('featGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div>';
   try{
     var url = API+'/api/posts?limit='+perPage+'&page='+pg;
     if(currentCat) url += '&category='+encodeURIComponent(currentCat);
-    if(cat) url += '&topic='+encodeURIComponent(cat);
+    if(currentTag) url += '&tag='+encodeURIComponent(currentTag);
     var res = await fetch(url);
     var data = await res.json();
     if(!data.success) return;
@@ -647,16 +649,16 @@ async function loadPosts(cat, pg, append){
   }
 }
 
-function loadMore(){ loadPosts(currentCat, page+1, true); }
+function loadMore(){ loadPosts(page+1, true); }
 
 document.getElementById('catFilter').addEventListener('click', function(e){
   var chip = e.target.closest('.filter-chip');
   if(!chip) return;
   document.querySelectorAll('#catFilter .filter-chip').forEach(c => c.classList.remove('active'));
   chip.classList.add('active');
-  currentCat = chip.dataset.topic;
+  currentTag = chip.dataset.tag;
   page = 1;
-  loadPosts(currentCat, 1);
+  loadPosts(1);
 });
 
 function openPost(id){
@@ -664,15 +666,7 @@ function openPost(id){
 }
 
 // Highlight filter chip theo URL param
-if(currentTopic){
-  document.querySelectorAll('#catFilter .filter-chip').forEach(c=>{
-    c.classList.toggle('active', c.dataset.topic===currentTopic);
-  });
-  currentCat = currentCat; // keep category
-  loadPosts(currentTopic, 1);
-} else {
-  loadPosts();
-}
+loadPosts(1);
 </script>
 <script src="authClient.js"></script>
 <script src="header.js?v=3"></script>

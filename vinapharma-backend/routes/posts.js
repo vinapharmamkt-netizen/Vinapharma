@@ -21,10 +21,11 @@ router.post('/upload-image', protect, adminOnly, upload.single('image'), (req, r
 // GET public list
 router.get('/', async (req, res) => {
   try {
-    const { category, topic, search, page = 1, limit = 10, featured } = req.query;
+    const { category, topic, tag, search, page = 1, limit = 10, featured } = req.query;
     const filter = { published: true };
     if (category) filter.category = category;
     if (topic) filter.topic = topic;
+    if (tag) filter.tags = tag;
     if (featured === 'true') filter.featured = true;
     if (search) filter.$or = [
       { title:   { $regex: search, $options: 'i' } },
