@@ -188,20 +188,25 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .news-hero-sub{font-size:.9rem;color:#666;line-height:1.65}
 .news-body{padding:2.5rem 4%;max-width:1280px;margin:0 auto}
 /* Asymmetric grid */
-.asym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem}
-.asym-card{text-decoration:none;color:var(--dark);display:block}
-.asym-card-sm{grid-column:span 1}
-.asym-card-lg{grid-column:span 2}
-.asym-card-img{overflow:hidden;background:var(--light);margin-bottom:.85rem}
-.asym-card-sm .asym-card-img{aspect-ratio:3/4}
-.asym-card-lg .asym-card-img{aspect-ratio:16/7}
-.asym-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
-.asym-card:hover .asym-card-img img{transform:scale(1.03)}
-.asym-card-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--light)}
-.asym-cat{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
-.asym-title{font-size:1rem;font-weight:800;line-height:1.35;margin-bottom:.5rem;color:#111}
-.asym-card-lg .asym-title{font-size:1.25rem}
-.asym-more{font-size:.78rem;font-weight:700;color:var(--red);margin-top:.4rem;display:inline-block}
+.feat-grid{display:grid;grid-template-columns:3fr 2fr;gap:2rem;margin-bottom:3rem}
+.feat-card{text-decoration:none;color:var(--dark);display:block}
+.feat-card:hover .feat-img img{transform:scale(1.03)}
+.feat-img{overflow:hidden;margin-bottom:1rem;background:var(--light);aspect-ratio:4/3}
+.feat-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s;display:block}
+.feat-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.feat-title{font-size:1.2rem;font-weight:800;line-height:1.35;margin-bottom:.5rem}
+.feat-card-sub .feat-title{font-size:1rem}
+.feat-more{font-size:.78rem;font-weight:700;color:var(--red)}
+.nlist{display:flex;flex-direction:column}
+.nrow{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;padding:2rem 0;border-bottom:1px solid var(--border)}
+.nrow:first-child{border-top:1px solid var(--border)}
+.ncard{text-decoration:none;color:var(--dark);display:block}
+.ncard:hover .ncard-img img{transform:scale(1.03)}
+.ncard-img{overflow:hidden;margin-bottom:.9rem;background:var(--light);aspect-ratio:4/3}
+.ncard-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s;display:block}
+.ncard-cat{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:.3rem}
+.ncard-title{font-size:.95rem;font-weight:800;line-height:1.4;margin-bottom:.55rem}
+.ncard-more{font-size:.78rem;font-weight:700;color:var(--red)}
 /* Red banner */
 .red-banner{background:var(--red);display:grid;grid-template-columns:40% 1fr;min-height:320px;margin-bottom:3rem;text-decoration:none;color:#fff}
 .red-banner-img{overflow:hidden}
@@ -280,8 +285,8 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .filter-chip.active,.filter-chip:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .empty-news{text-align:center;padding:4rem 1rem;color:#bbb}
 .empty-news .empty-icon{font-size:3rem;margin-bottom:.75rem}
-@media(max-width:900px){.news-hero-inner{grid-template-columns:1fr}.news-hero-img{display:none}.news-hero-text{padding:2rem 0}.asym-grid{grid-template-columns:1fr 1fr}.asym-card-sm,.asym-card-lg{grid-column:span 1}.red-banner{grid-template-columns:1fr}.more-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.asym-grid{grid-template-columns:1fr}.asym-card-sm,.asym-card-lg{grid-column:span 1}.more-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.news-hero-inner{grid-template-columns:1fr}.news-hero-img{display:none}.news-hero-text{padding:2rem 0}.feat-grid{grid-template-columns:1fr}.nrow{grid-template-columns:1fr}}
+@media(max-width:600px){.feat-grid{grid-template-columns:1fr}.nrow{grid-template-columns:1fr}}
 
 
 /* Mega menu Activlab-style */
@@ -436,21 +441,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 </div>
 
 <div class="news-body">
-  <div id="asymSection">
-    <div class="asym-grid" id="asymGrid"></div>
-  </div>
-  <a id="redBanner" class="red-banner" href="#" style="display:none"></a>
-  <div id="moreFromSection">
-    <div class="more-from-heading">Thêm từ Vinapharma</div>
-    <div class="more-grid" id="moreGrid"></div>
-  </div>
-  <div class="grid-section" style="display:none">
-    <div class="article-grid" id="articleGrid">
-      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div>
-    </div>
-    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-      <button class="btn-load-more" onclick="loadMore()">Xem thêm bài viết</button>
-    </div>
+  <div class="feat-grid" id="featGrid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">Đang tải...</div></div>
+  <div class="nlist" id="nList"></div>
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+    <button class="btn-load-more" onclick="loadMore()">Xem thêm bài viết</button>
   </div>
 </div>
 
@@ -545,82 +539,50 @@ function tagsHtml(tags, cls){
   return (tags||[]).map(t => '<span class="'+cls+'">'+t+'</span>').join('');
 }
 
-function aImg(p,i){
+function fImg(p,i){
   if(p.thumbnail) return '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'" loading="lazy">';
-  return '<div class="asym-card-img-ph" style="background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
+  return '<div class="feat-img-ph" style="background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
 }
-function jImg(p,i){
-  if(p.thumbnail) return '<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'" loading="lazy">';
-  return '<div class="jcard-img-ph" style="background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
-}
-function asymCard(p,size,i){
-  return '<a class="asym-card asym-card-'+size+'" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
-    +'<div class="asym-card-img">'+aImg(p,i)+'</div>'
-    +'<div class="asym-cat">'+p.category+'</div>'
-    +'<div class="asym-title">'+p.title+'</div>'
-    +'<span class="asym-more">Read more \u2192</span>'
+function featCard(p,cls,i){
+  return '<a class="feat-card '+cls+'" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
+    +'<div class="feat-img">'+fImg(p,i)+'</div>'
+    +'<div class="feat-title">'+p.title+'</div>'
+    +'<span class="feat-more">Tìm hiểu thêm →</span>'
     +'</a>';
 }
-function jCard(p,i){
-  return '<a class="jcard" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
-    +'<div class="jcard-img">'+jImg(p,i)+'</div>'
-    +'<div class="jcard-cat">'+p.category+'</div>'
-    +'<div class="jcard-title">'+p.title+'</div>'
-    +'<div class="jcard-excerpt">'+p.excerpt+'</div>'
-    +'<span class="jcard-more">Read more \u2192</span>'
+function nCard(p,i){
+  var img=p.thumbnail
+    ?'<img src="'+(p.thumbnail.startsWith('http')?p.thumbnail:API+p.thumbnail)+'" alt="'+p.title+'" loading="lazy">'
+    :'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:'+cc(i)+'"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div>';
+  return '<a class="ncard" href="tin-tuc-chi-tiet.html?id='+p._id+'">'
+    +'<div class="ncard-img">'+img+'</div>'
+    +'<div class="ncard-cat">'+p.category+'</div>'
+    +'<div class="ncard-title">'+p.title+'</div>'
+    +'<span class="ncard-more">Tìm hiểu thêm →</span>'
     +'</a>';
 }
-
+function nRows(posts,offset){
+  var h='';
+  for(var i=0;i<posts.length;i+=2){
+    h+='<div class="nrow">'+(posts[i]?nCard(posts[i],i+offset):'')+(posts[i+1]?nCard(posts[i+1],i+1+offset):'')+'</div>';
+  }
+  return h;
+}
 function renderHero(posts){
-  // top white hero: ảnh bài đầu tiên
-  var heroImg = document.getElementById('newsHeroImg');
-  var p0 = posts[0];
-  if(heroImg && p0 && p0.thumbnail){
-    var s = p0.thumbnail.startsWith('http')?p0.thumbnail:API+p0.thumbnail;
-    heroImg.innerHTML = '<img src="'+s+'" alt="'+p0.title+'" style="width:100%;height:100%;object-fit:cover;display:block">';
-  }
-  // asym grid: posts[0-3] → sm,lg / lg,sm
-  var grid = document.getElementById('asymGrid');
-  var ap = posts.slice(0,4);
-  var h = '';
-  if(ap[0]) h += asymCard(ap[0],'sm',0);
-  if(ap[1]) h += asymCard(ap[1],'lg',1);
-  if(ap[2]) h += asymCard(ap[2],'lg',2);
-  if(ap[3]) h += asymCard(ap[3],'sm',3);
-  grid.innerHTML = h;
-  // red banner: posts[4]
-  var banner = document.getElementById('redBanner');
-  var pb = posts[4];
-  if(pb && banner){
-    banner.style.display = 'grid';
-    banner.href = 'tin-tuc-chi-tiet.html?id='+pb._id;
-    var bImg = pb.thumbnail
-      ? '<img src="'+(pb.thumbnail.startsWith('http')?pb.thumbnail:API+pb.thumbnail)+'" alt="'+pb.title+'">'
-      : '<div class="red-banner-img-ph"><i class="fa-solid fa-newspaper"></i></div>';
-    banner.innerHTML = '<div class="red-banner-img">'+bImg+'</div>'
-      +'<div class="red-banner-body">'
-      +'<div class="red-banner-cat">'+pb.category+'</div>'
-      +'<div class="red-banner-title">'+pb.title+'</div>'
-      +'<div class="red-banner-excerpt">'+pb.excerpt+'</div>'
-      +'<div class="red-banner-arrow"><i class="fa-solid fa-arrow-right"></i></div>'
-      +'</div>';
-  }
-  // more from: posts[5+]
-  var moreGrid = document.getElementById('moreGrid');
-  moreGrid.innerHTML = posts.slice(5).map(function(p,i){ return jCard(p,i+5); }).join('');
+  var featGrid=document.getElementById('featGrid');
+  var fp=posts.slice(0,2);
+  featGrid.innerHTML=(fp[0]?featCard(fp[0],'feat-card-main',0):'')+(fp[1]?featCard(fp[1],'feat-card-sub',1):'');
+  document.getElementById('nList').innerHTML=nRows(posts.slice(2),2);
 }
-
-function renderMedium(posts){ /* merged into renderHero */ }
-
-function renderGrid(posts, append){
-  if(!append) return;
-  var moreGrid = document.getElementById('moreGrid');
-  moreGrid.insertAdjacentHTML('beforeend', posts.map(function(p,i){ return jCard(p,i); }).join(''));
+function renderMedium(posts){ /* merged */ }
+function renderGrid(posts,append){
+  if(!append)return;
+  document.getElementById('nList').insertAdjacentHTML('beforeend',nRows(posts,0));
 }
 
 async function loadPosts(cat, pg, append){
   cat = cat || ''; pg = pg || 1; append = append || false;
-  if(!append) document.getElementById('asymGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">\u0110ang t\u1ea3i...</div>';
+  if(!append) document.getElementById('featGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#bbb">\u0110ang t\u1ea3i...</div>';
   try{
     var url = API+'/api/posts?limit='+perPage+'&page='+pg;
     if(cat) url += '&category='+encodeURIComponent(cat);
@@ -632,7 +594,7 @@ async function loadPosts(cat, pg, append){
     document.getElementById('loadMoreWrap').style.display = hasMore ? 'block' : 'none';
     page = pg;
   }catch(e){
-    document.getElementById('asymGrid').innerHTML = '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Kh\u00f4ng th\u1ec3 k\u1ebft n\u1ed1i server</p></div>';
+    document.getElementById('featGrid').innerHTML = '<div style="grid-column:1/-1" class="empty-news"><div class="empty-icon"><i class="fa-solid fa-newspaper" style="color:#6b7280"></i></div><p>Kh\u00f4ng th\u1ec3 k\u1ebft n\u1ed1i server</p></div>';
   }
 }
 
