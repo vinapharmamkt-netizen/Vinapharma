@@ -3175,22 +3175,26 @@ async function loadContacts() {
     const data = await res.json();
     if (data.success) {
       const tbody = document.getElementById('contactTable');
-      tbody.innerHTML = data.data.map(c => `
-        <tr>
-          <td><b>${c.ho_ten}</b></td>
-          <td>${c.dien_thoai}</td>
-          <td>${c.email}</td>
-          <td>${c.chu_de}</td>
-          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.noi_dung}</td>
-          <td><span class="badge ${c.status==='Chưa xử lý'?'badge-red':c.status==='Đang xử lý'?'badge-blue':'badge-green'}">${c.status}</span></td>
-          <td>
-            <select onchange="updateContact('${c._id}',this.value)" style="padding:.3rem;font-size:.75rem;border:1px solid #ddd;border-radius:.3rem">
-              <option ${c.status==='Chưa xử lý'?'selected':''}>Chưa xử lý</option>
-              <option ${c.status==='Đang xử lý'?'selected':''}>Đang xử lý</option>
-              <option ${c.status==='Đã xử lý'?'selected':''}>Đã xử lý</option>
-            </select>
-          </td>
-        </tr>`).join('');
+      if (!data.data.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Chưa có liên hệ nào</td></tr>';
+      } else {
+        tbody.innerHTML = data.data.map(c => `
+          <tr>
+            <td><b>${c.ho_ten || '—'}</b></td>
+            <td>${c.dien_thoai || '—'}</td>
+            <td>${c.email}</td>
+            <td><span class="badge ${c.chu_de==='Đăng ký nhận bản tin'?'badge-blue':'badge-bac'}">${c.chu_de||'—'}</span></td>
+            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.noi_dung||''}</td>
+            <td><span class="badge ${c.status==='Chưa xử lý'?'badge-red':c.status==='Đang xử lý'?'badge-blue':'badge-green'}">${c.status}</span></td>
+            <td>
+              <select onchange="updateContact('${c._id}',this.value)" style="padding:.3rem;font-size:.75rem;border:1px solid #ddd;border-radius:.3rem">
+                <option ${c.status==='Chưa xử lý'?'selected':''}>Chưa xử lý</option>
+                <option ${c.status==='Đang xử lý'?'selected':''}>Đang xử lý</option>
+                <option ${c.status==='Đã xử lý'?'selected':''}>Đã xử lý</option>
+              </select>
+            </td>
+          </tr>`).join('');
+      }
     }
   } catch(e) {}
 }
