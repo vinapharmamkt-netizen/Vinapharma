@@ -24,7 +24,7 @@ router.post('/upload-image', protect, adminOnly, upload.single('image'), (req, r
 router.get('/', async (req, res) => {
   try {
     const { category, topic, tag, search, page = 1, limit = 10, featured, sort } = req.query;
-    const filter = { published: true };
+    const filter = { published: true, publishedAt: { $lte: new Date() } };
     if (category) filter.category = category;
     if (topic) filter.topic = topic;
     if (tag) filter.tags = tag;
@@ -177,9 +177,10 @@ router.post('/admin-seed', protect, adminOnly, async (req, res) => {
   try {
     const { seedKey } = req.body;
     const seedFiles = {
-      'goc-suc-khoe-2': '../seed-goc-suc-khoe-2',
-      'goc-lam-dep':    '../seed-goc-lam-dep',
-      'goc-dinh-duong': '../seed-goc-dinh-duong',
+      'goc-suc-khoe-2':    '../seed-goc-suc-khoe-2',
+      'goc-suc-khoe-3':    '../seed-goc-suc-khoe-3',
+      'goc-lam-dep':       '../seed-goc-lam-dep',
+      'goc-dinh-duong':    '../seed-goc-dinh-duong',
       'tin-y-te':          '../seed-tin-y-te',
       'van-de-thuong-gap': '../seed-van-de-thuong-gap',
     };
