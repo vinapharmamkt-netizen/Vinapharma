@@ -409,7 +409,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
           </div>
         </div>
       </li>
-      <li><a href="#">Tuyển dụng</a></li>
+      <li><a href="tin-tuc.html?category=Tin Tuyển dụng">Tuyển dụng</a></li>
       <li><a href="nha-thuoc.html">Nhà thuốc phân phối</a></li>
     </ul></div>
     <div class="footer-col"><h4>Hỗ trợ</h4><ul class="footer-links">
@@ -459,16 +459,17 @@ function positionMega(){
   document.querySelectorAll('.mega-wrap').forEach(m => m.style.top=(ph+hh)+'px');
 }
 positionMega(); window.addEventListener('resize', positionMega);
-document.querySelectorAll('.has-mega').forEach(li => {
+document.querySelectorAll('.header-nav .has-mega').forEach(li => {
   li.querySelector(':scope > a').addEventListener('click', e => {
     const wasOpen = li.classList.contains('open');
-    document.querySelectorAll('.has-mega').forEach(x => x.classList.remove('open'));
+    document.querySelectorAll('.header-nav .has-mega').forEach(x => x.classList.remove('open'));
     if(!wasOpen){const _d=li.querySelector('.mini-drop');if(_d){const _r=li.getBoundingClientRect();_d.style.top=_r.bottom+'px';_d.style.left=_r.left+'px';}li.classList.add('open');}
     e.preventDefault();
   });
 });
 document.addEventListener('click', e => {
-  if(!e.target.closest('.has-mega')) document.querySelectorAll('.has-mega').forEach(x => x.classList.remove('open'));
+  if(!e.target.closest('.header-nav .has-mega')) document.querySelectorAll('.header-nav .has-mega').forEach(x => x.classList.remove('open'));
+});
 </script>
 <script src="authClient.js"></script>
 <script src="header.js?v=3"></script>
