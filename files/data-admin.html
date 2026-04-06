@@ -806,6 +806,9 @@ i.fa-solid,i.fa-regular{line-height:1}
         <div class="form-group"><label>Bài nổi bật (hiển thị lớn)</label>
           <select id="postFeatured"><option value="false">Không</option><option value="true"><i class="fa-solid fa-star ic-amber"></i> Có – hiển thị lớn trên đầu</option></select>
         </div>
+        <div class="form-group"><label>Ngày đăng <span style="font-weight:400;color:#999;font-size:.76rem">(để trống = ngay bây giờ)</span></label>
+          <input type="datetime-local" id="postPublishedAt"/>
+        </div>
         <div class="form-group full"><label>Tóm tắt *</label><textarea id="postExcerpt" rows="2" placeholder="Mô tả ngắn hiển thị ở trang danh sách..."></textarea></div>
         <div class="form-group full">
           <label>Hình ảnh thumbnail</label>
@@ -2043,6 +2046,7 @@ function openPostModal() {
   renderAdminTagChips(document.getElementById('postCategory').value, []);
   document.getElementById('postFeatured').value = 'false';
   document.getElementById('postPublished').value = 'true';
+  document.getElementById('postPublishedAt').value = '';
   if (currentPostCat) document.getElementById('postCategory').value = currentPostCat;
   document.getElementById('postImgPreview').style.display = 'none';
   document.getElementById('postImgText').innerHTML = 'Bấm để chọn ảnh thumbnail<br/><span style="font-size:.72rem;color:#bbb">Khuyến nghị: 1200×630px · JPG/PNG/WEBP</span>';
@@ -2062,6 +2066,12 @@ function editPost(idOrObj) {
   renderAdminTagChips(p.category, p.tags || []);
   document.getElementById('postFeatured').value = p.featured ? 'true' : 'false';
   document.getElementById('postPublished').value = p.published ? 'true' : 'false';
+  if (p.publishedAt) {
+    const d = new Date(p.publishedAt);
+    document.getElementById('postPublishedAt').value = new Date(d - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  } else {
+    document.getElementById('postPublishedAt').value = '';
+  }
   if (p.thumbnail) {
     document.getElementById('postImgPreview').src = API + p.thumbnail;
     document.getElementById('postImgPreview').style.display = 'block';
@@ -2089,6 +2099,8 @@ async function savePost() {
   formData.append('excerpt', excerpt);
   formData.append('content', document.getElementById('postContent').innerHTML);
   formData.append('published', document.getElementById('postPublished').value);
+  const publishedAtVal = document.getElementById('postPublishedAt').value;
+  if (publishedAtVal) formData.append('publishedAt', new Date(publishedAtVal).toISOString());
   const imgFile = document.getElementById('postImgInput').files[0];
   if (imgFile) formData.append('thumbnail', imgFile);
   try {
