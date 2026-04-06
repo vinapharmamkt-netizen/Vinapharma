@@ -1,0 +1,131 @@
+{
+  "count": 13,
+  "items": [
+    {
+      "_id": "69b779174e954864a2bd2c8b",
+      "name": "Royal Sleep Deep",
+      "brand": "ROYAL",
+      "brandName": "",
+      "missingFields": [
+        "uses",
+        "dosage",
+        "ingredients",
+        "packaging",
+        "images"
+      ]
+    },
+    {
+      "_id": "69b3a0edc3ad17bfb9bdf339",
+      "name": "BrainBoost Elite",
+      "brand": "ACTIVLAB",
+      "brandName": "",
+      "missingFields": [
+        "uses",
+        "dosage",
+        "ingredients",
+        "packaging",
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb6c65c30e0a356d9bc8ef",
+      "name": "PLACENTA ROYAL COLLAGEN 30000 PREMIUM",
+      "brand": "69ba4bd860502756065d1fc7",
+      "brandName": "Hera",
+      "missingFields": [
+        "ingredients",
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb6c65c30e0a356d9bc8f3",
+      "name": "Double Perfect Miracle Drink",
+      "brand": "69ba4bd860502756065d1fc7",
+      "brandName": "Hera",
+      "missingFields": [
+        "ingredients"
+      ]
+    },
+    {
+      "_id": "69bb6c65c30e0a356d9bc8f7",
+      "name": "HỒNG SÂM GINSENG ARA POWER",
+      "brand": "69ba4bd860502756065d1fc7",
+      "brandName": "Hera",
+      "missingFields": [
+        "ingredients"
+      ]
+    },
+    {
+      "_id": "69bb6c65c30e0a356d9bc8fb",
+      "name": "AN NGƯU CUNG HOÀNG HOÀN hộp 1 viên",
+      "brand": "69ba4bd860502756065d1fc7",
+      "brandName": "Hera",
+      "missingFields": [
+        "ingredients"
+      ]
+    },
+    {
+      "_id": "69bb6c66c30e0a356d9bc8ff",
+      "name": "AN NGƯU CUNG HOÀNG HOÀN hộp 3 viên",
+      "brand": "69ba4bd860502756065d1fc7",
+      "brandName": "Hera",
+      "missingFields": [
+        "ingredients"
+      ]
+    },
+    {
+      "_id": "69bb7832e195f825eccf3d65",
+      "name": "Pomegrante Juice (Tinh Chất Trẻ Hóa Da Từ Lựu Đỏ)",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb7834e195f825eccf3d8d",
+      "name": "Ginseng Ara Power",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb7834e195f825eccf3d91",
+      "name": "Ginseng Gold Ball 1 viên",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb7834e195f825eccf3d95",
+      "name": "Ginseng Gold Ball 3 viên",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb7836e195f825eccf3db5",
+      "name": "Inner Luxe Collagen Elixir (Collagen Đẹp Da Cao Cấp Kết Hợp Vitamin Tổng Hợp & Hồng Sâm)",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    },
+    {
+      "_id": "69bb79b87c24f7fc40f43119",
+      "name": "Silkworm Dongchoog Hacho Gold",
+      "brand": "69bb7831e195f825eccf3d4e",
+      "brandName": "HB Wellness",
+      "missingFields": [
+        "images"
+      ]
+    }
+  ]
+}
