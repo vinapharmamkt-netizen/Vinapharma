@@ -385,15 +385,18 @@ document.addEventListener('click',function(e){
 <script src="chat-widget.js"></script>
 <script src="search-widget.js"></script>
 <script src="footer-brands.js"></script>
+<script src="article-lightbox.js"></script>
 <script>
 (function(){
+  var aboutBody=document.getElementById('aboutBody');
+  if(window.ArticleLightbox) window.ArticleLightbox.attach(aboutBody);
   var API=(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')
     ?'http://localhost:5000':'https://api.vinapharmajsc.vn';
   fetch(API+'/api/settings/about-content-2')
     .then(function(r){return r.json();})
     .then(function(d){
       if(d.success&&d.data){
-        document.getElementById('aboutBody').innerHTML=d.data;
+        aboutBody.innerHTML=d.data;
       }
     })
     .catch(function(){});
