@@ -380,7 +380,7 @@ document.addEventListener('click',function(e){
 <script>
 (function(){
   var API=(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')
-    ?'http://localhost:5000':'';
+    ?'http://localhost:5000':'https://api.vinapharmajsc.vn';
   fetch(API+'/api/settings/about-content-4')
     .then(function(r){return r.json();})
     .then(function(d){

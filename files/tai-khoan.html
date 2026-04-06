@@ -239,7 +239,7 @@ async function doForgot() {
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err.textContent='Email không hợp lệ';
   btn.disabled=true; btn.textContent='Đang gửi...';
   try {
-    var apiBase=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'?'http://localhost:5000':'';
+    var apiBase=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'?'http://localhost:5000':'https://api.vinapharmajsc.vn';
     var r=await fetch(apiBase+'/api/auth/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
     var d=await r.json();
     if(d.success){ ok.style.display='block'; btn.innerHTML='<i class="fa-solid fa-circle-check" style="color:#16a34a"></i> Đã gửi'; }
