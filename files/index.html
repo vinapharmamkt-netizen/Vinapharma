@@ -632,7 +632,8 @@ function goSubSlide(n){
   if(!subTotal) return;
   subIdx=((n%subTotal)+subTotal)%subTotal;
   const el=document.querySelector('.hero-sub-slides');
-  if(el) el.style.transform=`translate3d(-${(subIdx*100)/subTotal}%,0,0)`;
+  const frame=document.querySelector('.hero-sub-frame');
+  if(el && frame) el.style.transform=`translate3d(-${subIdx * frame.clientWidth}px,0,0)`;
 }
 function startSubAuto(){ if(subTotal>1) subAuto=setInterval(()=>goSubSlide(subIdx+1),5000); }
 function stopSubAuto(){ clearInterval(subAuto); }
@@ -661,6 +662,7 @@ function bindSubSwipe(frame){
 
 document.querySelector('.hero').addEventListener('mouseenter',()=>{stopAuto();stopSubAuto();});
 document.querySelector('.hero').addEventListener('mouseleave',()=>{ if(heroTotal>1) startAuto(); if(subTotal>1) startSubAuto(); });
+window.addEventListener('resize',()=>goSubSlide(subIdx));
 // Filter
 const fbns=document.querySelectorAll('.filter-btn');
 const pcards=document.querySelectorAll('.product-card');
@@ -873,7 +875,7 @@ async function loadHeroBanners() {
           const imgSrc = (isMob && b.imageMobile)
             ? (b.imageMobile.startsWith('http') ? b.imageMobile : API + b.imageMobile)
             : (b.image.startsWith('http') ? b.image : API + b.image);
-          return `<div style="flex:0 0 ${100 / subTotal}%;max-width:${100 / subTotal}%;width:${100 / subTotal}%;height:100%;overflow:hidden">
+          return `<div style="min-width:100%;flex:0 0 100%;height:100%;overflow:hidden">
             <a href="${b.buttonLink||'#'}" style="display:block;width:100%;height:100%">
               <img src="${imgSrc}" alt="${b.title||''}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block"/>
             </a>
@@ -883,7 +885,7 @@ async function loadHeroBanners() {
           <button class="hero-sub-prev" onclick="goSubSlide(subIdx-1)">&#8249;</button>
           <button class="hero-sub-next" onclick="goSubSlide(subIdx+1)">&#8250;</button>` : '';
         subArea.innerHTML = `<div class="hero-sub-frame">
-          <div class="hero-sub-slides" style="display:flex;width:${subTotal*100}%;height:100%;transition:transform .4s ease;will-change:transform">${slides}</div>
+          <div class="hero-sub-slides" style="display:flex;height:100%;transition:transform .4s ease;will-change:transform">${slides}</div>
           ${navBtns}
         </div>`;
         if (heroInner) heroInner.classList.remove('no-sub');
@@ -1002,7 +1004,7 @@ function renderHeroDemoFallback() {
     stopSubAuto();
     subTotal = HERO_DEMO.sub.length; subIdx = 0;
     const slides = HERO_DEMO.sub.map(s =>
-      `<div style="flex:0 0 ${100 / subTotal}%;max-width:${100 / subTotal}%;width:${100 / subTotal}%;height:100%;overflow:hidden">
+      `<div style="min-width:100%;flex:0 0 100%;height:100%;overflow:hidden">
         <a href="${s.link}" style="display:block;width:100%;height:100%">
           <img src="${s.image}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block"/>
         </a>
@@ -1012,7 +1014,7 @@ function renderHeroDemoFallback() {
       <button class="hero-sub-prev" onclick="goSubSlide(subIdx-1)">&#8249;</button>
       <button class="hero-sub-next" onclick="goSubSlide(subIdx+1)">&#8250;</button>` : '';
     subArea.innerHTML = `<div class="hero-sub-frame">
-      <div class="hero-sub-slides" style="display:flex;width:${subTotal*100}%;height:100%;transition:transform .4s ease;will-change:transform">${slides}</div>
+      <div class="hero-sub-slides" style="display:flex;height:100%;transition:transform .4s ease;will-change:transform">${slides}</div>
       ${navBtns}
     </div>`;
     if (heroInner) heroInner.classList.remove('no-sub');
