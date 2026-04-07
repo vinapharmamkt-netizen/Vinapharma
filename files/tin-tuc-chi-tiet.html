@@ -207,6 +207,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .related-card-cat{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:.3rem}
 .related-card-title{font-size:.82rem;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .loading-detail{text-align:center;padding:5rem 1rem;color:#bbb;font-size:1rem}
+.detail-empty{max-width:540px;margin:0 auto;padding:3rem 1.25rem;border:1px solid var(--border);border-radius:1rem;background:#fff;box-shadow:0 18px 42px rgba(15,23,42,.05)}
+.detail-empty-icon{width:66px;height:66px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;background:#fff0f0;color:var(--red);font-size:1.5rem}
+.detail-empty-title{font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:.55rem}
+.detail-empty-desc{font-size:.95rem;line-height:1.7;color:var(--gray)}
+.detail-empty-actions{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-top:1.35rem}
+.detail-empty-btn{display:inline-flex;align-items:center;justify-content:center;min-width:180px;padding:.82rem 1.15rem;border-radius:999px;text-decoration:none;font-size:.85rem;font-weight:800;border:1px solid transparent;transition:transform .18s,box-shadow .18s,background .18s,color .18s}
+.detail-empty-btn:hover{transform:translateY(-1px)}
+.detail-empty-btn.primary{background:var(--red);color:#fff;box-shadow:0 10px 24px rgba(204,31,31,.18)}
+.detail-empty-btn.secondary{background:#fff;color:var(--dark);border-color:var(--border)}
 @media(max-width:640px){
   .article-title{font-size:1.4rem}
   .related-grid{grid-template-columns:1fr 1fr}
@@ -459,6 +468,38 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 <script>
 const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://api.vinapharmajsc.vn';
 function fd(d){ return new Date(d).toLocaleDateString('vi-VN'); }
+function showDetailError(message, mode, action){
+  var isPromo = mode === 'promotion';
+  var loadingEl = document.getElementById('loadingDetail');
+  var sectionHref = isPromo ? 'khuyen-mai.html' : 'tin-tuc.html';
+  var sectionLabel = isPromo ? 'Khuyến mãi' : 'Tin tức';
+  var actionHtml = action
+    ? '<a class="detail-empty-btn primary" href="'+action.href+'">'+action.label+'</a>'
+    : '';
+  loadingEl.innerHTML = ''
+    + '<div class="detail-empty">'
+    +   '<div class="detail-empty-icon"><i class="fa-solid '+(isPromo ? 'fa-gift' : 'fa-newspaper')+'"></i></div>'
+    +   '<div class="detail-empty-title">'+(isPromo ? 'Không còn bài khuyến mãi này' : 'Không tải được nội dung')+'</div>'
+    +   '<div class="detail-empty-desc">'+message+'</div>'
+    +   '<div class="detail-empty-actions">'
+    +     actionHtml
+    +     '<a class="detail-empty-btn secondary" href="'+sectionHref+'">Quay lại '+sectionLabel+'</a>'
+    +   '</div>'
+    + '</div>';
+  loadingEl.style.display = 'block';
+  document.getElementById('articleContent').style.display = 'none';
+  document.getElementById('relatedSection').style.display = 'none';
+}
+async function getRetailPromotionRecovery(excludeId){
+  try{
+    var res = await fetch(API + '/api/promotions?type=khach-le');
+    var data = await res.json();
+    if(!data.success) return [];
+    return (data.data || []).filter(function(item){ return item._id !== excludeId; });
+  } catch(e){
+    return [];
+  }
+}
 function getDetailParams(){
   var p = new URLSearchParams(window.location.search);
   var promoId = p.get('promoId');
@@ -541,7 +582,7 @@ function loadRelated(cat, excludeId, mode){
 async function init(){
   var detail = getDetailParams();
   if(!detail.id){
-    document.getElementById('loadingDetail').textContent = 'Kh\u00f4ng t\u00ecm th\u1ea5y n\u1ed9i dung.';
+    showDetailError('Nội dung bạn đang mở không tồn tại hoặc đường dẫn chưa đúng.', detail.mode);
     return;
   }
   try{
@@ -552,9 +593,22 @@ async function init(){
     renderArticle(data.data, detail.mode);
     loadRelated(data.data.category, detail.id, detail.mode);
   } catch(e){
-    document.getElementById('loadingDetail').textContent = detail.mode === 'promotion'
-      ? 'Kh\u00f4ng th\u1ec3 t\u1ea3i chi ti\u1ebft khuy\u1ebfn m\u00e3i.'
-      : 'Kh\u00f4ng th\u1ec3 t\u1ea3i b\u00e0i vi\u1ebft.';
+    if(detail.mode === 'promotion'){
+      var recoveryList = await getRetailPromotionRecovery(detail.id);
+      if(recoveryList.length === 1){
+        window.location.replace('tin-tuc-chi-tiet.html?promoId=' + recoveryList[0]._id);
+        return;
+      }
+      showDetailError(
+        'Chương trình khuyến mãi này có thể đã bị xoá hoặc được tạo lại bằng một mã bài viết mới.',
+        'promotion',
+        recoveryList.length
+          ? { href: 'tin-tuc-chi-tiet.html?promoId=' + recoveryList[0]._id, label: 'Xem khuyến mãi đang hoạt động' }
+          : null
+      );
+      return;
+    }
+    showDetailError('Bài viết hiện chưa tải được. Vui lòng thử lại sau ít phút.', 'post');
   }
 }
 init();
