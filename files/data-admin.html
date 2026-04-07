@@ -88,6 +88,14 @@ tr:hover td{background:#fafafa}
 .btn-sm{padding:.35rem .75rem;font-size:.75rem}
 .icon-btn{width:28px;height:28px;border-radius:.35rem;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:.8rem;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
 .icon-btn:hover{background:#f5f5f5}
+.contact-message-preview{max-width:260px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;line-height:1.5;color:#374151}
+.contact-actions{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.contact-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem 1rem}
+.contact-detail-item{padding:.85rem .95rem;border:1px solid #eceff3;border-radius:.7rem;background:#fafbfc}
+.contact-detail-item.full{grid-column:1/-1}
+.contact-detail-label{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:.35rem}
+.contact-detail-value{font-size:.9rem;color:#111827;line-height:1.7;word-break:break-word}
+.contact-detail-message{padding:1rem 1.05rem;border:1px solid #eceff3;border-radius:.8rem;background:#fff}
 
 /* ── MODAL ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
@@ -622,6 +630,52 @@ i.fa-solid,i.fa-regular{line-height:1}
 </div>
 
 <!-- ── BRAND MODAL ── -->
+<div class="overlay" id="contactOverlay">
+  <div class="modal" style="max-width:760px">
+    <div class="modal-header">
+      <div class="modal-title">Chi tiết tin nhắn liên hệ</div>
+      <button class="modal-close" onclick="closeModal('contactOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="contact-detail-grid">
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Họ tên</div>
+          <div class="contact-detail-value" id="contactDetailName">—</div>
+        </div>
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Số điện thoại</div>
+          <div class="contact-detail-value" id="contactDetailPhone">—</div>
+        </div>
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value" id="contactDetailEmail">—</div>
+        </div>
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Chủ đề</div>
+          <div class="contact-detail-value" id="contactDetailSubject">—</div>
+        </div>
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Trạng thái</div>
+          <div class="contact-detail-value" id="contactDetailStatus">—</div>
+        </div>
+        <div class="contact-detail-item">
+          <div class="contact-detail-label">Thời gian gửi</div>
+          <div class="contact-detail-value" id="contactDetailTime">—</div>
+        </div>
+        <div class="contact-detail-item full">
+          <div class="contact-detail-label">Nội dung</div>
+          <div class="contact-detail-message">
+            <div class="contact-detail-value" id="contactDetailMessage">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('contactOverlay')">Đóng</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="brandOverlay">
   <div class="modal" style="max-width:420px">
     <div class="modal-header">
@@ -3468,6 +3522,68 @@ async function updateContact(id, status) {
 
 // ── FILE PREVIEW ──
 // ── SINGLE IMAGE (post/banner) ──
+let contactMap = {};
+function escapeHtml(str = '') {
+  return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+}
+function nl2br(str = '') {
+  return escapeHtml(str).replace(/\n/g, '<br>');
+}
+function formatAdminDateTime(value) {
+  if (!value) return '—';
+  try { return new Date(value).toLocaleString('vi-VN'); }
+  catch (e) { return value; }
+}
+function contactStatusBadge(status) {
+  const badgeClass = status === 'Chưa xử lý' ? 'badge-red' : status === 'Đang xử lý' ? 'badge-blue' : 'badge-green';
+  return `<span class="badge ${badgeClass}">${escapeHtml(status || '—')}</span>`;
+}
+function openContactDetail(id) {
+  const c = contactMap[id];
+  if (!c) return;
+  document.getElementById('contactDetailName').textContent = c.ho_ten || '—';
+  document.getElementById('contactDetailPhone').textContent = c.dien_thoai || '—';
+  document.getElementById('contactDetailEmail').textContent = c.email || '—';
+  document.getElementById('contactDetailSubject').textContent = c.chu_de || '—';
+  document.getElementById('contactDetailStatus').innerHTML = contactStatusBadge(c.status);
+  document.getElementById('contactDetailTime').textContent = formatAdminDateTime(c.createdAt);
+  document.getElementById('contactDetailMessage').innerHTML = nl2br(c.noi_dung || '—');
+  document.getElementById('contactOverlay').classList.add('show');
+}
+loadContacts = async function() {
+  try {
+    const res = await authFetch(API + '/api/contacts', { headers:{} });
+    const data = await res.json();
+    if (!data.success) return;
+    const tbody = document.getElementById('contactTable');
+    const contacts = data.data || [];
+    contactMap = Object.fromEntries(contacts.map(c => [c._id, c]));
+    if (!contacts.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Chưa có liên hệ nào</td></tr>';
+      return;
+    }
+    tbody.innerHTML = contacts.map(c => `
+      <tr>
+        <td><b>${escapeHtml(c.ho_ten || '—')}</b></td>
+        <td>${escapeHtml(c.dien_thoai || '—')}</td>
+        <td>${escapeHtml(c.email || '—')}</td>
+        <td><span class="badge ${c.chu_de === 'Đăng ký nhận bản tin' ? 'badge-blue' : 'badge-bac'}">${escapeHtml(c.chu_de || '—')}</span></td>
+        <td><div class="contact-message-preview">${escapeHtml(c.noi_dung || '')}</div></td>
+        <td>${contactStatusBadge(c.status)}</td>
+        <td>
+          <div class="contact-actions">
+            <button class="btn btn-outline btn-sm" onclick="openContactDetail('${c._id}')">Xem</button>
+            <select onchange="updateContact('${c._id}',this.value)" style="padding:.3rem;font-size:.75rem;border:1px solid #ddd;border-radius:.3rem">
+              <option ${c.status === 'Chưa xử lý' ? 'selected' : ''}>Chưa xử lý</option>
+              <option ${c.status === 'Đang xử lý' ? 'selected' : ''}>Đang xử lý</option>
+              <option ${c.status === 'Đã xử lý' ? 'selected' : ''}>Đã xử lý</option>
+            </select>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch (e) {}
+}
+
 function previewImg(input, previewId, textId) {
   const file = input.files[0];
   if (!file) return;
