@@ -81,26 +81,31 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .promo-col{background:#fff;border-radius:.8rem;border:1px solid var(--border);overflow:hidden}
 .promo-col-header{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
 .promo-col-title{font-size:.95rem;font-weight:800}
-.promo-col-body{padding:1rem 1.4rem}
-.promo-card{padding:1.1rem;background:var(--light);border-radius:.55rem;margin-bottom:.85rem;border:1px solid var(--border);transition:box-shadow .2s}
-.promo-card:last-child{margin-bottom:0}
-.promo-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
-.promo-card-title{font-size:.88rem;font-weight:800;margin-bottom:.45rem;color:var(--dark)}
-.promo-card-content{font-size:.8rem;color:var(--gray);line-height:1.65}
-.promo-card-content h2,.promo-card-content h3{font-size:.86rem;font-weight:800;color:var(--dark);margin-bottom:.35rem}
-.promo-card-content ul,.promo-card-content ol{padding-left:1.2rem;margin:.35rem 0}
-.promo-card-img{width:100%;height:auto;border-radius:.4rem;margin-bottom:.75rem;display:block;background:#fff;cursor:zoom-in;transition:transform .22s ease,box-shadow .22s ease}
-.promo-card-img:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 18px 34px rgba(15,23,42,.16)}
-.promo-card-date{font-size:.68rem;color:#aaa;margin-top:.5rem;font-weight:600}
+.promo-col-body{padding:1.2rem 1.4rem}
+.promo-form-note{font-size:.82rem;color:var(--gray);line-height:1.7;margin-bottom:1rem}
+.promo-form{display:grid;gap:.9rem}
+.promo-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.promo-field{display:flex;flex-direction:column;gap:.38rem}
+.promo-field label{font-size:.78rem;font-weight:700;color:var(--dark)}
+.promo-field input,.promo-field textarea{width:100%;padding:.82rem .92rem;border:1px solid var(--border);border-radius:.75rem;background:#fff;font:inherit;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s}
+.promo-field input:focus,.promo-field textarea:focus{border-color:var(--red);box-shadow:0 0 0 4px rgba(204,31,31,.08)}
+.promo-field textarea{min-height:130px;resize:vertical}
+.promo-submit{border:none;border-radius:.8rem;background:var(--red);color:#fff;padding:.9rem 1.1rem;font:inherit;font-size:.9rem;font-weight:800;cursor:pointer;transition:background .2s,transform .2s}
+.promo-submit:hover{background:var(--red-hover);transform:translateY(-1px)}
+.promo-submit:disabled{opacity:.7;cursor:wait;transform:none}
+.promo-status{display:none;padding:.82rem .95rem;border-radius:.75rem;font-size:.83rem;font-weight:600;line-height:1.6}
+.promo-status.ok{display:block;background:#ecfdf3;border:1px solid #bbf7d0;color:#166534}
+.promo-status.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c}
+.promo-list{display:grid;gap:1rem}
+.promo-retail-card{display:block;text-decoration:none;border:1px solid var(--border);border-radius:.85rem;overflow:hidden;background:#fff;transition:transform .18s,box-shadow .18s,border-color .18s}
+.promo-retail-card:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,23,42,.08);border-color:#f1b2b2}
+.promo-retail-thumb{aspect-ratio:16/9;background:#f8fafc;overflow:hidden}
+.promo-retail-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .22s ease}
+.promo-retail-card:hover .promo-retail-thumb img{transform:scale(1.03)}
+.promo-retail-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fff5f5,#ffe4e6);font-size:2rem;color:#d97777}
+.promo-retail-title{padding:1rem 1rem 1.05rem;font-size:.92rem;font-weight:800;line-height:1.5;color:var(--dark)}
 .empty-promo{text-align:center;padding:3rem 1rem;color:#bbb;font-size:.88rem}
 .empty-promo .empty-icon{font-size:2.5rem;margin-bottom:.75rem}
-.promo-lightbox-open{overflow:hidden}
-.promo-lightbox{position:fixed;inset:0;z-index:100001;display:flex;align-items:center;justify-content:center;padding:2rem;background:rgba(9,14,24,.78);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease}
-.promo-lightbox.show{opacity:1;visibility:visible}
-.promo-lightbox-dialog{position:relative;max-width:min(92vw,1100px);max-height:88vh;padding:1rem;border-radius:1rem;background:rgba(255,255,255,.06);box-shadow:0 26px 90px rgba(0,0,0,.38),0 0 0 1px rgba(255,255,255,.15)}
-.promo-lightbox-img{display:block;max-width:100%;max-height:calc(88vh - 2rem);width:auto;height:auto;border-radius:.8rem;box-shadow:0 32px 90px rgba(0,0,0,.55)}
-.promo-lightbox-close{position:absolute;top:-14px;right:-14px;width:42px;height:42px;border:none;border-radius:50%;background:#fff;color:#111827;cursor:pointer;box-shadow:0 14px 28px rgba(0,0,0,.22);font-size:1.05rem;display:flex;align-items:center;justify-content:center}
-.promo-lightbox-caption{margin-top:.85rem;text-align:center;font-size:.9rem;font-weight:700;color:#fff;line-height:1.45}
 
 /* ── FOOTER ── */
 .footer-top{background:#111;padding:2.2rem 4%;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.2rem}
@@ -137,14 +142,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 @media(max-width:768px){
   .header-hotline{display:none}
   .promo-grid{grid-template-columns:1fr}
+  .promo-form-grid{grid-template-columns:1fr}
   .trust-bar{grid-template-columns:1fr 1fr}
   .trust-item:nth-child(2){border-right:none}
   .page-hero-title{font-size:1.4rem}
   .footer-top{grid-template-columns:1fr 1fr;gap:1.5rem}
-  .promo-lightbox{padding:1rem}
-  .promo-lightbox-dialog{padding:.7rem;border-radius:.8rem}
-  .promo-lightbox-close{top:10px;right:10px}
-  .promo-lightbox-caption{font-size:.82rem;padding:0 .5rem}
 }
 @media(max-width:500px){
   .trust-bar{grid-template-columns:1fr}
@@ -304,7 +306,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
   <div class="page-hero-inner">
     <div class="page-hero-label">Ưu đãi</div>
     <div class="page-hero-title">Khuyến mãi Vinapharma</div>
-    <div class="page-hero-sub">Chính sách cho khách sỉ và chương trình ưu đãi bán lẻ được cập nhật trực tiếp từ Data Admin.</div>
+    <div class="page-hero-sub">Khách sỉ có thể gửi nhu cầu hợp tác trực tiếp cho đội ngũ Vinapharma, còn các chương trình dành cho khách lẻ sẽ được hiển thị theo dạng bài viết chi tiết.</div>
   </div>
 </div>
 
@@ -323,8 +325,40 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
         <span style="font-size:1.1rem"><i class="fa-solid fa-store" style="color:#cc1f1f"></i></span>
         <div class="promo-col-title">Chính sách khách sỉ</div>
       </div>
-      <div class="promo-col-body" id="promoSiBody">
-        <div class="empty-promo"><div class="empty-icon"><i class="fa-solid fa-clipboard-list" style="color:#6b7280"></i></div>Chưa có dữ liệu</div>
+      <div class="promo-col-body">
+        <p class="promo-form-note">Điền thông tin để nhận báo giá, chính sách sỉ và tư vấn hợp tác. Yêu cầu của bạn sẽ tự động đổ vào mục <strong>Liên hệ</strong> trong Data Admin để đội ngũ Vinapharma xử lý.</p>
+        <form id="promoWholesaleForm" class="promo-form">
+          <div class="promo-form-grid">
+            <div class="promo-field">
+              <label for="wholesaleName">Họ và tên *</label>
+              <input id="wholesaleName" name="ho_ten" type="text" placeholder="Nguyễn Văn A" required/>
+            </div>
+            <div class="promo-field">
+              <label for="wholesalePhone">Số điện thoại *</label>
+              <input id="wholesalePhone" name="dien_thoai" type="tel" placeholder="090 xxx xxx" required/>
+            </div>
+          </div>
+          <div class="promo-form-grid">
+            <div class="promo-field">
+              <label for="wholesaleEmail">Email *</label>
+              <input id="wholesaleEmail" name="email" type="email" placeholder="email@example.com" required/>
+            </div>
+            <div class="promo-field">
+              <label for="wholesaleCompany">Nhà thuốc / Doanh nghiệp *</label>
+              <input id="wholesaleCompany" name="company" type="text" placeholder="Tên nhà thuốc hoặc công ty" required/>
+            </div>
+          </div>
+          <div class="promo-field">
+            <label for="wholesaleAddress">Địa chỉ</label>
+            <input id="wholesaleAddress" name="address" type="text" placeholder="Khu vực hoạt động hoặc địa chỉ nhà thuốc"/>
+          </div>
+          <div class="promo-field">
+            <label for="wholesaleNote">Nhu cầu hợp tác *</label>
+            <textarea id="wholesaleNote" name="noi_dung" placeholder="Ví dụ: muốn nhận chính sách sỉ, cần tư vấn số lượng nhập, khu vực phân phối..." required></textarea>
+          </div>
+          <button type="submit" class="promo-submit" id="promoWholesaleSubmit">Gửi thông tin khách sỉ</button>
+          <div id="promoWholesaleMsg" class="promo-status"></div>
+        </form>
       </div>
     </div>
     <!-- Khách lẻ -->
@@ -339,16 +373,6 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
     </div>
   </div>
 </section>
-
-<div class="promo-lightbox" id="promoLightbox" aria-hidden="true">
-  <div class="promo-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh khuyến mãi lớn">
-    <button type="button" class="promo-lightbox-close" id="promoLightboxClose" aria-label="Đóng ảnh">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <img id="promoLightboxImg" class="promo-lightbox-img" alt="Ảnh khuyến mãi phóng to"/>
-    <div id="promoLightboxCaption" class="promo-lightbox-caption"></div>
-  </div>
-</div>
 
 <footer>
   <div class="footer-top">
@@ -424,56 +448,84 @@ function resolveMediaUrl(path) {
   return /^https?:\/\//i.test(path) ? path : API + path;
 }
 
-const promoLightbox = document.getElementById('promoLightbox');
-const promoLightboxImg = document.getElementById('promoLightboxImg');
-const promoLightboxCaption = document.getElementById('promoLightboxCaption');
-const promoLightboxClose = document.getElementById('promoLightboxClose');
-
-function openPromoLightbox(src, alt) {
-  promoLightboxImg.src = src;
-  promoLightboxImg.alt = alt || 'Ảnh khuyến mãi phóng to';
-  promoLightboxCaption.textContent = alt || '';
-  promoLightbox.classList.add('show');
-  promoLightbox.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('promo-lightbox-open');
+function retailCard(p) {
+  const img = p.image
+    ? `<img src="${resolveMediaUrl(p.image)}" alt="${p.title}" loading="lazy"/>`
+    : `<div class="promo-retail-placeholder"><i class="fa-solid fa-gift"></i></div>`;
+  return `
+    <a class="promo-retail-card" href="tin-tuc-chi-tiet.html?promoId=${p._id}">
+      <div class="promo-retail-thumb">${img}</div>
+      <div class="promo-retail-title">${p.title}</div>
+    </a>
+  `;
 }
 
-function closePromoLightbox() {
-  promoLightbox.classList.remove('show');
-  promoLightbox.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('promo-lightbox-open');
-  promoLightboxImg.src = '';
+function renderRetailPromos(list) {
+  const el = document.getElementById('promoLeBody');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-promo"><div class="empty-icon"><i class="fa-solid fa-gift" style="color:#cc1f1f"></i></div>Chưa có khuyến mãi khách lẻ</div>`;
+    return;
+  }
+  el.innerHTML = `<div class="promo-list">${list.map(retailCard).join('')}</div>`;
 }
 
-async function loadPromos() {
+async function loadRetailPromos() {
   try {
-    const res = await fetch(API + '/api/promotions');
+    const res = await fetch(API + '/api/promotions?type=khach-le');
     const data = await res.json();
     if (!data.success) return;
-    const si = data.data.filter(p => p.type === 'khach-si');
-    const le = data.data.filter(p => p.type === 'khach-le');
-    renderCol('promoSiBody', si, '<i class="fa-solid fa-clipboard-list" style="color:#6b7280"></i>');
-    renderCol('promoLeBody', le, '<i class="fa-solid fa-gift" style="color:#cc1f1f"></i>');
+    renderRetailPromos(data.data || []);
   } catch(e) { /* server offline – keep empty state */ }
 }
 
-function renderCol(id, list, emptyIcon) {
-  const el = document.getElementById(id);
-  if (!list.length) {
-    el.innerHTML = `<div class="empty-promo"><div class="empty-icon">${emptyIcon}</div>Chưa có dữ liệu</div>`;
-    return;
-  }
-  el.innerHTML = list.map(p => `
-    <div class="promo-card">
-      ${p.image ? `<img src="${resolveMediaUrl(p.image)}" alt="${p.title}" class="promo-card-img" data-zoomable="true"/>` : ''}
-      <div class="promo-card-title">${p.title}</div>
-      <div class="promo-card-content">${p.content || ''}</div>
-      <div class="promo-card-date">${new Date(p.createdAt).toLocaleDateString('vi-VN')}</div>
-    </div>
-  `).join('');
+function setWholesaleMessage(message, type) {
+  const box = document.getElementById('promoWholesaleMsg');
+  box.className = 'promo-status ' + type;
+  box.textContent = message;
 }
 
-loadPromos();
+document.getElementById('promoWholesaleForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const submitBtn = document.getElementById('promoWholesaleSubmit');
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+  const payload = {
+    ho_ten: formData.get('ho_ten'),
+    dien_thoai: formData.get('dien_thoai'),
+    email: formData.get('email'),
+    chu_de: 'Đặt hàng số lượng lớn',
+    noi_dung: [
+      'Nguon gui: Khuyen mai khach si',
+      'Nha thuoc / Doanh nghiep: ' + (formData.get('company') || ''),
+      'Dia chi: ' + (formData.get('address') || ''),
+      'Nhu cau hop tac:',
+      formData.get('noi_dung') || ''
+    ].join('\n')
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Đang gửi...';
+  setWholesaleMessage('', 'ok');
+  document.getElementById('promoWholesaleMsg').className = 'promo-status';
+  try {
+    const res = await fetch(API + '/api/contacts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.message || 'Không thể gửi thông tin');
+    form.reset();
+    setWholesaleMessage('Đã gửi thông tin thành công. Vinapharma sẽ liên hệ lại với bạn sớm nhất.', 'ok');
+  } catch (err) {
+    setWholesaleMessage(err.message || 'Không thể gửi thông tin. Vui lòng thử lại.', 'err');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gửi thông tin khách sỉ';
+  }
+});
+
+loadRetailPromos();
 
 // ── Mega menu ──
 function positionMega(){
@@ -492,19 +544,6 @@ document.querySelectorAll('.header-nav .has-mega').forEach(li => {
 });
 document.addEventListener('click', e => {
   if(!e.target.closest('.header-nav .has-mega')) document.querySelectorAll('.header-nav .has-mega').forEach(x => x.classList.remove('open'));
-});
-document.addEventListener('click', e => {
-  const img = e.target.closest('.promo-card-img[data-zoomable="true"]');
-  if (img) {
-    openPromoLightbox(img.currentSrc || img.src, img.alt);
-    return;
-  }
-  if (e.target === promoLightbox || e.target.closest('#promoLightboxClose')) {
-    closePromoLightbox();
-  }
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && promoLightbox.classList.contains('show')) closePromoLightbox();
 });
 </script>
 <script src="authClient.js"></script>

@@ -25,6 +25,19 @@ router.get('/admin/all', protect, adminOnly, async (req, res) => {
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
+// GET single public
+router.get('/:id', async (req, res) => {
+  try {
+    const promo = await Promotion.findById(req.params.id);
+    if (!promo || !promo.published) {
+      return res.status(404).json({ success: false, message: 'Khong tim thay khuyen mai' });
+    }
+    res.json({ success: true, data: promo });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
 // POST create
 router.post('/', protect, adminOnly, upload.single('image'), async (req, res) => {
   try {
