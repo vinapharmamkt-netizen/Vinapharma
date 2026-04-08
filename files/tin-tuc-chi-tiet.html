@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" href="VinalogoFAV.png" type="image/png">
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-<title>Liên hệ – Vinapharma</title>
+<title>Chi tiết nội dung – Vinapharma</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 
@@ -352,7 +352,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
           </div>
         </div>
       </li>
-      <li class="has-mega">
+      <li class="has-mega" id="newsNavItem">
         <a href="tin-tuc.html">Tin tức</a>
         <div class="mini-drop">
           <a href="tin-tuc.html"><i class="fa-solid fa-newspaper" style="width:1.1rem;color:var(--red)"></i> Tất cả bài viết</a>
@@ -365,8 +365,8 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
           <a href="tin-tuc.html?category=Truyền thông"><i class="fa-solid fa-bullhorn" style="width:1.1rem;color:var(--red)"></i> Truyền thông</a>
         </div>
       </li>
-      <li class="nav-highlight"><a href="khuyen-mai.html">Khuyến mãi <span class="nav-badge">HOT</span></a></li>
-      <li><a href="lien-he.html" class="active">Liên hệ</a></li>
+      <li id="promoNavItem"><a href="khuyen-mai.html">Khuyến mãi <span class="nav-badge">HOT</span></a></li>
+      <li><a href="lien-he.html">Liên hệ</a></li>
     </ul>
   </nav>
 </header>
@@ -512,7 +512,15 @@ function renderArticle(post, mode){
   var isPromo = mode === 'promotion';
   var sectionLink = document.getElementById('bcSectionLink');
   var sectionLabel = document.getElementById('bcSectionLabel');
+  var newsNavItem = document.getElementById('newsNavItem');
+  var promoNavItem = document.getElementById('promoNavItem');
   var catLabel = isPromo ? 'Khuyến mãi khách lẻ' : post.category;
+  if(newsNavItem && promoNavItem){
+    newsNavItem.classList.toggle('nav-highlight', !isPromo);
+    promoNavItem.classList.toggle('nav-highlight', isPromo);
+    newsNavItem.querySelector('a').classList.toggle('active', !isPromo);
+    promoNavItem.querySelector('a').classList.toggle('active', isPromo);
+  }
   sectionLink.href = isPromo ? 'khuyen-mai.html' : 'tin-tuc.html';
   sectionLabel.textContent = isPromo ? 'Khuyến mãi' : 'Tin tức';
   document.getElementById('bcCat').textContent = catLabel;
