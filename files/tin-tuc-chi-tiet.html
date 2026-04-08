@@ -188,6 +188,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff;color:var(--dark);o
 .article-tag{font-size:.68rem;background:#fff0f0;color:var(--red);padding:.2rem .6rem;border-radius:2rem;font-weight:600}
 .article-thumbnail{width:100%;border-radius:.9rem;overflow:hidden;margin-bottom:2rem}
 .article-thumbnail img{width:100%;max-height:420px;object-fit:cover;display:block}
+.article-thumbnail img.article-promo-image{max-height:none;object-fit:contain;background:#f8fafc}
 .article-thumbnail-placeholder{width:100%;height:280px;display:flex;align-items:center;justify-content:center;font-size:6rem;border-radius:.9rem;margin-bottom:2rem}
 .article-body{font-size:1.02rem;line-height:1.85;color:#333}
 .article-body h2{font-size:1.35rem;font-weight:800;margin:2rem 0 .7rem;color:var(--dark)}
@@ -543,7 +544,7 @@ function renderArticle(post, mode){
   var thumb = isPromo ? post.image : post.thumbnail;
   if(thumb){
     thumbEl.className = 'article-thumbnail';
-    thumbEl.innerHTML = '<img src="'+(thumb.startsWith('http')?thumb:API+thumb)+'" alt="'+post.title+'"/>';
+    thumbEl.innerHTML = '<img class="'+(isPromo?'article-promo-image':'')+'" src="'+(thumb.startsWith('http')?thumb:API+thumb)+'" alt="'+post.title+'"/>';
   } else {
     thumbEl.className = 'article-thumbnail-placeholder';
     thumbEl.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
